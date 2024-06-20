@@ -28,7 +28,6 @@ import {
 	Workflow,
 } from "lucide-react";
 import Link from "next/link";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { useParams, usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import SignOutButton from "./sign-out-button";
@@ -38,6 +37,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { X } from "lucide-react";
 import useFetchStores from "@/hooks/useFetchStores";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 export default function Header() {
 	const pathname = usePathname();
@@ -47,12 +47,19 @@ export default function Header() {
 	const [open, setOpen] = useState(false);
 	const navRef = useRef<HTMLDivElement>(null);
 
+	const user = useUser();
+	const userlogo = user.data?.avatar;
+	const userEmail = user.data?.email;
+
+	const { data: stores } = useFetchStores();
+
 	// Function to handle clicks outside the navigation menu
 	const handleClickOutside = (event: { target: any }) => {
 		if (navRef.current && !navRef.current.contains(event.target)) {
 			setOpen(false);
 		}
 	};
+
 	useEffect(() => {
 		// Add event listener for clicks
 		document.addEventListener("mousedown", handleClickOutside);
@@ -71,16 +78,12 @@ export default function Header() {
 			}
 		};
 		updateBodyOverflow();
-	});
+	}, [open]);
+
+	// Early return should be after all hooks
 	if (pathname === "/store" || pathname === "/") {
 		return null;
 	}
-
-	const user = useUser();
-	const userlogo = user.data?.avatar;
-	const userEmail = user.data?.email;
-
-	const { data: stores } = useFetchStores();
 
 	const links = [
 		{
@@ -171,7 +174,13 @@ export default function Header() {
 							href="/"
 							className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground w-fit"
 						>
-							<img src="/logo-short.svg" alt="logo" className="w-[100px]" />
+							<Image
+								src="/logo-short.svg"
+								alt="logo"
+								width={100}
+								height={100}
+								className="w-[100px]"
+							/>
 						</Link>
 						<div
 							className="flex justify-end pt-2"

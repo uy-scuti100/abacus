@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export default function Aside() {
 	const pathname = usePathname();
@@ -86,7 +87,13 @@ export default function Aside() {
 		<aside className="sticky h-screen inset-y-0 left-0 z-10 flex-col hidden border-r bg-background md:flex px-2">
 			<nav className="flex flex-col gap-4 sm:py-5 mr-[2px]">
 				<Link href="/" className="px-2 pb-3">
-					<img src="/logo-short.svg" alt="logo" className="w-[100px]" />
+					<Image
+						src="/logo-short.svg"
+						alt="logo"
+						width={100}
+						height={100}
+						className="w-[100px]"
+					/>
 				</Link>
 				<Separator orientation="horizontal" />
 				<nav className="flex flex-col justify-between gap-6 pb-3">

@@ -14,7 +14,7 @@ export default function page({ searchParams }) {
 						<CiMail className="w-16 h-16 mx-auto text-foreground" />
 					</div>
 					<div className="text-sm text-center  text-muted-foreground leading-[200%]">
-						We've sent a verification link to
+						We&apos;ve sent a verification link to
 						<span className="text-message-color"> {email} </span>. Please check
 						your inbox to confirm. If you do not receive an email, please check
 						your spam folder.

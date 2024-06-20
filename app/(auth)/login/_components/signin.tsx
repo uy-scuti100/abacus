@@ -7,16 +7,9 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { handleSocialLogin, login } from "@/actions/client/actions";
 import Image from "next/image";
-import Social from "../../supaauth/social";
 import { FiLoader } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { Label } from "@/components/ui/label";
@@ -176,80 +169,4 @@ export default function SignIn() {
 			</div>
 		</div>
 	);
-}
-
-{
-	/* <Form {...form}>
-	<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-		<FormField
-			control={form.control}
-			name="email"
-			render={({ field }) => (
-				<FormItem>
-					<FormLabel className=" font-semibold  test-sm">
-						Email Address
-					</FormLabel>
-					<FormControl>
-						<Input
-							className="h-8"
-							placeholder="example@gmail.com"
-							type="email"
-							{...field}
-						/>
-					</FormControl>
-					<FormMessage className="text-red-500" />
-				</FormItem>
-			)}
-		/>
-		<FormField
-			control={form.control}
-			name="password"
-			render={({ field }) => (
-				<FormItem>
-					<FormLabel className="text-sm font-semibold">Password</FormLabel>
-					<FormControl>
-						<div className=" relative">
-							<Input
-								className="h-8"
-								type={passwordReveal ? "text" : "password"}
-								{...field}
-							/>
-							<div
-								className="absolute right-2 top-[30%] cursor-pointer group"
-								onClick={() => setPasswordReveal(!passwordReveal)}
-							>
-								{passwordReveal ? (
-									<FaRegEye className=" group-hover:scale-105 transition-all" />
-								) : (
-									<FaRegEyeSlash className=" group-hover:scale-105 transition-all" />
-								)}
-							</div>
-						</div>
-					</FormControl>
-					<FormMessage className="text-red-500" />
-				</FormItem>
-			)}
-		/>
-		<Button
-			type="submit"
-			className="w-full h-8 bg-indigo-500 hover:bg-indigo-600 transition-all text-white flex items-center gap-2"
-		>
-			<AiOutlineLoading3Quarters
-				className={cn(!isPending ? "hidden" : "block animate-spin")}
-			/>
-			Continue
-		</Button>
-	</form>
-	<div className="text-center text-sm">
-		<h1>
-			Doest not have account yet?{" "}
-			<Link
-				href={redirectTo ? `/register?next=` + redirectTo : "/register"}
-				className="text-blue-400"
-			>
-				Register
-			</Link>
-		</h1>
-	</div>
-</Form>; */
 }
