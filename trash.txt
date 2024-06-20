@@ -1,0 +1,888 @@
+import DeployButton from '../components/DeployButton'
+import AuthButton from '../components/AuthButton'
+import { createClient } from '@/utils/supabase/server'
+import ConnectSupabaseSteps from '@/components/ConnectSupabaseSteps'
+import SignUpUserSteps from '@/components/SignUpUserSteps'
+import Header from '@/components/Header'
+import { cookies } from 'next/headers'
+
+export default async function Index() {
+  const cookieStore = cookies()
+
+  const canInitSupabaseClient = () => {
+    // This function is just for the interactive tutorial.
+    // Feel free to remove it once you have Supabase connected.
+    try {
+      createClient(cookieStore)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  const isSupabaseConnected = canInitSupabaseClient()
+
+  return (
+    <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+          <DeployButton />
+          {isSupabaseConnected && <AuthButton />}
+        </div>
+      </nav>
+
+      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
+        <Header />
+        <main className="flex-1 flex flex-col gap-6">
+          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
+          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
+        </main>
+      </div>
+
+      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
+        <p>
+          Powered by{' '}
+          <a
+            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+            target="_blank"
+            className="font-bold hover:underline"
+            rel="noreferrer"
+          >
+            Supabase
+          </a>
+        </p>
+      </footer>
+    </div>
+  )
+}
+
+
+'dodger-blue': 
+{  DEFAULT: '#3B82F6', 
+ 50: '#EBF2FE',  100:
+  '#D7E6FD',  200:
+   '#B0CDFB',  300:
+    '#89B4FA',  400:
+     '#629BF8',  500: 
+   '#3B82F6',  600: 
+   '#0B61EE',  700:
+    '#084BB8',  800:
+     '#063583',  900:
+    '#041F4D',  950:
+     '#021532'},
+
+
+
+
+     	<form onSubmit={handleSubmit}>
+				{/* Basic Fields */}
+				<input
+					type="text"
+					name="id"
+					placeholder="ID"
+					value={formData.id}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="vendor_id"
+					placeholder="Vendor ID"
+					value={formData.vendor_id}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="store_id"
+					placeholder="Store ID"
+					value={formData.store_id}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="title"
+					placeholder="Title"
+					value={formData.title}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="status"
+					placeholder="Status"
+					value={formData.status}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="media"
+					placeholder="Media (comma separated)"
+					value={formData.media.join(",")}
+					onChange={(e) => handleArrayChange(e, "media")}
+				/>
+				<input
+					type="text"
+					name="type"
+					placeholder="Type"
+					value={formData.type}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="brand"
+					placeholder="Brand"
+					value={formData.brand}
+					onChange={handleChange}
+				/>
+				<input
+					type="number"
+					name="price"
+					placeholder="Price"
+					value={formData.price}
+					onChange={handleChange}
+				/>
+				<label>
+					On Sale:
+					<input
+						type="checkbox"
+						name="on_sale"
+						checked={formData.on_sale}
+						onChange={(e) =>
+							setFormData({ ...formData, on_sale: e.target.checked })
+						}
+					/>
+				</label>
+				<input
+					type="number"
+					name="cost_of_good"
+					placeholder="Cost of Good"
+					value={formData.cost_of_good}
+					onChange={handleChange}
+				/>
+				<input
+					type="number"
+					name="inventory"
+					placeholder="Inventory"
+					value={formData.inventory}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="sku"
+					placeholder="SKU"
+					value={formData.sku}
+					onChange={handleChange}
+				/>
+				<textarea
+					name="description"
+					placeholder="Description"
+					value={formData.description}
+					onChange={handleChange}
+				></textarea>
+
+				{/* Additional Information */}
+				<h2>Additional Information</h2>
+				{formData.additional_information.map((info, index) => (
+					<div key={index}>
+						<input
+							type="text"
+							placeholder="Key"
+							value={info.key}
+							onChange={(e) =>
+								handleAdditionalInfoChange(index, "key", e.target.value)
+							}
+						/>
+						<input
+							type="text"
+							placeholder="Value"
+							value={info.value}
+							onChange={(e) =>
+								handleAdditionalInfoChange(index, "value", e.target.value)
+							}
+						/>
+					</div>
+				))}
+				<button type="button" onClick={handleAddAdditionalInfo}>
+					Add Additional Info
+				</button>
+
+				{/* Variants */}
+				<h2>Variants</h2>
+				<h3>Size</h3>
+				{formData.variants.size.map((variant, index) => (
+					<div key={index}>
+						<input
+							type="text"
+							placeholder="Key"
+							value={variant.key}
+							onChange={(e) =>
+								handleVariantChange("size", index, "key", e.target.value)
+							}
+						/>
+						<input
+							type="text"
+							placeholder="Value"
+							value={variant.value}
+							onChange={(e) =>
+								handleVariantChange("size", index, "value", e.target.value)
+							}
+						/>
+					</div>
+				))}
+				<button type="button" onClick={() => handleAddVariant("size")}>
+					Add Size Variant
+				</button>
+
+				<h3>Material</h3>
+				{formData.variants.material.map((variant, index) => (
+					<div key={index}>
+						<input
+							type="text"
+							placeholder="Key"
+							value={variant.key}
+							onChange={(e) =>
+								handleVariantChange("material", index, "key", e.target.value)
+							}
+						/>
+						<input
+							type="text"
+							placeholder="Value"
+							value={variant.value}
+							onChange={(e) =>
+								handleVariantChange("material", index, "value", e.target.value)
+							}
+						/>
+					</div>
+				))}
+				<button type="button" onClick={() => handleAddVariant("material")}>
+					Add Material Variant
+				</button>
+
+				<h3>Color</h3>
+				{formData.variants.color.map((variant, index) => (
+					<div key={index}>
+						<input
+							type="text"
+							placeholder="Key"
+							value={variant.key}
+							onChange={(e) =>
+								handleVariantChange("color", index, "key", e.target.value)
+							}
+						/>
+						<input
+							type="text"
+							placeholder="Value"
+							value={variant.value}
+							onChange={(e) =>
+								handleVariantChange("color", index, "value", e.target.value)
+							}
+						/>
+					</div>
+				))}
+				<button type="button" onClick={() => handleAddVariant("color")}>
+					Add Color Variant
+				</button>
+
+				<button type="submit">Submit</button>
+			</form>
+
+
+
+
+
+
+            	// const handleSignUp = async (e: { preventDefault: () => void }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		setSigningIn(true);
+	// 		await signUp(email, password);
+	// 	} catch (error) {
+	// 		console.error("Signup error:", error);
+	// 	} finally {
+	// 		setSigningIn(false);
+	// 		setEmail("");
+	// 		setPassword("");
+	// 	}
+	// };
+
+	// const handleSignIn = async (e: { preventDefault: () => void }) => {
+	// 	e.preventDefault();
+
+	// 	try {
+	// 		setLoggingIn(true);
+	// 		await signInHandler(email, password);
+	// 		router.push("/dashboard");
+	// 	} catch (error) {
+	// 		console.error("Signin error:", error);
+	// 	} finally {
+	// 		setLoggingIn(false);
+	// 		setEmail("");
+	// 		setPassword("");
+	// 	}
+	// };
+
+	// const handleSocialLoginClick = async (provider: Provider) => {
+	// 	try {
+	// 		if (provider === "github") {
+	// 			setGithub(true);
+	// 			setGoogle(false);
+	// 		} else {
+	// 			setGoogle(true);
+	// 			setGithub(false);
+	// 		}
+
+	// 		await handleSocialLogin(provider);
+	// 	} catch (error) {
+	// 		console.error("Social login error:", error);
+	// 	} finally {
+	// 		setGithub(false);
+	// 		setGoogle(false);
+	// 	}
+	// };
+
+
+
+    // const [email, setEmail] = useState("");
+	// const [password, setPassword] = useState("");
+	// const [signingIn, setSigningIn] = useState(false);
+	// const [loggingIn, setLoggingIn] = useState(false);
+	// const [google, setGoogle] = useState(false);
+	// const [github, setGithub] = useState(false);
+	// const router = useRouter();
+
+
+    // const signIn = async (formData: FormData) => {
+	// 	"use server";
+
+	// 	const email = formData.get("email") as string;
+	// 	const password = formData.get("password") as string;
+	// 	const supabase = ServerClient();
+
+	// 	const { error } = await supabase.auth.signInWithPassword({
+	// 		email,
+	// 		password,
+	// 	});
+
+	// 	if (error) {
+	// 		return redirect("/login?message=Could not authenticate user");
+	// 	}
+
+	// 	return redirect("/store/dashboard");
+	// };
+	// const signUp = async (formData: FormData) => {
+	// 	"use server";
+
+	// 	const origin = headers().get("origin");
+	// 	const email = formData.get("email") as string;
+	// 	const password = formData.get("password") as string;
+	// 	const supabase = ServerClient();
+
+	// 	const { error } = await supabase.auth.signUp({
+	// 		email,
+	// 		password,
+	// 		options: {
+	// 			emailRedirectTo: `${origin}/auth/callback`,
+	// 		},
+	// 	});
+
+	// 	if (error) {
+	// 		return redirect("/login?message=Could not authenticate user");
+	// 	}
+
+	// 	return redirect("/login?message=Check email to continue sign in process");
+	// };
+
+    // import { ServerClient } from "@/supabase/server";
+// import { redirect } from "next/navigation";
+// import Link from "next/link";
+// import { headers } from "next/headers";
+// import { SubmitButton } from "../auth/_components/submit-button";
+
+		{/* <Button
+								onClick={handleSignUp}
+								disabled={
+									signingIn || email.length === 0 || password.length === 0
+								}
+								className="inline-flex items-center justify-center w-full py-3 mb-6 text-sm font-medium transition-colors rounded-md shadow whitespace-nowrap disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary  text-primary-foreground hover:bg-clr-7"
+								// pendingText="Signing up..."
+							>
+								{signingIn ? "Signing up..." : "Sign Up"}
+							</Button> */}
+                            		{/* <Button
+								// onClick={signIn}
+								disabled={
+									loggingIn || email.length === 0 || password.length === 0
+								}
+								className="w-full px-4 py-2 mb-2 border rounded-md border-foreground/20 text-clr-10 bg-background hover:bg-secondary/90 disabled:cursor-not-allowed"
+							>
+								{loggingIn ? "Logging In ..." : "Log in"}
+							</Button> */}
+
+
+
+
+                            fprm
+
+                            "use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { BrowserClient } from "@/supabase/client";
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { FiLoader } from "react-icons/fi";
+import { Provider } from "@supabase/supabase-js";
+
+export default function Login() {
+	const router = useRouter();
+	const [facebook, setFacebook] = useState(false);
+	const [google, setGoogle] = useState(false);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [login, setLogin] = useState("Log In");
+	const [signup, setSignup] = useState("Sign Up");
+
+	const supabase = BrowserClient();
+
+	const signUp = async (e: { preventDefault: () => void }) => {
+		e.preventDefault();
+		try {
+			setSignup("Signing up...");
+			const { data: user, error } = await supabase.auth.signUp({
+				email,
+				password,
+				options: {
+					emailRedirectTo: `${window.location.origin}/store/dashboard`,
+				},
+			});
+
+			if (error) {
+				console.log("Sign up error:", error.message);
+				return;
+			}
+
+			router.push("/store/dashboard");
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setSignup("Sign Up");
+		}
+	};
+
+	const signIn = async (e: { preventDefault: () => void }) => {
+		e.preventDefault();
+		try {
+			setLogin("Logging in...");
+			const { data: user, error } = await supabase.auth.signInWithPassword({
+				email,
+				password,
+			});
+
+			if (error) {
+				console.error("Login error:", error.message);
+				return;
+			}
+
+			router.push("/store/dashboard");
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLogin("Log In");
+		}
+	};
+
+	const handleSocialLogin = async (provider: Provider) => {
+		try {
+			if (provider === "google") {
+				setGoogle(true);
+			} else if (provider === "facebook") {
+				setFacebook(true);
+			}
+			await supabase.auth.signInWithOAuth({
+				provider,
+				options: {
+					redirectTo: `${window.location.origin}/store/dashboard`,
+				},
+			});
+		} catch (error) {
+			console.error("Social login error:", error);
+		} finally {
+			if (provider === "google") {
+				setGoogle(false);
+			} else if (provider === "facebook") {
+				setFacebook(false);
+			}
+		}
+	};
+
+	return (
+		<section className="fixed inset-0 flex items-center justify-between w-full h-screen overflow-hidden bg-center bg-cover bg-background">
+			<div className="flex justify-center w-full h-full">
+				<Card className="border-none shadow-none bg-none w-[500px] mt-8 sm:mt-6 md:mt-5">
+					<CardHeader className="mb-5">
+						<div className="flex items-center justify-center w-full">
+							<img src="logo-long.svg" alt="logo" width={150} />
+						</div>
+					</CardHeader>
+
+					<CardContent className="grid gap-2">
+						<form className="w-full animate-in" onSubmit={signIn}>
+							<div className="grid gap-2 mb-5">
+								<Label htmlFor="email" className="text-sm">
+									Email
+								</Label>
+								<Input
+									className="rounded-md px-4 py-2 bg-inherit border "
+									name="email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									placeholder="you@example.com"
+									required
+								/>
+							</div>
+							<div className="grid gap-2 mb-8">
+								<Label htmlFor="password" className="text-sm">
+									Password
+								</Label>
+								<Input
+									className="rounded-md px-4 py-2 bg-inherit border "
+									type="password"
+									name="password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									placeholder="••••••••"
+									required
+								/>
+							</div>
+							<Button
+								onClick={signUp}
+								className="inline-flex items-center justify-center w-full py-3 mb-3 text-sm font-medium transition-colors rounded-md shadow whitespace-nowrap disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary  text-primary-foreground hover:bg-clr-7"
+							>
+								{signup}
+							</Button>
+
+							<p className="mb-5 text-xs text-center first-letter:uppercase">
+								already have an account?
+							</p>
+
+							<Button
+								type="submit"
+								className="w-full px-4 py-2 mb-2 border rounded-md border-foreground/20 text-clr-10 bg-background hover:bg-secondary/90 disabled:cursor-not-allowed"
+							>
+								{login}
+							</Button>
+							{/* {searchParams?.message && (
+								<p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+									{searchParams.message}
+								</p>
+							)} */}
+						</form>
+						<div className="relative mt-5">
+							<div className="absolute inset-0 flex items-center">
+								<span className="w-full border-t" />
+							</div>
+							<div className="relative flex justify-center text-xs uppercase">
+								<span className="px-2 bg-background text-muted-foreground">
+									Or continue with
+								</span>
+							</div>
+						</div>
+						<div className="grid grid-cols-2 gap-6">
+							<Button
+								variant="outline"
+								onClick={() => handleSocialLogin("facebook")}
+								disabled={facebook}
+								className="disabled:cursor-not-allowed"
+							>
+								<FaFacebook className="w-4 h-4 mr-2 text-blue-700" />
+								Facebook {facebook && <FiLoader className="animate-spin" />}
+							</Button>
+							<Button
+								variant="outline"
+								onClick={() => handleSocialLogin("google")}
+								disabled={google}
+								className="disabled:cursor-not-allowed"
+							>
+								<FcGoogle className="w-4 h-4 mr-2" />
+								Google {google && <FiLoader className="animate-spin" />}
+							</Button>
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+		</section>
+	);
+}
+
+
+
+
+					{/* <InputOTP
+						pattern={REGEXP_ONLY_DIGITS}
+						id="input-otp"
+						maxLength={6}
+						onChange={async (value) => {
+							if (value.length === 6) {
+								document.getElementById("input-otp")?.blur();
+								const res = await verifyOtp({
+									email: form.getValues("email"),
+									otp: value,
+									type: "email",
+								});
+								const { error } = JSON.parse(res);
+								if (error) {
+									setVerifyStatus("failed");
+								} else {
+									setVerifyStatus("success");
+									router.push(redirectTo);
+								}
+							}
+						}}
+					>
+						<InputOTPGroup>
+							<InputOTPSlot index={0} className={inputOptClass} />
+							<InputOTPSlot index={1} className={inputOptClass} />
+							<InputOTPSlot index={2} className={inputOptClass} />
+						</InputOTPGroup>
+						<InputOTPSeparator />
+						<InputOTPGroup>
+							<InputOTPSlot index={3} className={inputOptClass} />
+							<InputOTPSlot
+								index={4}
+								className={cn(inputOptClass)}
+							/>
+							<InputOTPSlot
+								index={5}
+								className={cn(inputOptClass)}
+							/>
+						</InputOTPGroup>
+					</InputOTP> */}
+					<div className="text-sm flex gap-2">
+						<p>{"Didn't work?"} </p>
+						<span
+							className="text-blue-400 cursor-pointer hover:underline transition-all flex items-center gap-2 "
+							onClick={async () => {
+								if (!isSendAgain) {
+									startSendAgain(async () => {
+										if (!form.getValues("password")) {
+											const json = await postEmail({
+												email: form.getValues("email"),
+												password:
+													form.getValues("password"),
+											});
+
+											if (json.error) {
+												toast.error(
+													"Fail to resend email"
+												);
+											} else {
+												toast.success(
+													"Please check your email."
+												);
+											}
+										} else {
+											router.replace(
+												pathname || "/register"
+											);
+											form.setValue(
+												"email",
+												existEmail || ""
+											);
+											form.setValue("password", "");
+											setIsConfirmed(false);
+										}
+									});
+								}
+							}}
+						>
+							<AiOutlineLoading3Quarters
+								className={`${
+									!isSendAgain
+										? "hidden"
+										: "block animate-spin"
+								}`}
+							/>
+							Send me another code.
+						</span>
+					</div>
+					<Button
+						type="submit"
+						className="w-full h-8 bg-indigo-500 hover:bg-indigo-600 transition-all text-white flex items-center gap-2"
+						onClick={async () => {
+							setIsConfirmed(false);
+						}}
+					>
+						<RiArrowDropLeftFill className=" size-5" />
+						Change Email
+					</Button>
+
+                    	// const sendVerifyEmail = async (data: z.infer<typeof FormSchema>) => {
+	// 	const json = await postEmail({
+	// 		email: data.email,
+	// 		password: data.password,
+	// 	});
+	// 	if (!json.error) {
+	// 		router.replace(
+	// 			(pathname || "/") +
+	// 				"?verify=true&email=" +
+	// 				form.getValues("email")
+	// 		);
+	// 		setIsConfirmed(true);
+	// 	} else {
+	// 		if (json.error.code) {
+	// 			toast.error(json.error.code);
+	// 		} else if (json.error.message) {
+	// 			toast.error(json.error.message);
+	// 		}
+	// 	}
+	// };
+
+	// const inputOptClass = cn({
+	// 	" border-green-500": verifyStatus === "success",
+	// 	" border-red-500": verifyStatus === "failed",
+	// });
+
+	// function onSubmit(data: z.infer<typeof FormSchema>) {
+	// 	if (!isPending) {
+	// 		startTransition(async () => {
+	// 			await sendVerifyEmail(data);
+	// 		});
+	// 	}
+	// }
+
+
+    // const { data, error } = await supabase
+// 	.from("auth.users")
+// 	.select("*")
+// 	.eq("email", email);
+// redirectTo:
+// 			window.location.origin + `/auth/callback?next=` + redirectTo,
+//         },
+
+// if (error) {
+// 	return redirect("/signup?message=Could not create user");
+// }
+// const user = data[0];
+// const { error: error2 } = await supabase
+// 	.from("profiles")
+// 	.select("*")
+// 	.eq("id", user.id)
+// 	.insert([
+// 		{
+// 			display_name: username,
+// 		},
+// 	]);
+// if (error2) {
+// 	return redirect("/error?message=Could not create profile");
+// }
+\
+
+const handleCreatePost = async (data: NoteFormValues) => {
+	if (selectedCategoryIds.length === 0) {
+		// If no categories are selected, show an error message or take appropriate action
+		toast.error("Please enter at least one category before submitting.");
+		return; // Exit the function without submitting the form
+	}
+	let imageUrl = "";
+	try {
+		setLoading(true);
+
+		if (postImage instanceof File) {
+			// Generate a random 10-digit number to stop the error of supabase saying image already exists, incase youre using the same image for different posts
+			const randomSuffix = Math.floor(
+				1000000000 + Math.random() * 9000000000
+			).toString();
+
+			const imageName = `${randomSuffix}-${postImage.name}`;
+
+			const { data: imageUploadResponse, error: imageUploadError } =
+				await supabase.storage
+					.from("post_images")
+					.upload(imageName, postImage, {
+						cacheControl: "3600",
+						upsert: true,
+					});
+
+			if (imageUploadResponse) {
+				imageUrl = imageUploadResponse.path;
+			} else {
+				console.error("Error uploading image:", imageUploadError?.message);
+				toast.error("Failed to upload image");
+				return;
+			}
+		}
+
+		const { data: post, error } = await supabase
+			.from("posts")
+			.insert([
+				{
+					title: data.title,
+					profile_id: userId,
+					snippet: data.snippet,
+					content: data.content,
+					image: `${postImageUrl}${imageUrl}`,
+					category_Ids: selectedCategoryIds,
+				},
+			])
+			.select();
+
+		if (post) {
+			// Insert records into post_categories for each category ID
+
+			navigate("/posts");
+			scrollToTop();
+
+			toast.success("Article Published");
+		} else {
+			toast.error("Failed to create Post");
+		}
+	} catch (error: any) {
+		console.error("An error occurred:", error.message);
+	} finally {
+		setLoading(false);
+	}
+};
+
+
+// import { Category } from "@/d.types";
+// import { createSupabaseServer } from "@/supabase/server";
+// import React from "react";
+
+// export default async function page({ params }: { params: { id: string } }) {
+// 	const supabase = createSupabaseServer();
+// 	const { data: currentUser } = await supabase.auth.getUser();
+// 	const userId = currentUser.user?.id;
+// 	const { data: categories, error } = await supabase
+// 		.from("collection")
+// 		.select("*")
+// 		.eq("vendor_id", userId as string)
+// 		.eq("store_id", params.id);
+
+// 	if (error) {
+// 		console.error("Error fetching collections:", error);
+// 		return <div>Error loading categories</div>;
+// 	}
+
+// 	return categories as Category[];
+// }
+
+// 	return (
+// 		<div>
+// 			{categories.map((category) => (
+// 				<div key={category.id} className="category-item">
+// 					{category.name}
+// 				</div>
+// 			))}
+// 		</div>
+// 	);
+
+
+
+{/* const url = `https://qqemuxlyzkbjudzwmfid.supabase.co/rest/v1/category?id=eq.${categoryId}`;
+const anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZW11eGx5emtianVkendtZmlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA2NTAxMDQsImV4cCI6MjAxNjIyNjEwNH0.sqBedeuuGl6Osr3UBg_y8kUep9eFwFr_SADIR1v_nHI"; */}
+//https://qqemuxlyzkbjudzwmfid.supabase.co/rest/v1/category?id=eq.3300cbcc-fe02-4e0f-98df-8c57625379eb&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZW11eGx5emtianVkendtZmlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA2NTAxMDQsImV4cCI6MjAxNjIyNjEwNH0.sqBedeuuGl6Osr3UBg_y8kUep9eFwFr_SADIR1v_nHI
+// https: const baseUrl = `${ origin }/${ params.id }`;
+//qqemuxlyzkbjudzwmfid.supabase.co/rest/v1/category&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZW11eGx5emtianVkendtZmlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA2NTAxMDQsImV4cCI6MjAxNjIyNjEwNH0.sqBedeuuGl6Osr3UBg_y8kUep9eFwFr_SADIR1v_nHI
+
