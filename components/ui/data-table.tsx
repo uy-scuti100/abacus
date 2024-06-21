@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
 									data-state={row.getIsSelected() && "selected"}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
+										<TableCell className="capitalize" key={cell.id}>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
@@ -118,7 +118,7 @@ export function DataTable<TData, TValue>({
 					size="sm"
 					onClick={() => table.previousPage()}
 					disabled={!table.getCanPreviousPage()}
-					className="rounded-full border-clr-4"
+					className="rounded-full border-clr-4 cursor-pointer"
 				>
 					Previous
 				</Button>
@@ -127,7 +127,7 @@ export function DataTable<TData, TValue>({
 					size="sm"
 					onClick={() => table.nextPage()}
 					disabled={!table.getCanNextPage()}
-					className="rounded-full border-clr-4"
+					className="rounded-full border-clr-4 cursor-pointer"
 				>
 					Next
 				</Button>

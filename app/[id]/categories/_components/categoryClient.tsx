@@ -42,7 +42,7 @@ const CategoryClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 
 	return (
 		<div className="pb-10">
-			<div className="flex items-center justify-between">
+			<div className="flex items-center justify-between mb-4">
 				<Heading
 					title={`Categories (${categories?.length || 0})`}
 					description="Group related products into categories and add them to your store."
@@ -51,8 +51,8 @@ const CategoryClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 					href={`/${storeId}/categories/new`}
 					className={cn(buttonVariants({ variant: "default" }))}
 				>
-					<Plus className="mr-2 h-4 w-4" />
-					New
+					<Plus className="sm:mr-2 h-4 w-4" />
+					<span className="hidden sm:block">New</span>
 				</Link>
 			</div>
 			<Separator />

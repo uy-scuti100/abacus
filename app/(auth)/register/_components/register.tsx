@@ -158,7 +158,7 @@ export default function Register() {
 									confirmPassword.length === 0 ||
 									password !== confirmPassword
 								}
-								className="inline-flex items-center justify-center w-full py-3 mb-6 text-sm font-medium transition-colors rounded-md shadow whitespace-nowrap disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-clr-800 disabled:bg-clr-8"
+								className="inline-flex items-center justify-center w-full py-3 mb-6 text-sm font-medium transition-colors rounded-full shadow whitespace-nowrap disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-clr-800 disabled:bg-clr-8"
 							>
 								{signingIn ? "Signing up..." : "Sign Up"}
 							</Button>

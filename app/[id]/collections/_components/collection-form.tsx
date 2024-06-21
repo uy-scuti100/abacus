@@ -23,10 +23,11 @@ import { Input } from "@/components/ui/input";
 import Heading from "@/providers/heading";
 import { AlertModal } from "@/providers/modals/alertModal";
 import { Category } from "@/types";
-import { MultipleImageUpload } from "@/providers/image-uploader";
+
 import { createSupabaseBrowser } from "@/supabase/client";
 import useUser from "@/hooks/useUser";
 import { Badge } from "@/components/ui/badge";
+import SingleImageUpload from "@/providers/single-image-uploader";
 
 const formSchema = z.object({
 	name: z
@@ -86,7 +87,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 			if (initialData) {
 				const supabase = createSupabaseBrowser();
 				const updatedCollectionData = {
-					name: values.name,
+					name: values.name.toLowerCase(),
 					avatar: values.avatar,
 					description: values.description,
 				};
@@ -212,8 +213,8 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 						render={({ field }) => (
 							<FormItem className="my-5">
 								<FormControl>
-									<MultipleImageUpload
-										value={field.value ? [field.value] : []}
+									<SingleImageUpload
+										value={field.value}
 										disabled={isLoading}
 										onChange={(url) => field.onChange(url)}
 										onRemove={() => field.onChange("")}

@@ -50,8 +50,8 @@ const CollectionClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 				/>
 
 				<Button onClick={() => router.push(`/${storeId}/collections/new`)}>
-					<Plus className="mr-2 h-4 w-4" />
-					new
+					<Plus className="sm:mr-2 h-4 w-4" />
+					<span className="hidden sm:block">New</span>
 				</Button>
 			</div>
 			<Separator />
