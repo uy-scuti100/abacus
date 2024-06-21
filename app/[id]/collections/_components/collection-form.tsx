@@ -174,7 +174,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 		}
 	};
 	return (
-		<>
+		<div className="h-full">
 			{isRefreshing && (
 				<div className="fixed inset-0 bg-black/50 z-[500] flex justify-center items-center text-white">
 					<Loader className="animate-spin duration-1000 " size={50} />
@@ -205,7 +205,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="flex flex-col w-full gap-8"
+					className="flex flex-col w-auto"
 				>
 					<FormField
 						control={form.control}
@@ -233,7 +233,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 									<FormControl>
 										<Input
 											disabled={isLoading}
-											placeholder="Collection label"
+											placeholder="Collection name"
 											{...field}
 										/>
 									</FormControl>
@@ -266,7 +266,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 					</Button>
 				</form>
 			</Form>
-		</>
+		</div>
 	);
 };
 

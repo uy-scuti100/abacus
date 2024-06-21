@@ -52,7 +52,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
 						<Image
 							height={200}
 							width={200}
-							className="object-cover w-[80px] sm:w-[150px] md:w-[200px]"
+							className="object-cover h-[200px] w-[200px] md:h-[140px] md:w-[140px]"
 							alt="Image"
 							src={value}
 						/>

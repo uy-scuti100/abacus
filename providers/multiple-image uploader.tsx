@@ -91,7 +91,7 @@ const MultipleImageUpload: React.FC<ImageUploadProps> = ({
 								className="flex items-center justify-center h-full w-full py-6 px-8 bg-clr-2 hover:bg-clr-2"
 							>
 								<ImagePlus className="h-4 w-4 mr-2" />
-								Upload an image
+								Upload your images
 							</Button>
 						);
 					}}

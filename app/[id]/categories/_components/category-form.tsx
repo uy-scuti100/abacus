@@ -201,7 +201,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="flex flex-col w-full gap-8"
+					className="flex flex-col w-auto"
 				>
 					<FormField
 						control={form.control}
@@ -229,7 +229,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 									<FormControl>
 										<Input
 											disabled={isLoading}
-											placeholder="Category label"
+											placeholder="Category name"
 											{...field}
 										/>
 									</FormControl>
