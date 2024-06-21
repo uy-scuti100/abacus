@@ -3,36 +3,40 @@
 import React, { useState, useEffect } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "@/components/ui/button";
-import { ImagePlus, Plus, Trash } from "lucide-react";
+import { Plus, Trash, ImagePlus } from "lucide-react";
 import Image from "next/image";
 
 interface ImageUploadProps {
+	medias: { url: string }[];
 	disabled?: boolean;
-	onChange: (value: string[]) => void;
-	onRemove: (value: string) => void;
+	onChange: (value: { url: string }[]) => void;
+	onRemove: (url: string) => void;
 }
 
 const MultipleImageUpload: React.FC<ImageUploadProps> = ({
+	medias,
 	disabled,
 	onChange,
 	onRemove,
 }) => {
-	const [images, setImages] = useState<string[]>([]);
+	const [images, setImages] = useState<string[]>(
+		medias.map((image) => image.url)
+	);
 
 	useEffect(() => {
-		onChange(images);
-	}, [images, onChange]);
+		onChange(images.map((url) => ({ url })));
+	}, [images]);
 
 	const handleUploadSuccess = (result: any) => {
-		setImages((prevImages) => [...prevImages, result?.info?.secure_url]);
+		const imageUrl = result?.info?.secure_url;
+		setImages((prevImages) => [...prevImages, imageUrl]);
 	};
 
-	// const handleImageRemove = (url: string) => {
-	// 	const newImages = images.filter((imageUrl) => imageUrl !== url);
-	// 	setImages(newImages);
-	// 	onRemove(url);
-	// };
-	const [isImageLoading, setImageLoading] = useState(true);
+	const handleImageRemove = (url: string) => {
+		const newImages = images.filter((imageUrl) => imageUrl !== url);
+		setImages(newImages);
+		onRemove(url);
+	};
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -46,7 +50,7 @@ const MultipleImageUpload: React.FC<ImageUploadProps> = ({
 						<div className="z-10 absolute top-2 right-2">
 							<Button
 								type="button"
-								onClick={() => onRemove(url)}
+								onClick={() => handleImageRemove(url)}
 								variant="destructive"
 								size="sm"
 							>
@@ -57,12 +61,11 @@ const MultipleImageUpload: React.FC<ImageUploadProps> = ({
 							src={url}
 							fill
 							alt={url}
-							onLoad={() => setImageLoading(false)}
 							className="transition-transform transform-gpu group-hover:scale-110 duration-700 ease-in-out object-cover"
 							sizes="(max-width: 480px) 100vw,
-                                        (max-width: 768px) 75vw,
-                                        (max-width: 1060px) 50vw,
-                                        33vw"
+                                    (max-width: 768px) 75vw,
+                                    (max-width: 1060px) 50vw,
+                                    33vw"
 						/>
 					</div>
 				))}
@@ -87,7 +90,7 @@ const MultipleImageUpload: React.FC<ImageUploadProps> = ({
 								onClick={onClick}
 								className="flex items-center justify-center h-full w-full py-6 px-8 bg-clr-2 hover:bg-clr-2"
 							>
-								<Plus className="h-4 w-4 mr-2" />
+								<ImagePlus className="h-4 w-4 mr-2" />
 								Upload an image
 							</Button>
 						);

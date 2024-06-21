@@ -148,15 +148,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 		}
 	};
 
-	const [images, setImages] = useState<string[]>([]);
-
-	const handleImageChange = (newImages: string[]) => {
-		setImages(newImages);
-	};
-
-	const handleImageRemove = (removedUrl: string) => {
-		setImages((prevImages) => prevImages.filter((url) => url !== removedUrl));
-	};
 	return (
 		<div>
 			<AlertModal
@@ -194,25 +185,22 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 							<FormItem>
 								<FormLabel>Product Images</FormLabel>
 								<FormControl>
-									{/* <MultipleImageUpload
-										value={field.value.map((image) => image.url)}
+									<MultipleImageUpload
+										medias={field.value}
 										disabled={loading}
-										onChange={(newUrl) =>
-											field.onChange([...field.value, { url: newUrl }])
+										onChange={(updatedMedias) => field.onChange(updatedMedias)}
+										onRemove={
+											(url) =>
+												field.onChange(
+													field.value.filter((image) => image.url !== url)
+												) // Remove the object with the specified URL
 										}
-										onRemove={(url) =>
-											field.onChange(
-												field.value.filter((current) => current.url !== url)
-											)
-										}
-									/> */}
-									<>
-										<MultipleImageUpload
-											disabled={false}
-											onChange={handleImageChange}
-											onRemove={handleImageRemove}
-										/>
-									</>
+									/>
+									{/* <div>
+											{field.value.map((image, index) => (
+												<p key={index}>{image.url}</p>
+											))}
+										</div> */}
 								</FormControl>
 								<FormMessage />
 							</FormItem>

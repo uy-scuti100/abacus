@@ -1,7 +1,7 @@
 import { Product } from "@/d.types";
-interface Media {
-	url: string;
-}
+// interface Media {
+// 	url: string;
+// }
 interface KeyValuePair {
 	key: string;
 	value: string;

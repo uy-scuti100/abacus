@@ -58,7 +58,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
 						/>
 					</div>
 				) : (
-					<div className="flex items-center justify-center py-6 px-8 w-[500px] min-w-[350px]  h-[200px] rounded-md border border-clr-3 border-dotted bg-clr-2">
+					<div className="flex items-center justify-center py-6 px-8 w-[500px] min-w-[350px] h-[200px] rounded-md border border-clr-3 border-dotted bg-clr-2">
 						<CldUploadWidget onSuccess={onUpload} uploadPreset="yselapnu">
 							{({ open }) => {
 								const onClick = () => {
@@ -71,7 +71,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
 										disabled={disabled}
 										variant="secondary"
 										onClick={onClick}
-										className="flex items-center justify-center h-full w-full py-6 px-8 bg-clr-2 hover:bg-clr-2 "
+										className="flex items-center justify-center h-full w-full py-6 px-8 bg-clr-2 hover:bg-clr-2"
 									>
 										<Plus className="h-4 w-4 mr-2" />
 										Upload an image
