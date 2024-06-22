@@ -13,14 +13,14 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CollectionColumn } from "./columns";
+import { ProductColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AlertModal } from "@/providers/modals/alertModal";
 import { createSupabaseBrowser } from "@/supabase/client";
 
 interface CellActionProps {
-	data: CollectionColumn;
+	data: ProductColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -36,7 +36,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 			// setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
-				.from("collection")
+				.from("products")
 				.delete()
 				.eq("id", data.id)
 				.select();
@@ -83,13 +83,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
 					<DropdownMenuLabel>Actions</DropdownMenuLabel>
-					<DropdownMenuItem onClick={() => onCopy(data.id)}>
+					<DropdownMenuItem onClick={() => onCopy(data?.id)}>
 						<Copy className="mr-2 h-4 w-4" /> Copy Id
 					</DropdownMenuItem>
 					<DropdownMenuItem
 						onClick={() => router.push(`/${params.id}/collections/${data.id}`)}
 					>
-						<Edit className="mr-2 h-4 w-4" /> Edit
+						<Edit className="mr-2 h-4 w-4" /> Update
 					</DropdownMenuItem>
 					<DropdownMenuItem onClick={() => setIsOpen(true)}>
 						<Trash className="mr-2 h-4 w-4" /> Delete

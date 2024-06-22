@@ -1,8 +1,5 @@
 import Aside from "@/components/global/aside";
 import Header from "@/components/global/header";
-import { ModalProvider } from "@/providers/modalProvider";
-import QueryProvider from "@/providers/query-provider/tanstack";
-import { ToastProvider } from "@/providers/toastProvider";
 
 export default function layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -12,9 +9,9 @@ export default function layout({ children }: { children: React.ReactNode }) {
 					<Aside />
 				</div>
 
-				<div className="h-full w-full px-3 relative">
+				<div className="h-full w-full relative">
 					<Header />
-					{children}
+					<div className="p-3">{children}</div>
 				</div>
 			</div>
 		</div>

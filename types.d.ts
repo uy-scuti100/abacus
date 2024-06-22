@@ -13,71 +13,53 @@ interface Variant {
 	inventory?: number;
 }
 
-// export interface Product {
-// 	vendor_id: string;
-// 	store_id: string;
-// 	title: string;
-// 	categoryId: string;
-// 	collectionId: string | null;
-// 	status: string;
-// 	media: Media[];
-// 	type: string;
-// 	ribbon: string | null;
-// 	brand?: string;
-// 	price: number;
-// 	on_sale?: boolean;
-// 	cost_of_good?: number | null;
-// 	inventory?: number | null;
-// 	sku: string | null;
-// 	description: string;
-// 	additional_information?: KeyValuePair[] | null;
-// 	variants?: Variant[] | null;
-// }
-
-// export interface Product {
-// 	additional_information: Json | null;
-// 	brand: string | null;
-// 	category_id: string;
-// 	collection_id: string | null;
-// 	cost_of_good: number | null;
-// 	created_at: string;
-// 	description: string;
-// 	id: string;
-// 	ribbon: string | null;
-// 	inventory: number | null;
-// 	media: string[];
-// 	on_sale: boolean;
-// 	price: number;
-// 	sku: string | null;
-// 	status: string;
-// 	store_id: string;
-// 	title: string;
-// 	type: string;
-// 	variants: Json | null;
-// 	vendor_id: string;
-// }
 export interface Product {
-	additional_information: Record<string, any> | null;
-	brand: string | null;
-	category_id: string;
-	collection_id: string | null;
-	cost_of_good: number | null;
-	created_at: string;
-	description: string;
 	id: string;
-	ribbon: string | null;
-	inventory: number | null;
+	additional_information?: Json | null;
+	brand?: string | null;
+	category_id: string[];
+	collection_id?: string | null;
+	cost_of_good?: number | null;
+	created_at?: string;
+	description: string;
+
+	inventory?: number | null;
 	media: string[];
-	on_sale: boolean;
+	on_sale?: boolean;
 	price: number;
-	sku: string | null;
+	ribbon?: string | null;
+	sku?: string | null;
+	slug?: string | null;
 	status: string;
 	store_id: string;
 	title: string;
 	type: string;
-	variants: Record<string, any> | null;
+	variants?: Json | null;
 	vendor_id: string;
 }
+// export interface Product {
+// 	id: string;
+// 	vendor_id: string;
+// 	store_id: string;
+// 	title: string;
+// 	category_id: string;
+// 	collection_id: string | null;
+// 	status: string;
+// 	media: string[];
+// 	type: string;
+// 	ribbon: string | null;
+// 	brand: string | null;
+// 	price: number;
+// 	on_sale: boolean;
+// 	cost_of_good: number | null;
+// 	inventory: number | null;
+// 	sku: string | null;
+// 	description: string;
+// 	additional_information: KeyValuePair[] | null;
+// 	variants: Variant[] | null;
+// 	created_at: string;
+// 	slug: string | null;
+// }
 
 export interface Category {
 	avatar: string | null;
@@ -90,7 +72,7 @@ export interface Category {
 	product_count: number | null;
 }
 
-export interface collection {
+export interface Collection {
 	id: string;
 	avatar: string | null;
 	description: string | null;

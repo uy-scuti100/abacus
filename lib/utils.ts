@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Function to generate an SEO-friendly slug
-const generateSlug = (title: string) => {
+export const generateSlug = (title: string) => {
 	// Remove special characters, replace spaces with hyphens, and convert to lowercase
 	const sanitizedTitle = title
 		.trim()

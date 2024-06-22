@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Category, collection } from "@/types";
+import { Collection } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -9,7 +9,7 @@ export default function CollectionCardsWrapper({
 	collections,
 }: {
 	storeId: string;
-	collections: collection[] | undefined;
+	collections: Collection[] | undefined;
 }) {
 	const [isImageLoading, setImageLoading] = useState(true);
 
@@ -53,7 +53,7 @@ export default function CollectionCardsWrapper({
 												"linear-gradient(180deg, rgba(0, 0, 0, 0.00) 10%, rgba(0, 0, 0, .6) 100%)",
 										}}
 									></div>
-									<p className="absolute flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-black uppercase bg-white left-5 font-mont bottom-5 sm:bottom-10 rounded-full">
+									<p className="absolute p-2 text-xs font-semibold tracking-widest text-black uppercase bg-white left-5 font-mont bottom-5 sm:bottom-10 rounded-full text-balance">
 										{name}
 									</p>
 									<Badge

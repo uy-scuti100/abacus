@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
 	ColumnDef,
@@ -118,7 +117,7 @@ export function DataTable<TData, TValue>({
 					size="sm"
 					onClick={() => table.previousPage()}
 					disabled={!table.getCanPreviousPage()}
-					className="rounded-full border-clr-4 cursor-pointer"
+					className="rounded-full"
 				>
 					Previous
 				</Button>
@@ -127,7 +126,7 @@ export function DataTable<TData, TValue>({
 					size="sm"
 					onClick={() => table.nextPage()}
 					disabled={!table.getCanNextPage()}
-					className="rounded-full border-clr-4 cursor-pointer"
+					className="rounded-full"
 				>
 					Next
 				</Button>

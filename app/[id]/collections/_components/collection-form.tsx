@@ -105,9 +105,10 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 					return;
 				}
 
-				if (collection) {
+				if (collection && !error) {
 					toast.success("Collection Updated");
-					router.push(`/${params.id}/collections`);
+					window.location.assign(`/${params.id}/collections`);
+					router.refresh();
 				} else {
 					toast.error("Failed to update Collection");
 					router.refresh();
@@ -151,7 +152,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			// setIsRefreshing(true);
+			setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
 				.from("collection")
@@ -160,7 +161,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 				.select();
 			if (!error) {
 				toast.success("Collection deleted!");
-				setIsRefreshing(true);
+
 				router.refresh();
 			} else {
 				toast.error("Failed to delete Collection");
@@ -171,6 +172,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 		} finally {
 			setIsLoading(false);
 			setIsOpen(false);
+			setIsRefreshing(false);
 		}
 	};
 	return (

@@ -1,19 +1,15 @@
-import { Category, collection } from "@/types";
-import { ProductForm } from "./_components/product-form";
+// global imports
 
-import Note from "@/components/global/note";
+import ProductClient from "./_components/productClient";
 
-export default function page() {
-	const products = null;
-	const categories: Category[] = [];
-	const collections: collection[] = [];
+// local imports
+
+export default async function page({ params }: { params: { id: string } }) {
 	return (
-		<div>
-			<ProductForm
-				initialData={null}
-				categories={categories}
-				collections={collections}
-			/>
+		<div className="flex-col">
+			<div className="flex-1 space-y-4 px-4 pt-6">
+				<ProductClient storeId={params.id} />
+			</div>
 		</div>
 	);
 }

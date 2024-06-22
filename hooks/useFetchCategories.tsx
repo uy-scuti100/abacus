@@ -34,5 +34,6 @@ export default function useFetchData<T>({
 
 			return [] as T[];
 		},
+		refetchOnWindowFocus: false,
 	});
 }

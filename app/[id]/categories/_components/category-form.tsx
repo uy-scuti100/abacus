@@ -129,9 +129,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 					return;
 				}
 
-				if (category) {
+				if (category && !error) {
 					toast.success("Category Created");
-					router.push(`/${params.id}/categories`);
+					window.location.assign(`/${params.id}/categories`);
+					router.refresh();
 				} else {
 					toast.error("Failed to create Category");
 					router.refresh();
@@ -147,7 +148,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			// setIsRefreshing(true);
+			setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
 				.from("category")
@@ -156,8 +157,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 				.select();
 			if (!error) {
 				toast.success("Category deleted!");
-				setIsRefreshing(true);
-				router.refresh();
+
+				window.location.reload();
 			} else {
 				toast.error("Failed to delete Category");
 				console.error("Error updating Post:", error);
@@ -167,6 +168,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 		} finally {
 			setIsLoading(false);
 			setIsOpen(false);
+			setIsRefreshing(false);
 		}
 	};
 	return (

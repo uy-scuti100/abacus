@@ -109,7 +109,7 @@ export type Database = {
 				Row: {
 					additional_information: Json | null;
 					brand: string | null;
-					category_id: string;
+					category_id: string[];
 					collection_id: string | null;
 					cost_of_good: number | null;
 					created_at: string;
@@ -132,7 +132,7 @@ export type Database = {
 				Insert: {
 					additional_information?: Json | null;
 					brand?: string | null;
-					category_id: string;
+					category_id: string[];
 					collection_id?: string | null;
 					cost_of_good?: number | null;
 					created_at?: string;
@@ -155,7 +155,7 @@ export type Database = {
 				Update: {
 					additional_information?: Json | null;
 					brand?: string | null;
-					category_id?: string;
+					category_id?: string[];
 					collection_id?: string | null;
 					cost_of_good?: number | null;
 					created_at?: string;
@@ -177,10 +177,10 @@ export type Database = {
 				};
 				Relationships: [
 					{
-						foreignKeyName: "products_category_id_fkey";
-						columns: ["category_id"];
+						foreignKeyName: "products_collection_id_fkey";
+						columns: ["collection_id"];
 						isOneToOne: false;
-						referencedRelation: "category";
+						referencedRelation: "collection";
 						referencedColumns: ["id"];
 					},
 					{

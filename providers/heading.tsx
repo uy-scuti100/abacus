@@ -8,7 +8,7 @@ const Heading: React.FC<HeadingProps> = ({ title, description }) => {
 			<h2 className="text-[2rem] md:text-3xl font-semibold tracking-tight font-mont">
 				{title}
 			</h2>
-			<p className=" text-xs sm:text-sm text-muted-foreground font-mont w-[150px]">
+			<p className=" text-xs sm:text-sm text-muted-foreground font-mont w-[250px]">
 				{description}
 			</p>
 		</div>

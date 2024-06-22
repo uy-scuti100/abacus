@@ -1056,3 +1056,441 @@ const anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 // // 		</div>
 // // 	);
 // // }
+
+
+// export interface Product {
+// 	vendor_id: string;
+// 	store_id: string;
+// 	title: string;
+// 	categoryId: string;
+// 	collectionId: string | null;
+// 	status: string;
+// 	media: Media[];
+// 	type: string;
+// 	ribbon: string | null;
+// 	brand?: string;
+// 	price: number;
+// 	on_sale?: boolean;
+// 	cost_of_good?: number | null;
+// 	inventory?: number | null;
+// 	sku: string | null;
+// 	description: string;
+// 	additional_information?: KeyValuePair[] | null;
+// 	variants?: Variant[] | null;
+// }
+
+// export interface Product {
+// 	additional_information: Json | null;
+// 	brand: string | null;
+// 	category_id: string;
+// 	collection_id: string | null;
+// 	cost_of_good: number | null;
+// 	created_at: string;
+// 	description: string;
+// 	id: string;
+// 	ribbon: string | null;
+// 	inventory: number | null;
+// 	media: string[];
+// 	on_sale: boolean;
+// 	price: number;
+// 	sku: string | null;
+// 	status: string;
+// 	store_id: string;
+// 	title: string;
+// 	type: string;
+// 	variants: Json | null;
+// 	vendor_id: string;
+	slug: string | null;
+// }
+// export interface Product {
+// 	additional_information: Record<string, any> | null;
+// 	brand: string | null;
+// 	category_id: string;
+// 	collection_id: string | null;
+// 	cost_of_good: number | null;
+// 	created_at: string;
+// 	description: string;
+// 	id: string;
+// 	ribbon: string | null;
+// 	inventory: number | null;
+// 	media: string[];
+// 	on_sale: boolean;
+// 	price: number;
+// 	sku: string | null;
+// 	status: string;
+// 	store_id: string;
+// 	title: string;
+// 	type: string;
+// 	variants: Record<string, any> | null;
+// 	vendor_id: string;
+// }
+
+
+
+
+
+"use client"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { toast } from "@/components/ui/use-toast"
+
+const items = [
+  {
+    id: "recents",
+    label: "Recents",
+  },
+  {
+    id: "home",
+    label: "Home",
+  },
+  {
+    id: "applications",
+    label: "Applications",
+  },
+  {
+    id: "desktop",
+    label: "Desktop",
+  },
+  {
+    id: "downloads",
+    label: "Downloads",
+  },
+  {
+    id: "documents",
+    label: "Documents",
+  },
+] as const
+
+const FormSchema = z.object({
+  items: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
+})
+
+export function CheckboxReactHookFormMultiple() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      items: ["recents", "home"],
+    },
+  })
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    })
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="items"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Sidebar</FormLabel>
+                <FormDescription>
+                  Select the items you want to display in the sidebar.
+                </FormDescription>
+              </div>
+              {items.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="items"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  )
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    )
+                  }}
+                />
+              ))}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  )
+}
+
+
+
+<div className="md:flex hidden flex-col gap-4 bg-white p-2 rounded-lg">
+								<FormField
+									control={form.control}
+									name="inventory"
+									render={({ field }) => (
+										<FormItem>
+											<div className="flex items-center justify-between">
+												<div>
+													<FormLabel>Inventory</FormLabel>{" "}
+													<span>
+														<Badge className="ml-2" variant={"custom"}>
+															Optional
+														</Badge>
+													</span>
+												</div>
+												<div>
+													<HoverCard>
+														<HoverCardTrigger>
+															<Button
+																variant={"outline"}
+																className="rounded-full p-1 h-auto"
+															>
+																<FaQuestion className="w-3 h-3" />
+															</Button>
+														</HoverCardTrigger>
+														<HoverCardContent>
+															Track this product's inventory by adding stock
+															quantities.
+														</HoverCardContent>
+													</HoverCard>
+												</div>
+											</div>
+
+											<FormControl>
+												<Input
+													type="number"
+													disabled={loading}
+													placeholder="9.99"
+													{...field}
+													min={1}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								{/* sku */}
+								<FormField
+									control={form.control}
+									name="sku"
+									render={({ field }) => (
+										<FormItem>
+											<div className="flex justify-between items-center">
+												<div>
+													<FormLabel>SKU</FormLabel>
+													<span>
+														<Badge className="ml-2" variant={"custom"}>
+															Optional
+														</Badge>
+													</span>
+												</div>
+												<div>
+													<HoverCard>
+														<HoverCardTrigger>
+															<Button
+																variant={"outline"}
+																className="rounded-full p-1 h-auto"
+															>
+																<FaQuestion className="w-3 h-3" />
+															</Button>
+														</HoverCardTrigger>
+														<HoverCardContent>
+															A “Stock Keeping Unit” is a unique code you can
+															create for each product or variant you have in
+															your store. Using SKUs helps with tracking
+															inventory.
+														</HoverCardContent>
+													</HoverCard>
+												</div>
+											</div>
+											<FormControl>
+												<Input
+													type="text"
+													disabled={loading}
+													placeholder="e.g, SKU123456789"
+													{...field}
+													min={1}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								{/* type */}
+								<FormField
+									control={form.control}
+									name="type"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Type</FormLabel>
+											<Select
+												disabled={loading}
+												onValueChange={field.onChange}
+												value={field.value}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger>
+														<SelectValue
+															defaultValue={field.value}
+															placeholder="Select a product type"
+														/>
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{typesOfproduct?.map((collection) => (
+														<SelectItem
+															key={collection.id}
+															value={collection.value}
+														>
+															{collection.value}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								{/* status */}
+								<FormField
+									control={form.control}
+									name="status"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Status</FormLabel>
+											<Select
+												disabled={loading}
+												onValueChange={field.onChange}
+												value={field.value}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger>
+														<SelectValue
+															defaultValue={field.value}
+															placeholder="select the availability"
+														/>
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{productStatus?.map((collection) => (
+														<SelectItem
+															key={collection.id}
+															value={collection.value}
+														>
+															{collection.value}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								{/* Ribbon */}
+								<FormField
+									control={form.control}
+									name="ribbon"
+									render={({ field }) => (
+										<FormItem>
+											<div className="flex justify-between items-center">
+												<div>
+													<FormLabel>Ribbon</FormLabel>
+													<span>
+														<Badge className="ml-2" variant={"custom"}>
+															Optional
+														</Badge>
+													</span>
+												</div>
+												<div>
+													<HoverCard>
+														<HoverCardTrigger>
+															<Button
+																variant={"outline"}
+																className="rounded-full p-1 h-auto"
+															>
+																<FaQuestion className="w-3 h-3" />
+															</Button>
+														</HoverCardTrigger>
+														<HoverCardContent>
+															Add a label like “New Arrival” or “Sale” to make
+															this product stand out. It’ll be displayed on your
+															product widgets.
+														</HoverCardContent>
+													</HoverCard>
+												</div>
+											</div>
+
+											<FormControl>
+												<Input
+													type="text"
+													disabled={loading}
+													placeholder="e.g, New arrival, On-Sale"
+													{...field}
+													min={1}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<FormField
+									control={form.control}
+									name="on_sale"
+									render={({ field }) => (
+										<FormItem className="flex flex-row items-start pl-2 py-4 space-x-3 space-y-0 border rounded-md">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+											<div className="space-y-1 leading-none">
+												<FormLabel>On Sale</FormLabel>
+												<FormDescription>
+													Is this product being sold at a discount?
+												</FormDescription>
+											</div>
+										</FormItem>
+									)}
+								/>
+							</div>
