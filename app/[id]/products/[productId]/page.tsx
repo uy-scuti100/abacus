@@ -23,7 +23,7 @@ export default async function page({
 		.select("*")
 		.eq("store_id ", params.id);
 	const { data: collections, error: colError } = await supabase
-		.from("category")
+		.from("collection")
 		.select("*")
 		.eq("store_id ", params.id);
 

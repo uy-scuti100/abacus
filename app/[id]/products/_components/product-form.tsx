@@ -99,14 +99,12 @@ const VariantSchema = z.object({
 });
 
 const FormDataSchema = z.object({
-	vendor_id: z.string().min(1),
-	store_id: z.string().min(1),
 	title: z.string().min(2),
 	categoryId: z.array(z.string().min(1)),
 	collectionId: z.string().min(1).optional(),
 	ribbon: z.string().optional(),
 	status: z.string().min(1),
-	media: z.array(z.string().min(1)),
+	media: z.object({ url: z.string() }).array(),
 	type: z.string().min(1),
 	brand: z.string().optional(),
 	price: z.coerce.number().min(1),
@@ -115,9 +113,6 @@ const FormDataSchema = z.object({
 	inventory: z.coerce.number().min(1).optional(),
 	sku: z.string().optional(),
 	description: z.string().min(1),
-	additional_information: z.array(KeyValuePairSchema).optional(),
-	variants: z.array(ProductVariantSchema).optional(),
-	slug: z.string().optional(),
 });
 
 type ProductFormValues = z.infer<typeof FormDataSchema>;
@@ -127,6 +122,14 @@ interface ProductFormProps {
 	categories: Category[] | null;
 	collections: Collection[] | null;
 	storeId: string;
+}
+interface Variant {
+	title: string;
+	values: { label: string; value: string }[];
+}
+interface AdditionalInfo {
+	title: string;
+	description: string;
 }
 export const ProductForm: React.FC<ProductFormProps> = ({
 	initialData,
@@ -146,8 +149,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 	const title = initialData ? "Edit product" : "Add product";
 	const description = initialData ? "Edit a product." : "Create a new product";
-	const toastMessage = initialData ? "Product updated." : "Product created.";
-	const action = initialData ? "Save changes" : "Create";
+	const action = initialData ? "Save changes" : "Create product";
 	const params = useParams();
 	const router = useRouter();
 	const defaultValues = initialData
@@ -182,105 +184,80 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const onSubmit = async (values: z.infer<typeof FormDataSchema>) => {
 		try {
 			setIsLoading(true);
-			if (initialData) {
-				const supabase = createSupabaseBrowser();
-				const updatedProductData = {
-					title: values.title,
-					media: values.media || [],
-					description: values.description,
-					additional_information: values.additional_information,
-					brand: values.brand,
-					collection_id: values.collectionId,
-					category_id: values.categoryId,
-					cost_of_good: values.cost_of_good,
-					inventory: values.inventory,
-					on_sale: values.on_sale,
-					price: values.price,
-					ribbon: values.ribbon,
-					sku: values.sku,
-					status: values.status,
-					store_id: storeId,
-					type: values.type,
-					variants: values.variants,
-					vendor_id: userId,
-				};
+			const supabase = createSupabaseBrowser();
 
-				const { data: product, error } = await supabase
+			const slug = generateSlug(values.title);
+			const updatedProductData = {
+				title: values.title.toLowerCase(),
+				media: values.media ? values.media.map((image) => image.url) : [],
+				description: values.description,
+				additional_information:
+					additionalInfo.length > 0 ? JSON.stringify(additionalInfo) : null,
+				brand: values.brand || null,
+				collection_id: values.collectionId || null,
+				category_id: values.categoryId.length > 0 ? values.categoryId : [],
+				cost_of_good: values.cost_of_good || null,
+				inventory: values.inventory || null,
+				on_sale: values.on_sale || false,
+				price: values.price,
+				ribbon: values.ribbon || null,
+				sku: values.sku || null,
+				status: values.status,
+				store_id: storeId,
+				type: values.type,
+				variants: variants.length > 0 ? JSON.stringify(variants) : null,
+				vendor_id: userId as string, // Ensure vendor_id is a string
+				slug: slug,
+			};
+
+			let response;
+			if (initialData) {
+				// Update existing product
+				response = await supabase
 					.from("products")
 					.update(updatedProductData)
 					.eq("id", initialData.id)
 					.select();
-
-				if (error) {
-					toast.error("Failed to updated Product!");
-					router.refresh();
-					return;
-				}
-
-				if (product && !error) {
-					toast.success("Product Updated!");
-					window.location.assign(`/${params.id}/products`);
-					router.refresh();
-				} else {
-					toast.error("Failed to update Product!");
-					router.refresh();
-				}
 			} else {
-				// const slug =
-				const supabase = createSupabaseBrowser();
-				if (!userId) {
-					throw new Error("Vendor ID is required");
-				}
+				// Create new product
+				if (!userId) throw new Error("Vendor ID is required");
 
 				const slug = generateSlug(values.title);
-				console.log(slug);
 
-				// Ensure other required fields are properly checked or assigned default values if necessary.
 				const formData = {
-					title: values.title,
-					media: values.media || [],
-					description: values.description,
-					additional_information: values.additional_information || null,
-					brand: values.brand || null,
-					collection_id: values.collectionId || null,
-					category_id: values.categoryId,
-					cost_of_good: values.cost_of_good || null,
-					inventory: values.inventory || null,
-					on_sale: values.on_sale || false,
-					price: values.price,
-					ribbon: values.ribbon || null,
-					sku: values.sku || null,
-					status: values.status,
-					store_id: storeId,
-					type: values.type,
-					variants: values.variants || null,
-					vendor_id: userId,
-					slug: slug || null,
+					...updatedProductData,
+					slug: slug,
 				};
 
-				const { data: product, error } = await supabase
-					.from("products")
-					.insert([formData])
-					.select();
+				response = await supabase.from("products").insert([formData]).select();
+			}
 
-				if (error) {
-					toast.error("Failed to create Collection");
-					console.error(error);
-					router.refresh();
-					return;
-				}
+			const { data: product, error } = response;
 
-				if (product) {
-					toast.success("Product Created");
-					router.push(`/${params.id}/products`);
-				} else {
-					toast.error("Failed to create product!");
-					console.error(error);
-					router.refresh();
-				}
+			if (error) {
+				toast.error(
+					initialData
+						? "Failed to update Product!"
+						: "Failed to create Product!"
+				);
+				router.refresh();
+				return;
+			}
+
+			if (product) {
+				toast.success(initialData ? "Product Updated!" : "Product Created!");
+				window.location.assign(`/${params.id}/products`);
+				router.refresh();
+			} else {
+				toast.error(
+					initialData
+						? "Failed to update Product!"
+						: "Failed to create product!"
+				);
+				router.refresh();
 			}
 		} catch (error: any) {
-			console.log("An error occurred:", error.message);
+			console.error("An error occurred:", error.message);
 		} finally {
 			setIsLoading(false);
 		}
@@ -289,7 +266,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			setIsRefreshing(true);
+			// setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
 				.from("products")
@@ -298,7 +275,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				.select();
 			if (!error) {
 				toast.success("Product deleted!");
-
+				setIsRefreshing(true);
 				router.refresh();
 			} else {
 				toast.error("Failed to delete Product");
@@ -309,7 +286,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 		} finally {
 			setIsLoading(false);
 			setIsOpen(false);
-			setIsRefreshing(false);
 		}
 	};
 
@@ -319,10 +295,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const [costOfGoodValue, setCostOfGoodValue] = useState(0);
 	const [profit, setProfit] = useState(0);
 	const [margin, setMargin] = useState(0);
-	const [additionalInfo, setAdditionalInfo] = useState(
-		form.getValues("additional_information") || []
-	);
-	const [variants, setVariants] = useState(form.getValues("variants") || []);
+	const [additionalInfo, setAdditionalInfo] = useState<AdditionalInfo[]>([]);
+
+	const [variants, setVariants] = useState<Variant[]>([]);
 	const [currentEditIndex, setCurrentEditIndex] = useState<number | null>(null);
 	const [currentVariantEditIndex, setCurrentVariantEditIndex] = useState<
 		number | null
@@ -490,33 +465,31 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 									name="media"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Product Images</FormLabel>
 											<FormControl>
 												<>
 													<MultipleImageUpload
-														medias={field.value.map((image: any) => image.url)} // Directly pass the field value which is an array of objects
+														medias={field.value}
 														disabled={loading}
-														onChange={
-															(updatedMedias) => field.onChange(updatedMedias) // Pass the updated array of objects
+														onChange={(updatedMedias) =>
+															field.onChange(updatedMedias)
 														}
 														onRemove={(url) =>
 															field.onChange(
-																field.value.filter((image) => image !== url)
+																field.value.filter((image) => image)
 															)
 														}
 													/>
+													{/* <div>
+														{field.value.map((image) => (
+															<div key={image.url}>{image.url}</div>
+														))}
+													</div> */}
 												</>
 											</FormControl>
-											{/* <div>
-												{field.value.map((image, index) => (
-													<p key={index}>{image}</p>
-												))}
-											</div> */}
 											<FormMessage />
 										</FormItem>
 									)}
 								/>
-
 								{/* title */}
 								<FormField
 									control={form.control}
@@ -594,7 +567,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 													{collections?.map((collection) => (
 														<SelectItem
 															key={collection.name}
-															value={collection.name}
+															value={collection.id}
 														>
 															{collection.name}
 														</SelectItem>
@@ -998,6 +971,48 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 													type="text"
 													disabled={loading}
 													placeholder="e.g, New arrival, On-Sale"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<FormField
+									control={form.control}
+									name="brand"
+									render={({ field }) => (
+										<FormItem>
+											<div className="flex justify-between items-center">
+												<div>
+													<FormLabel>Brand</FormLabel>
+													<span>
+														<Badge className="ml-2" variant={"custom"}>
+															Optional
+														</Badge>
+													</span>
+												</div>
+												<div>
+													<HoverCard>
+														<HoverCardTrigger>
+															<p className="cursor-help rounded-full p-1 h-auto border border-clr-2">
+																<FaQuestion className="w-3 h-3" />
+															</p>
+														</HoverCardTrigger>
+														<HoverCardContent>
+															Add a brand name to make this product stand out to
+															customers.
+														</HoverCardContent>
+													</HoverCard>
+												</div>
+											</div>
+
+											<FormControl>
+												<Input
+													type="text"
+													disabled={loading}
+													placeholder="e.g, Louis Vuitton"
 													{...field}
 												/>
 											</FormControl>
@@ -1450,6 +1465,47 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 													type="text"
 													disabled={loading}
 													placeholder="e.g, New arrival, On-Sale"
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="brand"
+									render={({ field }) => (
+										<FormItem>
+											<div className="flex justify-between items-center">
+												<div>
+													<FormLabel>Brand</FormLabel>
+													<span>
+														<Badge className="ml-2" variant={"custom"}>
+															Optional
+														</Badge>
+													</span>
+												</div>
+												<div>
+													<HoverCard>
+														<HoverCardTrigger>
+															<p className="cursor-help rounded-full p-1 h-auto border border-clr-2">
+																<FaQuestion className="w-3 h-3" />
+															</p>
+														</HoverCardTrigger>
+														<HoverCardContent>
+															Add a brand name to make this product stand out to
+															customers.
+														</HoverCardContent>
+													</HoverCard>
+												</div>
+											</div>
+
+											<FormControl>
+												<Input
+													type="text"
+													disabled={loading}
+													placeholder="e.g, Louis Vuitton"
 													{...field}
 												/>
 											</FormControl>
