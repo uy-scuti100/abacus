@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "react-quill/dist/quill.snow.css";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { AlertModal } from "@/providers/modals/alertModal";
 import {
 	Form,
@@ -27,7 +27,7 @@ import { Separator } from "@/components/ui/separator";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
-import { Edit, Trash, Trash2 } from "lucide-react";
+import { Edit, Trash, Trash2, X } from "lucide-react";
 import Heading from "@/providers/heading";
 
 import {
@@ -43,12 +43,11 @@ import { Category, Collection, Product } from "@/types";
 import useUser from "@/hooks/useUser";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { Textarea } from "@/components/ui/textarea";
 import { FaQuestion } from "react-icons/fa6";
 import { ProductModal } from "./additional-info-modal";
 import { VariantModal } from "./variant-modal";
 import { createSupabaseBrowser } from "@/supabase/client";
-import { generateSlug } from "@/lib/utils";
+import { cn, generateSlug } from "@/lib/utils";
 
 const modules = {
 	toolbar: [
@@ -79,26 +78,7 @@ const formats = [
 	"indent",
 ];
 
-const KeyValuePairSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-});
-const VariantKeyValuePairSchema = z.object({
-	label: z.string().min(1, { message: "Label is required" }),
-	value: z.string().min(1, { message: "Value is required" }),
-});
-
-// Define the schema for variants
-const ProductVariantSchema = z.object({
-	title: z.string().min(1, { message: "Title is required" }),
-	values: z.array(VariantKeyValuePairSchema),
-});
-const VariantSchema = z.object({
-	name: z.string(),
-	values: z.array(KeyValuePairSchema),
-});
-
-const FormDataSchema = z.object({
+const ProductFormDataSchema = z.object({
 	title: z.string().min(2),
 	categoryId: z.array(z.string().min(1)),
 	collectionId: z.string().min(1).optional(),
@@ -109,13 +89,13 @@ const FormDataSchema = z.object({
 	brand: z.string().optional(),
 	price: z.coerce.number().min(1),
 	on_sale: z.boolean().default(false).optional(),
-	cost_of_good: z.coerce.number().min(1).optional(),
-	inventory: z.coerce.number().min(1).optional(),
+	cost_of_good: z.coerce.number().optional(),
+	inventory: z.string().optional(),
 	sku: z.string().optional(),
 	description: z.string().min(1),
 });
 
-type ProductFormValues = z.infer<typeof FormDataSchema>;
+type ProductFormValues = z.infer<typeof ProductFormDataSchema>;
 
 interface ProductFormProps {
 	initialData: Product | null;
@@ -170,7 +150,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				price: 0,
 				on_sale: false,
 				cost_of_good: 0,
-				inventory: 0,
+				inventory: "",
 				sku: "",
 				slug: "",
 				description: "",
@@ -178,15 +158,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				variants: [],
 		  };
 	const form = useForm<ProductFormValues>({
-		resolver: zodResolver(FormDataSchema),
+		resolver: zodResolver(ProductFormDataSchema),
 		defaultValues: defaultValues as ProductFormValues,
 	});
-	const onSubmit = async (values: z.infer<typeof FormDataSchema>) => {
+	const onSubmit = async (values: z.infer<typeof ProductFormDataSchema>) => {
 		try {
 			setIsLoading(true);
 			const supabase = createSupabaseBrowser();
-
 			const slug = generateSlug(values.title);
+
+			const category_id = Array.isArray(values.categoryId)
+				? values.categoryId
+				: [];
 			const updatedProductData = {
 				title: values.title.toLowerCase(),
 				media: values.media ? values.media.map((image) => image.url) : [],
@@ -195,7 +178,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 					additionalInfo.length > 0 ? JSON.stringify(additionalInfo) : null,
 				brand: values.brand || null,
 				collection_id: values.collectionId || null,
-				category_id: values.categoryId.length > 0 ? values.categoryId : [],
+				category_id,
 				cost_of_good: values.cost_of_good || null,
 				inventory: values.inventory || null,
 				on_sale: values.on_sale || false,
@@ -206,9 +189,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				store_id: storeId,
 				type: values.type,
 				variants: variants.length > 0 ? JSON.stringify(variants) : null,
-				vendor_id: userId as string, // Ensure vendor_id is a string
+				vendor_id: userId as string,
 				slug: slug,
 			};
+
+			console.log("Updated Product Data:", updatedProductData);
 
 			let response;
 			if (initialData) {
@@ -222,8 +207,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				// Create new product
 				if (!userId) throw new Error("Vendor ID is required");
 
-				const slug = generateSlug(values.title);
-
 				const formData = {
 					...updatedProductData,
 					slug: slug,
@@ -235,6 +218,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			const { data: product, error } = response;
 
 			if (error) {
+				console.error("Supabase Error:", error);
 				toast.error(
 					initialData
 						? "Failed to update Product!"
@@ -287,6 +271,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			setIsLoading(false);
 			setIsOpen(false);
 		}
+	};
+
+	const selectedCategories = form.watch("categoryId").map((id) => {
+		const category = categories?.find((category) => category.id === id);
+		return category ? category.name : "";
+	});
+	const onRemoveCategory = (id: string) => {
+		const currentCategories = form.getValues("categoryId");
+		form.setValue(
+			"categoryId",
+			currentCategories.filter((categoryId) => categoryId !== id)
+		);
 	};
 
 	// pricing calculations
@@ -437,7 +433,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				loading={loading}
 			/>
 
-			<div className="flex items-center justify-between px-4">
+			<div className="flex items-center justify-between px-4 my-3">
 				<Heading title={title} description={description} />
 				{initialData && (
 					<Button
@@ -454,7 +450,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="w-full space-y-8 mt-10 sm:px-4"
+					className="w-full space-y-8 mt-3 sm:px-4"
 				>
 					<div className="gap-6 md:grid md:grid-cols-6">
 						<div className="col-span-4 ">
@@ -549,6 +545,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 													Optional
 												</Badge>
 											</span>
+
 											<Select
 												disabled={loading}
 												onValueChange={field.onChange}
@@ -587,13 +584,39 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 								{/* category */}
 								<Drawer>
 									<FormLabel className="md:hidden">Categories</FormLabel>
+									{selectedCategories.length > 0 && (
+										<ul className="flex items-center my-2 gap-2">
+											{selectedCategories.map((name, index) => {
+												const categoryId = categories?.find(
+													(category) => category.name === name
+												)?.id;
+												return (
+													<div key={index} className="relative">
+														<Badge className="text-sm hover:bg-primary px-6">
+															{name}
+														</Badge>
+														<div
+															className="p-1 absolute right-[-2px] top-[-10px] flex justify-center items-center cursor-pointer bg-destructive rounded-full"
+															onClick={() =>
+																categoryId && onRemoveCategory(categoryId)
+															}
+														>
+															<X className="w-3 h-3 text-white" />
+														</div>
+													</div>
+												);
+											})}
+										</ul>
+									)}
+
 									<DrawerTrigger asChild>
 										<Button
-											variant="outline"
+											variant="secondary"
 											className="hover:text-foreground rounded-lg md:hidden"
 										>
-											{" "}
-											Select categories
+											{selectedCategories.length > 1
+												? "Select more categories"
+												: "Select categories"}
 										</Button>
 									</DrawerTrigger>
 									<DrawerContent>
@@ -608,7 +631,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 																Category
 															</FormLabel>
 														</div>
-														<div className="flex flex-col gap-6">
+														<div className="flex flex-col gap-6 pb-6">
 															{categories?.map((item) => (
 																<FormField
 																	key={item.id}
@@ -651,9 +674,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 														</div>
 														<Link
 															href={`/${storeId}/categories/new`}
-															className="p-1 mt-6 text-xs font-semibold rounded-full text-balance ml-5 bg-primary text-white"
+															className={`${cn(
+																buttonVariants({ variant: "secondary" })
+															)}py-2 px-6 text-xs font-semibold rounded-full text-balance`}
 														>
-															Add new category
+															Create a new category
 														</Link>
 														<FormMessage />
 													</FormItem>
@@ -809,9 +834,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 											<FormControl>
 												<Input
-													type="number"
+													type="text"
 													disabled={loading}
-													placeholder="9.99"
+													placeholder="20"
 													{...field}
 												/>
 											</FormControl>
@@ -1222,7 +1247,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 											<div className="mb-4">
 												<FormLabel className="text-base">Category</FormLabel>
 											</div>
-											<div className="flex flex-col gap-6">
+											<div className="flex flex-col gap-6 pb-4">
 												{categories?.map((item) => (
 													<FormField
 														key={item.id}
@@ -1262,9 +1287,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 											</div>
 											<Link
 												href={`/${storeId}/categories/new`}
-												className="p-1 text-xs font-semibold rounded-full text-balance ml-5 bg-primary text-white my-8"
+												className={`${cn(
+													buttonVariants({ variant: "secondary" })
+												)}py-2 px-6 text-xs font-semibold rounded-full text-balance`}
 											>
-												Add new category
+												Create a new category
 											</Link>
 											<FormMessage />
 										</FormItem>
@@ -1303,9 +1330,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 											<FormControl>
 												<Input
-													type="number"
+													type="text"
 													disabled={loading}
-													placeholder="9.99"
+													placeholder="20"
 													{...field}
 												/>
 											</FormControl>

@@ -1,7 +1,3 @@
-import { Product } from "@/d.types";
-// interface Media {
-// 	url: string;
-// }
 interface KeyValuePair {
 	key: string;
 	value: string;
@@ -23,7 +19,7 @@ export interface Product {
 	created_at?: string;
 	description: string;
 
-	inventory?: number | null;
+	inventory?: string | null;
 	media: string[];
 	on_sale?: boolean;
 	price: number;
@@ -37,29 +33,6 @@ export interface Product {
 	variants?: Json | null;
 	vendor_id: string;
 }
-// export interface Product {
-// 	id: string;
-// 	vendor_id: string;
-// 	store_id: string;
-// 	title: string;
-// 	category_id: string;
-// 	collection_id: string | null;
-// 	status: string;
-// 	media: string[];
-// 	type: string;
-// 	ribbon: string | null;
-// 	brand: string | null;
-// 	price: number;
-// 	on_sale: boolean;
-// 	cost_of_good: number | null;
-// 	inventory: number | null;
-// 	sku: string | null;
-// 	description: string;
-// 	additional_information: KeyValuePair[] | null;
-// 	variants: Variant[] | null;
-// 	created_at: string;
-// 	slug: string | null;
-// }
 
 export interface Category {
 	avatar: string | null;

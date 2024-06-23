@@ -9,7 +9,7 @@ export type ProductColumn = {
 	title: string;
 	price: number;
 	media: string;
-	inventory?: number | null;
+	inventory?: string | null;
 	on_sale?: boolean;
 	type: string;
 	ribbon?: string | null;

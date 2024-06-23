@@ -1494,3 +1494,27 @@ export function CheckboxReactHookFormMultiple() {
 									)}
 								/>
 							</div>
+
+                            // export interface Product {
+// 	id: string;
+// 	vendor_id: string;
+// 	store_id: string;
+// 	title: string;
+// 	category_id: string;
+// 	collection_id: string | null;
+// 	status: string;
+// 	media: string[];
+// 	type: string;
+// 	ribbon: string | null;
+// 	brand: string | null;
+// 	price: number;
+// 	on_sale: boolean;
+// 	cost_of_good: number | null;
+// 	inventory: number | null;
+// 	sku: string | null;
+// 	description: string;
+// 	additional_information: KeyValuePair[] | null;
+// 	variants: Variant[] | null;
+// 	created_at: string;
+// 	slug: string | null;
+// }

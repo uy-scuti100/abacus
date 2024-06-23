@@ -115,7 +115,7 @@ export type Database = {
 					created_at: string;
 					description: string;
 					id: string;
-					inventory: number | null;
+					inventory: string | null;
 					media: string[];
 					on_sale: boolean;
 					price: number;
@@ -138,7 +138,7 @@ export type Database = {
 					created_at?: string;
 					description: string;
 					id?: string;
-					inventory?: number | null;
+					inventory?: string | null;
 					media: string[];
 					on_sale?: boolean;
 					price: number;
@@ -161,7 +161,7 @@ export type Database = {
 					created_at?: string;
 					description?: string;
 					id?: string;
-					inventory?: number | null;
+					inventory?: string | null;
 					media?: string[];
 					on_sale?: boolean;
 					price?: number;
