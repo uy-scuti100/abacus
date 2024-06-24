@@ -13,14 +13,15 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ProductColumn } from "./columns";
+
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AlertModal } from "@/providers/modals/alertModal";
 import { createSupabaseBrowser } from "@/supabase/client";
+import { CustomersColumn } from "./columns";
 
 interface CellActionProps {
-	data: ProductColumn;
+	data: CustomersColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -33,31 +34,31 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
+			// setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
-				.from("products")
+				.from("customers")
 				.delete()
 				.eq("id", data.id)
 				.select();
 			if (!error) {
-				toast.success("Collection deleted!");
+				toast.success("customers deleted!");
 				setIsRefreshing(true);
 				router.refresh();
 			} else {
-				toast.error("Failed to delete Collection");
-				console.error("ailed to delete Collection:", error);
+				toast.error("Failed to delete customers");
+				console.error("Failed to delete customers:", error);
 			}
 		} catch (error: any) {
 			console.error("An error occurred:", error.message);
 		} finally {
 			setIsLoading(false);
 			setIsOpen(false);
-			setIsRefreshing(false);
 		}
 	};
 	const onCopy = (id: string) => {
 		navigator.clipboard.writeText(id);
-		toast.success("Product id copied!");
+		toast.success("customers id copied to the clipboard");
 	};
 	return (
 		<>
@@ -67,7 +68,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 				</div>
 			)}
 			<AlertModal
-				title="Are you sure you wannt to delete this collection"
+				title="Are you sure you wannt to delete this customer"
 				description="this action cannot be undone"
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
@@ -83,11 +84,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
 					<DropdownMenuLabel>Actions</DropdownMenuLabel>
-					<DropdownMenuItem onClick={() => onCopy(data?.id)}>
+					<DropdownMenuItem onClick={() => onCopy(data.id)}>
 						<Copy className="mr-2 h-4 w-4" /> Copy Id
 					</DropdownMenuItem>
 					<DropdownMenuItem
-						onClick={() => router.push(`/${params.id}/products/${data.id}`)}
+						onClick={() => router.push(`/${params.id}/categories/${data.id}`)}
 					>
 						<Edit className="mr-2 h-4 w-4" /> Edit
 					</DropdownMenuItem>

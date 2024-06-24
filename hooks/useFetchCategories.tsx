@@ -3,7 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 
 interface FetchDataOptions {
 	storeId: string;
-	tableName: "category" | "collection" | "products" | "stores" | "vendors";
+	tableName:
+		| "category"
+		| "collection"
+		| "products"
+		| "stores"
+		| "vendors"
+		| "customers";
 	queryKey: string[];
 }
 

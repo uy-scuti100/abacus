@@ -105,6 +105,66 @@ export type Database = {
 					}
 				];
 			};
+			customers: {
+				Row: {
+					address: string | null;
+					created_at: string;
+					email: string;
+					first_name: string | null;
+					id: string;
+					last_name: string | null;
+					phone_numer: string | null;
+					role: string | null;
+					store_id: string | null;
+					subscribed: boolean;
+					tags: string[] | null;
+					vendor_id: string | null;
+				};
+				Insert: {
+					address?: string | null;
+					created_at?: string;
+					email: string;
+					first_name?: string | null;
+					id?: number;
+					last_name?: string | null;
+					phone_numer?: string | null;
+					role?: string | null;
+					store_id?: string | null;
+					subscribed?: boolean;
+					tags?: string[] | null;
+					vendor_id?: string | null;
+				};
+				Update: {
+					address?: string | null;
+					created_at?: string;
+					email?: string;
+					first_name?: string | null;
+					id?: number;
+					last_name?: string | null;
+					phone_numer?: string | null;
+					role?: string | null;
+					store_id?: string | null;
+					subscribed?: boolean;
+					tags?: string[] | null;
+					vendor_id?: string | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "customers_store_id_fkey";
+						columns: ["store_id"];
+						isOneToOne: false;
+						referencedRelation: "stores";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "customers_vendor_id_fkey";
+						columns: ["vendor_id"];
+						isOneToOne: false;
+						referencedRelation: "vendors";
+						referencedColumns: ["id"];
+					}
+				];
+			};
 			products: {
 				Row: {
 					additional_information: Json | null;

@@ -462,7 +462,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="w-full space-y-8 mt-3 sm:px-4"
+					className="w-full space-y-8 mt-3 mb-10 sm:px-4"
 				>
 					<div className="gap-6 md:grid md:grid-cols-6">
 						<div className="col-span-4 ">
@@ -606,7 +606,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 												)?.id;
 												return (
 													<div key={index} className="relative">
-														<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap">
+														<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap capitalize">
 															{name}
 														</Badge>
 														<div
@@ -1576,7 +1576,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 							{/* side-form */}
 						</div>
 					</div>
-					<Button disabled={loading} className="mr-auto" type="submit">
+					<Button
+						disabled={loading}
+						className="mr-auto w-full sm:w-auto"
+						type="submit"
+					>
 						{action}
 					</Button>
 				</form>

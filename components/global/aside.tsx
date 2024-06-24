@@ -84,7 +84,7 @@ export default function Aside() {
 	];
 
 	return (
-		<aside className="sticky h-screen inset-y-0 left-0 z-10 flex-col hidden border-r bg-background md:flex px-2">
+		<aside className="sticky h-screen inset-y-0 left-0 z-10 flex-col hidden border-r bg-background md:flex px-2 w-full">
 			<nav className="flex flex-col gap-4 sm:py-5 mr-[2px]">
 				<Link href="/" className="px-2 pb-3">
 					<Image

@@ -9,6 +9,21 @@ interface Variant {
 	inventory?: number;
 }
 
+export interface Customers {
+	address: string | null;
+	created_at: string;
+	email: string;
+	first_name: string | null;
+	id: string;
+	last_name: string | null;
+	phone_numer: string | null;
+	role: string | null;
+	store_id: string | null;
+	subscribed: boolean;
+	tags: string[] | null;
+	vendor_id: string | null;
+}
+
 export interface Product {
 	id: string;
 	additional_information?: Json | null;

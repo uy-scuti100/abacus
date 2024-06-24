@@ -50,7 +50,7 @@ export function DataTable<TData, TValue>({
 		<div>
 			<div className="flex items-center py-4">
 				<Input
-					placeholder="Search"
+					placeholder="Enter customer email to search"
 					value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
 					onChange={(event) =>
 						table.getColumn(searchKey)?.setFilterValue(event.target.value)
@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
 									data-state={row.getIsSelected() && "selected"}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell className="capitalize" key={cell.id}>
+										<TableCell className="" key={cell.id}>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
