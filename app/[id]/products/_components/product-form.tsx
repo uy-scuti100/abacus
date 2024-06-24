@@ -135,6 +135,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const defaultValues = initialData
 		? {
 				...initialData,
+				media: initialData.media || [],
+				categoryId: initialData.category_id || [],
+				collectionId: initialData.collection_id || "",
 		  }
 		: {
 				vendor_id: "",
@@ -167,9 +170,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			const supabase = createSupabaseBrowser();
 			const slug = generateSlug(values.title);
 
-			const category_id = Array.isArray(values.categoryId)
-				? values.categoryId
-				: [];
 			const updatedProductData = {
 				title: values.title.toLowerCase(),
 				media: values.media ? values.media.map((image) => image.url) : [],
@@ -178,7 +178,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 					additionalInfo.length > 0 ? JSON.stringify(additionalInfo) : null,
 				brand: values.brand || null,
 				collection_id: values.collectionId || null,
-				category_id,
+				category_id: values.categoryId as string[],
 				cost_of_good: values.cost_of_good || null,
 				inventory: values.inventory || null,
 				on_sale: values.on_sale || false,
@@ -192,8 +192,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 				vendor_id: userId as string,
 				slug: slug,
 			};
-
-			console.log("Updated Product Data:", updatedProductData);
 
 			let response;
 			if (initialData) {
@@ -273,10 +271,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 		}
 	};
 
-	const selectedCategories = form.watch("categoryId").map((id) => {
+	const selectedCategories = (form.watch("categoryId") ?? []).map((id) => {
 		const category = categories?.find((category) => category.id === id);
 		return category ? category.name : "";
 	});
+
 	const onRemoveCategory = (id: string) => {
 		const currentCategories = form.getValues("categoryId");
 		form.setValue(
@@ -292,8 +291,21 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const [profit, setProfit] = useState(0);
 	const [margin, setMargin] = useState(0);
 	const [additionalInfo, setAdditionalInfo] = useState<AdditionalInfo[]>([]);
-
 	const [variants, setVariants] = useState<Variant[]>([]);
+
+	useEffect(() => {
+		if (initialData) {
+			const parsedAdditionalInfo = initialData.additional_information
+				? JSON.parse(initialData.additional_information)
+				: [];
+			const parsedVariants = initialData.variants
+				? JSON.parse(initialData.variants)
+				: [];
+			setAdditionalInfo(parsedAdditionalInfo);
+			setVariants(parsedVariants);
+		}
+	}, [initialData]);
+
 	const [currentEditIndex, setCurrentEditIndex] = useState<number | null>(null);
 	const [currentVariantEditIndex, setCurrentVariantEditIndex] = useState<
 		number | null
@@ -464,7 +476,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 											<FormControl>
 												<>
 													<MultipleImageUpload
-														medias={field.value}
+														medias={initialData?.media || []}
 														disabled={loading}
 														onChange={(updatedMedias) =>
 															field.onChange(updatedMedias)
@@ -486,6 +498,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 										</FormItem>
 									)}
 								/>
+
 								{/* title */}
 								<FormField
 									control={form.control}
@@ -563,7 +576,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 												<SelectContent>
 													{collections?.map((collection) => (
 														<SelectItem
-															key={collection.name}
+															key={collection.id}
 															value={collection.id}
 														>
 															{collection.name}
@@ -581,18 +594,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 										</FormItem>
 									)}
 								/>
+
 								{/* category */}
 								<Drawer>
 									<FormLabel className="md:hidden">Categories</FormLabel>
 									{selectedCategories.length > 0 && (
-										<ul className="flex items-center my-2 gap-2">
+										<ul className="flex items-center my-2 gap-y-4 gap-x-2 sm:hidden flex-wrap">
 											{selectedCategories.map((name, index) => {
 												const categoryId = categories?.find(
 													(category) => category.name === name
 												)?.id;
 												return (
 													<div key={index} className="relative">
-														<Badge className="text-sm hover:bg-primary px-6">
+														<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap">
 															{name}
 														</Badge>
 														<div
@@ -614,7 +628,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 											variant="secondary"
 											className="hover:text-foreground rounded-lg md:hidden"
 										>
-											{selectedCategories.length > 1
+											{selectedCategories.length > 0
 												? "Select more categories"
 												: "Select categories"}
 										</Button>
@@ -637,38 +651,35 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 																	key={item.id}
 																	control={form.control}
 																	name="categoryId"
-																	render={({ field }) => {
-																		return (
-																			<FormItem
-																				key={item.id}
-																				className="flex flex-row items-start space-x-3 space-y-0"
-																			>
-																				<FormControl>
-																					<Checkbox
-																						checked={field.value?.includes(
-																							item.id
-																						)}
-																						onCheckedChange={(checked) => {
-																							return checked
-																								? field.onChange([
-																										...field.value,
-																										item.id,
-																								  ])
-																								: field.onChange(
-																										field.value?.filter(
-																											(value) =>
-																												value !== item.id
-																										)
-																								  );
-																						}}
-																					/>
-																				</FormControl>
-																				<FormLabel className="font-normal">
-																					{item.name}
-																				</FormLabel>
-																			</FormItem>
-																		);
-																	}}
+																	render={({ field }) => (
+																		<FormItem
+																			key={item.id}
+																			className="flex flex-row items-start space-x-3 space-y-0"
+																		>
+																			<FormControl>
+																				<Checkbox
+																					checked={field.value?.includes(
+																						item.id
+																					)}
+																					onCheckedChange={(checked) => {
+																						return checked
+																							? field.onChange([
+																									...field.value,
+																									item.id,
+																							  ])
+																							: field.onChange(
+																									field.value?.filter(
+																										(value) => value !== item.id
+																									)
+																							  );
+																					}}
+																				/>
+																			</FormControl>
+																			<FormLabel className="font-normal">
+																				{item.name}
+																			</FormLabel>
+																		</FormItem>
+																	)}
 																/>
 															))}
 														</div>

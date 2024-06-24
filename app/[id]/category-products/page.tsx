@@ -21,7 +21,7 @@ export default async function Page({
 			.from("products")
 			.select("*")
 			.eq("store_id", storeId)
-			.eq("category_id", categoryId);
+			.contains("category_id", [categoryId]);
 
 		if (error) {
 			console.error(`Error fetching products: ${error.message}`);

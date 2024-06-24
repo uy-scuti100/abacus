@@ -18,15 +18,20 @@ export default function CollectionCardsWrapper({
 			{collections && collections.length > 0 && (
 				<div className="mt-10 mb-20">
 					<div className="grid w-full h-full grid-cols-2 pb-6 gap-y-12 gap-x-3 md:grid-cols-3">
-						{collections.map((category) => {
-							const { name, avatar, id: categoryId, product_count } = category;
+						{collections.map((collection) => {
+							const {
+								name,
+								avatar,
+								id: collectionId,
+								product_count,
+							} = collection;
 							return (
 								<Link
 									href={{
 										pathname: `/${storeId}/collection-products`,
-										query: { categoryId: categoryId },
+										query: { collectionId: collectionId },
 									}}
-									key={categoryId}
+									key={collectionId}
 									className="relative rounded-2xl border border-clr-2 w-full h-[250px] group overflow-hidden"
 								>
 									<Image

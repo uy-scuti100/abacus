@@ -13,7 +13,7 @@ import Heading from "@/providers/heading";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/providers/apiList";
 import useFetchData from "@/hooks/useFetchCategories";
-import { Category } from "@/types";
+import { Category, Collection } from "@/types";
 import Skeleton from "@/components/global/skeleton";
 import Note from "@/components/global/note";
 import CollectionCardsWrapper from "./collection-cards-wrapper";
@@ -31,10 +31,10 @@ const CollectionClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 		data: collections,
 		isLoading,
 		isFetching,
-	} = useFetchData<Category>({
+	} = useFetchData<Collection>({
 		storeId,
 		tableName: "collection",
-		queryKey: ["colllections"],
+		queryKey: ["collections"],
 	});
 
 	if (isFetching || isLoading) {

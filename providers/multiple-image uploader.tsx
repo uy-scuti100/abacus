@@ -7,7 +7,7 @@ import { Plus, Trash, ImagePlus } from "lucide-react";
 import Image from "next/image";
 
 interface ImageUploadProps {
-	medias: { url: string }[];
+	medias: string[] | [];
 	disabled?: boolean;
 	onChange: (value: { url: string }[]) => void;
 	onRemove: (url: string) => void;
@@ -19,12 +19,10 @@ const MultipleImageUpload: React.FC<ImageUploadProps> = ({
 	onChange,
 	onRemove,
 }) => {
-	const [images, setImages] = useState<string[]>(
-		medias.map((image) => image.url)
-	);
+	const [images, setImages] = useState<string[] | []>(medias);
 
 	useEffect(() => {
-		onChange(images.map((url) => ({ url })));
+		onChange(images?.map((url) => ({ url })));
 	}, [images]);
 
 	const handleUploadSuccess = (result: any) => {

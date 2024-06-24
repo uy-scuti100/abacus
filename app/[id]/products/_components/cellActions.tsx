@@ -33,7 +33,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			// setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
 				.from("products")
@@ -53,11 +52,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 		} finally {
 			setIsLoading(false);
 			setIsOpen(false);
+			setIsRefreshing(false);
 		}
 	};
 	const onCopy = (id: string) => {
 		navigator.clipboard.writeText(id);
-		toast.success("Collection id copied to the clipboard");
+		toast.success("Product id copied!");
 	};
 	return (
 		<>
@@ -87,7 +87,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 						<Copy className="mr-2 h-4 w-4" /> Copy Id
 					</DropdownMenuItem>
 					<DropdownMenuItem
-						onClick={() => router.push(`/${params.id}/collections/${data.id}`)}
+						onClick={() => router.push(`/${params.id}/products/${data.id}`)}
 					>
 						<Edit className="mr-2 h-4 w-4" /> Update
 					</DropdownMenuItem>

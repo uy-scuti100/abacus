@@ -3,13 +3,11 @@ import { ProductForm } from "../_components/product-form";
 
 export default async function page({
 	params,
-	searchParams,
 }: {
-	params: { id: string };
-	searchParams: { [key: string]: string | string[] | undefined };
+	params: { id: string; productId: string };
 }) {
 	const storeId = params.id;
-	const productId = searchParams.productId as string | undefined;
+	const productId = params.productId;
 	const supabase = createSupabaseServer();
 	const { data: product, error } = await supabase
 		.from("products")

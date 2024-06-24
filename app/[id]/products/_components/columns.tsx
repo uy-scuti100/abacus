@@ -22,32 +22,12 @@ export const columns: ColumnDef<ProductColumn>[] = [
 		header: "Name",
 	},
 	{
-		accessorKey: "inventory",
-		header: "inventory",
-	},
-	{
-		accessorKey: "on_sale",
-		header: "OnSale",
-	},
-	{
-		accessorKey: "type",
-		header: "Type",
-	},
-	{
-		accessorKey: "status",
-		header: "Status",
-	},
-	{
-		accessorKey: "ribbon",
-		header: "Ribbon",
-	},
-	{
 		accessorKey: "media",
-		header: "Avatar",
+		header: "Image",
 		cell: ({ row }) => (
 			<div className="border-foreground/30 border p-1 rounded-full w-[50px] h-[50px]">
 				<Image
-					src={row.original.media[0] as string}
+					src={row.original.media as string}
 					alt={row.original.title}
 					width={50}
 					height={50}
@@ -57,12 +37,24 @@ export const columns: ColumnDef<ProductColumn>[] = [
 		),
 	},
 	{
-		accessorKey: "created_at",
-		header: "Date",
-	},
-	{
 		accessorKey: "price",
 		header: "Price",
+	},
+	{
+		accessorKey: "on_sale",
+		header: "On Sale",
+	},
+	{
+		accessorKey: "status",
+		header: "Status",
+	},
+	{
+		accessorKey: "inventory",
+		header: "Inventory",
+	},
+	{
+		accessorKey: "created_at",
+		header: "Date",
 	},
 	{
 		id: "actions",
