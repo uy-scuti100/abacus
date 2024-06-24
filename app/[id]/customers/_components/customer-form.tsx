@@ -62,7 +62,9 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 	initialData,
 	storeId,
 }) => {
-	const [tags, setTags] = useState<string[]>([]);
+	const [tags, setTags] = useState<string[] | null | undefined>(
+		initialData?.tags
+	);
 
 	const params = useParams();
 	const router = useRouter();
@@ -105,14 +107,14 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 			if (initialData) {
 				const supabase = createSupabaseBrowser();
 				const updatedCustomerData = {
-					first_name: initialData.first_name || "",
-					last_name: initialData.last_name || "",
-					subscribed: initialData.subscribed || false,
-					email: initialData.email,
-					address: initialData.address || "",
-					phone_numer: initialData.phone_numer || "",
-					role: initialData.role || "",
-					tags: initialData.tags || [],
+					first_name: values.first_name || "",
+					last_name: values.last_name || "",
+					subscribed: values.subscribed || false,
+					email: values.email,
+					address: values.address || "",
+					phone_numer: values.phone_numer || "",
+					role: values.role || "",
+					tags: tags || [],
 				};
 
 				const { data: customer, error } = await supabase

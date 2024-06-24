@@ -4,18 +4,18 @@ import { CustomerForm } from "../_components/customer-form";
 export default async function page({
 	params,
 }: {
-	params: { id: string; categoryId: string };
+	params: { id: string; customerId: string };
 }) {
 	const storeId = params.id;
 	const supabase = createSupabaseServer();
-	const { data: customers, error } = await supabase
+	const { data: customer, error } = await supabase
 		.from("customers")
 		.select("*")
-		.eq("id", params.categoryId)
+		.eq("id", params.customerId)
 		.single();
 	return (
 		<div>
-			<CustomerForm initialData={customers} storeId={storeId} />
+			<CustomerForm initialData={customer} storeId={storeId} />
 		</div>
 	);
 }

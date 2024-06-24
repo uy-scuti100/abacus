@@ -1,11 +1,9 @@
 "use client";
 // global imports
 import { Plus } from "lucide-react";
-
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { columns } from "./columns";
-
 import Heading from "@/providers/heading";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/providers/apiList";
@@ -13,9 +11,10 @@ import useFetchData from "@/hooks/useFetchCategories";
 import { Category, Customers } from "@/types";
 import Skeleton from "@/components/global/skeleton";
 import Note from "@/components/global/note";
-
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface CustomerClientProps {
 	storeId: string;
@@ -26,6 +25,22 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 });
 
 const CustomerClient: React.FC<CustomerClientProps> = ({ storeId }) => {
+	const path = usePathname(); // This will give you the current path
+	const [lastPart, setLastPart] = useState("");
+
+	useEffect(() => {
+		const splitUrl = path.split("/"); // Split the path by "/"
+		const lastPart = splitUrl[splitUrl.length - 1];
+		setLastPart(lastPart);
+	}, [path]);
+
+	const searchKey =
+		lastPart === "products"
+			? "title"
+			: lastPart === "customers"
+			? "first_name"
+			: "name";
+
 	const {
 		data: customers,
 		isLoading,
@@ -44,10 +59,7 @@ const CustomerClient: React.FC<CustomerClientProps> = ({ storeId }) => {
 		<div className="pb-10">
 			<div className="flex items-center justify-between mb-4">
 				<Heading
-					title="
-                 Contacts
-
-             "
+					title="Contacts"
 					description="Manage and track your customers, leads and site members."
 				/>
 				<Link
@@ -67,9 +79,8 @@ const CustomerClient: React.FC<CustomerClientProps> = ({ storeId }) => {
 						createdAt: dateFormatter.format(new Date(customer.created_at)),
 					})) || []
 				}
-				searchKey="email"
+				searchKey={searchKey}
 			/>
-
 			<Heading
 				title="DEVELOPER API"
 				description="API calls for All and Single Customers"

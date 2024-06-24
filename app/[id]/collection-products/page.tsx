@@ -13,7 +13,6 @@ export default async function Page({
 }) {
 	const storeId = params.id;
 	const collectionId = searchParams.collectionId as string | undefined;
-	console.log(collectionId);
 	const supabase = createSupabaseServer();
 
 	if (storeId && collectionId) {
