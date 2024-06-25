@@ -228,7 +228,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 			if (product) {
 				toast.success(initialData ? "Product Updated!" : "Product Created!");
-				window.location.assign(`/${params.id}/products`);
+				window.location.assign(`/${params?.id}/products`);
 				router.refresh();
 			} else {
 				toast.error(
@@ -253,7 +253,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			const { error } = await supabase
 				.from("products")
 				.delete()
-				.eq("id", params.productId)
+				.eq("id", params?.productId!)
 				.select();
 			if (!error) {
 				toast.success("Product deleted!");

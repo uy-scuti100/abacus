@@ -27,6 +27,7 @@ import useUser from "@/hooks/useUser";
 import { Badge } from "@/components/ui/badge";
 import SingleImageUpload from "@/providers/single-image-uploader";
 import { Category } from "@/types";
+import { generateSlug } from "@/lib/utils";
 
 const formSchema = z.object({
 	name: z
@@ -81,10 +82,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 			setIsLoading(true);
 			if (initialData) {
 				const supabase = createSupabaseBrowser();
+				const slug = generateSlug(values.name);
 				const updatedCategoryData = {
 					name: values.name.toLowerCase(),
 					avatar: values.avatar,
 					description: values.description,
+					slug: slug,
 				};
 
 				const { data: category, error } = await supabase
@@ -103,13 +106,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 				if (category) {
 					// const newCategoryId = category[0].id;
 					toast.success("Category Updated");
-					router.push(`/${params.id}/categories`);
+					router.push(`/${params?.id}/categories`);
 				} else {
 					toast.error("Failed to update Category");
 					router.refresh();
 				}
 			} else {
 				const supabase = createSupabaseBrowser();
+				const slug = generateSlug(values.name);
 				const { data: category, error } = await supabase
 					.from("category")
 					.insert([
@@ -118,7 +122,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							avatar: values.avatar,
 							description: values.description,
 							vendor_id: userId,
-							store_id: params.id as string,
+							store_id: params?.id as string,
+							slug: slug,
 						},
 					])
 					.select();
@@ -131,7 +136,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 
 				if (category && !error) {
 					toast.success("Category Created");
-					window.location.assign(`/${params.id}/categories`);
+					window.location.assign(`/${params?.id}/categories`);
 					router.refresh();
 				} else {
 					toast.error("Failed to create Category");
@@ -153,7 +158,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 			const { error } = await supabase
 				.from("category")
 				.delete()
-				.eq("id", params.categoryId)
+				.eq("id", params?.categoryId!)
 				.select();
 			if (!error) {
 				toast.success("Category deleted!");

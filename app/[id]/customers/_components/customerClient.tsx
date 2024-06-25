@@ -29,7 +29,7 @@ const CustomerClient: React.FC<CustomerClientProps> = ({ storeId }) => {
 	const [lastPart, setLastPart] = useState("");
 
 	useEffect(() => {
-		const splitUrl = path.split("/"); // Split the path by "/"
+		const splitUrl = path?.split("/") || []; // Split the path by "/" and handle null case
 		const lastPart = splitUrl[splitUrl.length - 1];
 		setLastPart(lastPart);
 	}, [path]);

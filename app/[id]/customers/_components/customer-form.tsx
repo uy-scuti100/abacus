@@ -132,7 +132,7 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 
 				if (customer) {
 					toast.success("Customer Updated");
-					router.push(`/${params.id}/customers`);
+					router.push(`/${params?.id}/customers`);
 				} else {
 					toast.error("Failed to update Customer");
 					router.refresh();
@@ -165,7 +165,7 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 
 				if (customer && !error) {
 					toast.success("Customer Created");
-					window.location.assign(`/${params.id}/customers`);
+					window.location.assign(`/${params?.id}/customers`);
 					router.refresh();
 				} else {
 					toast.error("Failed to create Customer");
@@ -187,7 +187,7 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 			const { error } = await supabase
 				.from("customers")
 				.delete()
-				.eq("id", params.customerId)
+				.eq("id", params?.customerId!)
 				.select();
 			if (!error) {
 				toast.success("Customer deleted!");

@@ -42,7 +42,7 @@ import Image from "next/image";
 export default function Header() {
 	const pathname = usePathname();
 	const params = useParams();
-	const id = params.id;
+	const id = params?.id;
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [open, setOpen] = useState(false);
 	const navRef = useRef<HTMLDivElement>(null);

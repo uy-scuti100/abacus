@@ -20,7 +20,7 @@ import Image from "next/image";
 export default function Aside() {
 	const pathname = usePathname();
 	const params = useParams();
-	const id = params.id;
+	const id = params?.id;
 	if (pathname === "/store" || pathname === "/") {
 		return null;
 	}

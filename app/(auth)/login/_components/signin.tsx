@@ -126,7 +126,7 @@ export default function SignIn() {
 									</Button>
 								</div>
 
-								{searchParams.get("message") && (
+								{searchParams?.get("message") && (
 									<p className="my-4 p-4 bg-foreground/10 text-destructive text-center">
 										{searchParams.get("message")}
 									</p>

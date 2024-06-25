@@ -28,6 +28,7 @@ import { createSupabaseBrowser } from "@/supabase/client";
 import useUser from "@/hooks/useUser";
 import { Badge } from "@/components/ui/badge";
 import SingleImageUpload from "@/providers/single-image-uploader";
+import { generateSlug } from "@/lib/utils";
 
 const formSchema = z.object({
 	name: z
@@ -86,10 +87,12 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 			setIsLoading(true);
 			if (initialData) {
 				const supabase = createSupabaseBrowser();
+				const slug = generateSlug(values.name);
 				const updatedCollectionData = {
 					name: values.name.toLowerCase(),
 					avatar: values.avatar,
 					description: values.description,
+					slug: slug,
 				};
 
 				const { data: collection, error } = await supabase
@@ -107,7 +110,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 
 				if (collection && !error) {
 					toast.success("Collection Updated");
-					window.location.assign(`/${params.id}/collections`);
+					window.location.assign(`/${params?.id}/collections`);
 					router.refresh();
 				} else {
 					toast.error("Failed to update Collection");
@@ -115,6 +118,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 				}
 			} else {
 				const supabase = createSupabaseBrowser();
+				const slug = generateSlug(values.name);
 				const { data: collection, error } = await supabase
 					.from("collection")
 					.insert([
@@ -123,7 +127,8 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 							avatar: values.avatar,
 							description: values.description,
 							vendor_id: userId,
-							store_id: params.id as string,
+							store_id: params?.id as string,
+							slug: slug,
 						},
 					])
 					.select();
@@ -136,7 +141,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 
 				if (collection) {
 					toast.success("Collection Created");
-					router.push(`/${params.id}/collections`);
+					router.push(`/${params?.id}/collections`);
 				} else {
 					toast.error("Failed to create Collection");
 					router.refresh();
@@ -157,7 +162,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 			const { error } = await supabase
 				.from("collection")
 				.delete()
-				.eq("id", params.categoryId)
+				.eq("id", params?.categoryId!)
 				.select();
 			if (!error) {
 				toast.success("Collection deleted!");

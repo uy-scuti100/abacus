@@ -73,7 +73,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 			setIsLoading(true);
 
 			const supabase = createSupabaseBrowser();
-			if (!params.id) {
+			if (!params?.id) {
 				toast.error("Invalid store ID");
 				setIsLoading(false);
 				return;
@@ -121,7 +121,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 			const { error } = await supabase
 				.from("stores")
 				.delete()
-				.eq("id", params.id)
+				.eq("id", params?.id as string)
 				.select();
 			if (!error) {
 				toast.success("Store deleted!");

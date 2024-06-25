@@ -56,7 +56,7 @@ export default function StoreSwitcher({
 	const [isOpen, setIsOpen] = useState(false);
 	// here we want to know which store to show as the current store so we re comparing the first store by iterating over all the stores available and comparing it with the id from the params we get from the page that ware currently on.. that is ( in our url..)
 
-	const currentStore = formattedItems.find((item) => item.value === params.id);
+	const currentStore = formattedItems.find((item) => item.value === params?.id);
 
 	//down here is the trigger function that we use to select a particular store
 	const onStoreSelect = (store: {
@@ -64,7 +64,7 @@ export default function StoreSwitcher({
 		label: string;
 		id: string;
 	}) => {
-		if (store.id === params.id) {
+		if (store.id === params?.id) {
 			return;
 		} else {
 			setIsRefreshing(true);

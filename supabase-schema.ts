@@ -17,6 +17,7 @@ export type Database = {
 					id: string;
 					name: string;
 					product_count: number | null;
+					slug: string | null;
 					store_id: string;
 					vendor_id: string | null;
 				};
@@ -27,6 +28,7 @@ export type Database = {
 					id?: string;
 					name: string;
 					product_count?: number | null;
+					slug?: string | null;
 					store_id: string;
 					vendor_id?: string | null;
 				};
@@ -37,6 +39,7 @@ export type Database = {
 					id?: string;
 					name?: string;
 					product_count?: number | null;
+					slug?: string | null;
 					store_id?: string;
 					vendor_id?: string | null;
 				};
@@ -65,6 +68,7 @@ export type Database = {
 					id: string;
 					name: string;
 					product_count: number | null;
+					slug: string | null;
 					store_id: string;
 					vendor_id: string | null;
 				};
@@ -75,6 +79,7 @@ export type Database = {
 					id?: string;
 					name: string;
 					product_count?: number | null;
+					slug?: string | null;
 					store_id: string;
 					vendor_id?: string | null;
 				};
@@ -85,6 +90,7 @@ export type Database = {
 					id?: string;
 					name?: string;
 					product_count?: number | null;
+					slug?: string | null;
 					store_id?: string;
 					vendor_id?: string | null;
 				};
@@ -125,7 +131,7 @@ export type Database = {
 					created_at?: string;
 					email: string;
 					first_name?: string | null;
-					id?: number;
+					id?: string;
 					last_name?: string | null;
 					phone_numer?: string | null;
 					role?: string | null;
@@ -139,7 +145,7 @@ export type Database = {
 					created_at?: string;
 					email?: string;
 					first_name?: string | null;
-					id?: number;
+					id?: string;
 					last_name?: string | null;
 					phone_numer?: string | null;
 					role?: string | null;
