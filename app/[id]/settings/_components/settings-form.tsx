@@ -46,11 +46,15 @@ type SettingsFormValues = z.infer<typeof formSchema>;
 interface SettingsFormProps {
 	initialData: Store;
 	apiKey: string | null;
+	storeId: string | null;
+	vendorId: string | null;
 }
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({
 	initialData,
 	apiKey,
+	storeId,
+	vendorId,
 }) => {
 	const params = useParams();
 	const router = useRouter();
@@ -246,6 +250,46 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 				<AlertDescription className="flex">
 					<code className="rounded-md bg-clr-1 text-sm  text-ellipsis overflow-hidden p-4">
 						{apiKey?.substring(0, 50)}
+					</code>
+				</AlertDescription>
+			</Alert>
+			<Alert className=" p-4">
+				<div className="flex justify-between items-center mb-8">
+					<AlertTitle className="flex items-center gap-3">
+						<Key className="w-4 h-4" />
+						<div className="flex items-center gap-2">
+							<Badge variant={"custom"} className="text-base">
+								My VendorID
+							</Badge>
+						</div>
+					</AlertTitle>
+					<Button variant="outline" size="icon" onClick={onCopy}>
+						<Copy className="h-4 w-4" />
+					</Button>
+				</div>
+				<AlertDescription className="flex">
+					<code className="rounded-md bg-clr-1 text-sm  text-ellipsis overflow-hidden p-4">
+						{vendorId?.substring(0, 50)}
+					</code>
+				</AlertDescription>
+			</Alert>
+			<Alert className=" p-4">
+				<div className="flex justify-between items-center mb-8">
+					<AlertTitle className="flex items-center gap-3">
+						<Key className="w-4 h-4" />
+						<div className="flex items-center gap-2">
+							<Badge variant={"custom"} className="text-base">
+								My StoreID
+							</Badge>
+						</div>
+					</AlertTitle>
+					<Button variant="outline" size="icon" onClick={onCopy}>
+						<Copy className="h-4 w-4" />
+					</Button>
+				</div>
+				<AlertDescription className="flex">
+					<code className="rounded-md bg-clr-1 text-sm  text-ellipsis overflow-hidden p-4">
+						{storeId?.substring(0, 50)}
 					</code>
 				</AlertDescription>
 			</Alert>

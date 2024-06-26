@@ -29,6 +29,7 @@ import useUser from "@/hooks/useUser";
 import { Badge } from "@/components/ui/badge";
 import SingleImageUpload from "@/providers/single-image-uploader";
 import { generateSlug } from "@/lib/utils";
+import TagsInput from "../../customers/_components/tags-component";
 
 const formSchema = z.object({
 	name: z
@@ -61,6 +62,9 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
+	const [tags, setTags] = useState<string[] | null | undefined>(
+		initialData?.tags
+	);
 
 	const title = initialData ? "Edit Collection" : "Create Collection";
 	const description = initialData
@@ -93,6 +97,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 					avatar: values.avatar,
 					description: values.description,
 					slug: slug,
+					tags: tags || [],
 				};
 
 				const { data: collection, error } = await supabase
@@ -129,6 +134,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 							vendor_id: userId,
 							store_id: params?.id as string,
 							slug: slug,
+							tags: tags,
 						},
 					])
 					.select();
@@ -141,7 +147,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 
 				if (collection) {
 					toast.success("Collection Created");
-					router.push(`/${params?.id}/collections`);
+					window.location.assign(`/${params?.id}/collections`);
 				} else {
 					toast.error("Failed to create Collection");
 					router.refresh();
@@ -267,6 +273,12 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 								</FormItem>
 							)}
 						/>
+						<div className="mb-6">
+							<FormLabel className="flex items-center gap-2 mb-3">
+								Tags <Badge variant={"custom"}>Optional</Badge>
+							</FormLabel>
+							<TagsInput tags={tags} setTags={setTags} />
+						</div>
 					</div>
 					<Button disabled={isLoading} className="sm:mr-auto" type="submit">
 						{action}

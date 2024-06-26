@@ -128,18 +128,21 @@
 	box-sizing: border-box;
 	padding: 8px;
 }
+/* --clr-1: #d8e7fd;
+    --clr-2: #b1cefb;
+    --clr-3: #89b5fa; */
 
 .tags-input-container {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 5px;
-	border: 1px solid #ccc;
+	border: 1px solid #d8e7fd;
 	padding: 5px;
 	border-radius: 5px;
 }
 
 .tag {
-	background-color: #e0e0e0;
+	background-color: #b1cefb;
 	padding: 5px 10px;
 	border-radius: 3px;
 	display: flex;

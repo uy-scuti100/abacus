@@ -67,13 +67,6 @@ const CollectionClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 				searchKey="name"
 			/>
 			<CollectionCardsWrapper collections={collections} storeId={storeId} />
-			<Heading
-				title="DEVELOPER API"
-				description="API calls for All and Single Collections"
-			/>
-			<Note id={storeId} />
-			<Separator />
-			<ApiList entityName="collection" entityId="id" apikey="myapikey" />
 		</>
 	);
 };
@@ -89,3 +82,12 @@ export default CollectionClient;
 // const dateFormatter = new Intl.DateTimeFormat(undefined, {
 //    dateStyle: "medium",
 // });
+{
+	/* <Heading
+				title="DEVELOPER API"
+				description="API calls for All and Single Collections"
+			/>
+			<Note id={storeId} />
+			<Separator />
+			<ApiList entityName="collection" entityId="id" apikey="myapikey" /> */
+}

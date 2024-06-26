@@ -81,15 +81,18 @@ const CustomerClient: React.FC<CustomerClientProps> = ({ storeId }) => {
 				}
 				searchKey={searchKey}
 			/>
-			<Heading
-				title="DEVELOPER API"
-				description="API calls for All and Single Customers"
-			/>
-			<Separator />
-			<Note id={storeId} />
-			<ApiList entityName="customer" apikey="myapikey" entityId="id" />
 		</div>
 	);
 };
 
 export default CustomerClient;
+
+{
+	/* <Heading
+				title="DEVELOPER API"
+				description="API calls for All and Single Customers"
+			/>
+			<Separator />
+			<Note id={storeId} />
+			<ApiList entityName="customer" apikey="myapikey" entityId="id" /> */
+}

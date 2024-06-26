@@ -16,20 +16,16 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, setTags }) => {
 		if (event.key === "Enter" || event.key === ",") {
 			event.preventDefault();
 			if (inputValue.trim()) {
-				if (tags) setTags([...tags, inputValue.trim()]);
+				setTags([...(tags || []), inputValue.trim()]);
 				setInputValue("");
 			}
 		} else if (event.key === "Backspace" && !inputValue) {
-			if (tags) {
-				setTags(tags.slice(0, -1));
-			}
+			setTags((tags || []).slice(0, -1));
 		}
 	};
 
 	const handleRemoveTag = (index: number) => {
-		if (tags) {
-			setTags(tags.filter((_, i) => i !== index));
-		}
+		setTags((tags || []).filter((_, i) => i !== index));
 	};
 
 	return (
@@ -38,7 +34,7 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, setTags }) => {
 				<div className="tag" key={index}>
 					{tag}
 					<button type="button" onClick={() => handleRemoveTag(index)}>
-						&times;
+						×
 					</button>
 				</div>
 			))}
@@ -47,7 +43,7 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, setTags }) => {
 				value={inputValue}
 				onChange={handleInputChange}
 				onKeyDown={handleInputKeyDown}
-				placeholder="Enter a tag"
+				placeholder="Enter a tag and separate with comma ( , ) or enter key ( ↵ )."
 			/>
 		</div>
 	);

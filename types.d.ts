@@ -58,6 +58,8 @@ export interface Category {
 	id: string;
 	created_at: string;
 	product_count: number | null;
+	slug: string | null;
+	tags: string[] | null;
 }
 
 export interface Collection {
@@ -69,6 +71,8 @@ export interface Collection {
 	vendor_id: string | null;
 	product_count: number | null;
 	created_at: string;
+	slug: string | null;
+	tags: string[] | null;
 }
 export interface Store {
 	id: string;

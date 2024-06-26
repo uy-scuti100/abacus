@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import SingleImageUpload from "@/providers/single-image-uploader";
 import { Category } from "@/types";
 import { generateSlug } from "@/lib/utils";
+import TagsInput from "../../customers/_components/tags-component";
 
 const formSchema = z.object({
 	name: z
@@ -49,11 +50,13 @@ interface CategoryFormProps {
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
-	// console.log(initialData);
 	const params = useParams();
 	const router = useRouter();
 	const user = useUser();
 	const userId = user.data?.id;
+	const [tags, setTags] = useState<string[] | null | undefined>(
+		initialData?.tags
+	);
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -88,6 +91,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 					avatar: values.avatar,
 					description: values.description,
 					slug: slug,
+					tags: tags || [],
 				};
 
 				const { data: category, error } = await supabase
@@ -106,7 +110,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 				if (category) {
 					// const newCategoryId = category[0].id;
 					toast.success("Category Updated");
-					router.push(`/${params?.id}/categories`);
+					window.location.assign(`/${params?.id}/categories`);
 				} else {
 					toast.error("Failed to update Category");
 					router.refresh();
@@ -124,6 +128,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							vendor_id: userId,
 							store_id: params?.id as string,
 							slug: slug,
+							tags: tags,
 						},
 					])
 					.select();
@@ -263,6 +268,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 								</FormItem>
 							)}
 						/>
+					</div>
+					<div className="mb-6">
+						<FormLabel className="flex items-center gap-2 mb-3">
+							Tags <Badge variant={"custom"}>Optional</Badge>
+						</FormLabel>
+						<TagsInput tags={tags} setTags={setTags} />
 					</div>
 					<Button disabled={isLoading} className="sm:mr-auto" type="submit">
 						{action}

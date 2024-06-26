@@ -19,6 +19,7 @@ export type Database = {
 					product_count: number | null;
 					slug: string | null;
 					store_id: string;
+					tags: string[] | null;
 					vendor_id: string | null;
 				};
 				Insert: {
@@ -30,6 +31,7 @@ export type Database = {
 					product_count?: number | null;
 					slug?: string | null;
 					store_id: string;
+					tags?: string[] | null;
 					vendor_id?: string | null;
 				};
 				Update: {
@@ -41,6 +43,7 @@ export type Database = {
 					product_count?: number | null;
 					slug?: string | null;
 					store_id?: string;
+					tags?: string[] | null;
 					vendor_id?: string | null;
 				};
 				Relationships: [
@@ -70,6 +73,7 @@ export type Database = {
 					product_count: number | null;
 					slug: string | null;
 					store_id: string;
+					tags: string[] | null;
 					vendor_id: string | null;
 				};
 				Insert: {
@@ -81,6 +85,7 @@ export type Database = {
 					product_count?: number | null;
 					slug?: string | null;
 					store_id: string;
+					tags?: string[] | null;
 					vendor_id?: string | null;
 				};
 				Update: {
@@ -92,6 +97,7 @@ export type Database = {
 					product_count?: number | null;
 					slug?: string | null;
 					store_id?: string;
+					tags?: string[] | null;
 					vendor_id?: string | null;
 				};
 				Relationships: [

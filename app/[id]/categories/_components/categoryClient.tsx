@@ -68,15 +68,18 @@ const CategoryClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 				searchKey="name"
 			/>
 			<CategoryCardsWrapper categories={categories} storeId={storeId} />
-			<Heading
-				title="DEVELOPER API"
-				description="API calls for All and Single Categories"
-			/>
-			<Separator />
-			<Note id={storeId} />
-			<ApiList entityName="category" apikey="myapikey" entityId="id" />
 		</div>
 	);
 };
 
 export default CategoryClient;
+
+{
+	/* <Heading
+				title="DEVELOPER API"
+				description="API calls for All and Single Categories"
+			/>
+			<Separator />
+			<Note id={storeId} />
+			<ApiList entityName="category" apikey="myapikey" entityId="id" /> */
+}

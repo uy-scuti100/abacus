@@ -26,10 +26,8 @@ import { AlertModal } from "@/providers/modals/alertModal";
 import { createSupabaseBrowser } from "@/supabase/client";
 import useUser from "@/hooks/useUser";
 import { Badge } from "@/components/ui/badge";
-import SingleImageUpload from "@/providers/single-image-uploader";
-import { Category, Customers } from "@/types";
+import { Customers } from "@/types";
 import { Checkbox } from "@/components/ui/checkbox";
-import PhoneNumberValidtor from "./phone-number-validator";
 import PhoneNumberValidator from "./phone-number-validator";
 import {
 	Select,
@@ -75,9 +73,9 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 
-	const title = initialData ? "Edit Category" : "Create Category";
-	const description = initialData ? "Edit a Category." : "Add a new Category";
-	const action = initialData ? "Save changes" : "Create category";
+	const title = initialData ? "Edit Customer" : "Create Customer";
+	const description = initialData ? "Edit a Customer." : "Add a new Customer";
+	const action = initialData ? "Save changes" : "Create customer";
 
 	const form = useForm<CustomerFormValues>({
 		resolver: zodResolver(formSchema),
@@ -401,16 +399,10 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 							)}
 						/>
 						<div className="mb-6">
-							<h1>Tags Input</h1>
+							<FormLabel className="flex items-center gap-2 mb-3">
+								Tags <Badge variant={"custom"}>Optional</Badge>
+							</FormLabel>
 							<TagsInput tags={tags} setTags={setTags} />
-							{/* <div>
-								<strong>Entered Tags:</strong>
-								<ul>
-									{tags.map((tag, index) => (
-										<li key={index}>{tag}</li>
-									))}
-								</ul>
-							</div> */}
 						</div>
 					</div>
 
