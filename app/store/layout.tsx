@@ -25,7 +25,7 @@ export default async function SetupLayout({
 		if (store?.id) {
 			redirect(`/${store?.id}`);
 		} else if (store?.id === undefined || store?.id === null) {
-			redirect("/store");
+			return <div>{children}</div>;
 		}
 	}
 }
