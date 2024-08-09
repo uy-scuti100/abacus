@@ -32,12 +32,12 @@ export const typeDefs = gql`
 		created_at: String
 		category_id: [String!]!
 		collection_id: String
-		variants: Variant # Using a generic Json type for flexibility
-		additional_information: AdditionalInformation # Renamed for consistency with TypeScript interface
-		store_id: String! # Added based on the TypeScript interface
-		vendor_id: String! # Added based on the TypeScript interface
-		ribbon: String # Optional field not originally in the GraphQL type
-		slug: String # Optional field not originally in the GraphQL type
+		variants: Variant
+		additional_information: AdditionalInformation
+		store_id: String!
+		vendor_id: String!
+		ribbon: String
+		slug: String
 	}
 
 	type Category {

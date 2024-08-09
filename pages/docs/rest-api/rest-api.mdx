@@ -2,55 +2,145 @@
 
 ## Using `fetch`
 
-1. **Construct the URL**:
+#### Construct the URL
 
-   ```js copy
-   const storeId = "your-store-id";This will be in your settings page when you logged in to the dashboard
-   const baseUrl = "your base-url"
-   const userId = "your-user-id";
-   const apiKey = "your-api-key"; // This will be in your settings page when you logged in to the dashboard
+```js copy
+const storeId = "your-store-id"; //This will be in your settings page when you logged in to the dashboard
 
-   const fetchUrl = `${baseUrl}/products?store_id=eq.${storeId}&user_id=eq.${userId}`;
-   ```
+const baseUrl = "abacus-psi.vercel.app/api";
 
-2. **Query the data**:
+const fetchUrl = `${baseUrl}/${store_id}/products`;
+```
+
+### Fetch All Products
 
 ```js copy
 async function fetchProducts() {
 	try {
-		const response = await fetch(fetchUrl, {
-			headers: {
-				"Content-Type": "application/json",
-				apikey: apiKey,
-				Authorization: `Bearer ${apiKey}`,
-			},
-		});
-
+		const response = await fetch(fetchUrl);
 		if (!response.ok) {
 			throw new Error("Network response was not ok");
 		}
 
 		const data = await response.json();
 		console.log(data);
-
-		// Example of mapping through products
-		data.forEach((product) => {
-			console.log(`Product ID: ${product.id}, Product Name: ${product.name}`);
-		});
-
-		// Using a single product in JSX
-		const firstProduct = data[0];
-		return (
-			<div>
-				<h1>First Product</h1>
-				<p>ID: {firstProduct.id}</p>
-				<p>Name: {firstProduct.name}</p>
-			</div>
-		);
 	} catch (error) {
 		console.error("Fetch error:", error);
 	}
 }
 
 fetchProducts();
+```
+
+### Fetch a Single Product
+
+```js copy
+const productId = "your-product-id";
+const fetchUrl = `${baseUrl}/${storeId}/products/${productId}`;
+
+async function fetchProduct() {
+	try {
+		const response = await fetch(fetchUrl);
+		if (!response.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		console.error("Fetch error:", error);
+	}
+}
+
+fetchProduct();
+```
+
+### Fetch All Categories
+
+```js copy
+const fetchUrl = `${baseUrl}/${storeId}/categories`;
+
+async function fetchCategories() {
+	try {
+		const response = await fetch(fetchUrl);
+		if (!response.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		console.error("Fetch error:", error);
+	}
+}
+
+fetchCategories();
+```
+
+### Fetch Single Categories
+
+```js copy
+const categoryId = "your-category-id";
+const fetchUrl = `${baseUrl}/${storeId}/categories/${categoryId}`;
+
+async function fetchCategory() {
+	try {
+		const response = await fetch(fetchUrl);
+		if (!response.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		console.error("Fetch error:", error);
+	}
+}
+
+fetchCategory();
+```
+
+### Fetch All Collections
+
+```js copy
+const fetchUrl = `${baseUrl}/${storeId}/collections`;
+
+async function fetchCollections() {
+	try {
+		const response = await fetch(fetchUrl);
+		if (!response.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		console.error("Fetch error:", error);
+	}
+}
+
+fetchCollections();
+```
+
+### Fetch Single Collections
+
+```js copy
+const collectionId = "your-collection-id";
+const fetchUrl = `${baseUrl}/${storeId}/collections/${collectionId}`;
+
+async function fetchCollection() {
+	try {
+		const response = await fetch(fetchUrl);
+		if (!response.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		const data = await response.json();
+		console.log(data);
+	} catch (error) {
+		console.error("Fetch error:", error);
+	}
+}
+
+fetchCollection();
 ```

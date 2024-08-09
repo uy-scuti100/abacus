@@ -1,4 +1,4 @@
-# Fetching Products Using GraphQL
+# Fetching Data Using GraphQL
 
 ## Using `graphql-request`
 
@@ -10,58 +10,185 @@
 
 2.**Query the data**:
 
+Here’s how to query various resources like products, product, collections, collection, categories, and category using GraphQL.
+
+```js copy
+import { gql, request } from "graphql-request";
+
+const storeId = "your-store-id";
+const baseUrl = "https://abacus-psi.vercel.app/graphql";
+```
+
+## Fetch All Products
+
     ```js copy
-    import { gql, request } from "graphql-request";
 
-    const storeId = "your-store-id";
-    const baseUrl = "your base-url";
-    const userId = "your-user-id";
-    const apiKey = "your-api-key";
-
-    // All This will be in your settings page when you logged in to the dashboard
-
-    const PRODUCTS_QUERY = gql`
-        query Products($store_id: uuid!, $user_id: uuid!) {
-            products(
-                where: { store_id: { _eq: $store_id }, user_id: { _eq: $user_id } }
-            ) {
-                id
-                name
-            }
+const PRODUCTS_QUERY = gql` 
+   query GetProducts($storeId: String!) {
+        products(storeId: $storeId) {
+            id
+            title
+            // others
         }
-    `;
+    }`;
 
-    async function fetchProducts(storeId, userId) {
-        const variables = { store_id: storeId, user_id: userId };
+async function fetchProducts(storeId) {
+const variables = { storeId };
 
-        const headers = {
-            "Content-Type": "application/json",
-            apikey: apiKey,
-        };
+    try {
+        const response = await request(baseUrl, PRODUCTS_QUERY, variables);
+        const data = response.products;
+        console.log(data);
 
-        try {
-            const response = await request(baseUrl, PRODUCTS_QUERY, variables, headers);
-            const data = response.products;
-            console.log(data);
-
-            // Example of mapping through products
-            data.forEach((product) => {
-                console.log(`Product ID: ${product.id}, Product Name: ${product.name}`);
-            });
-
-            // Using a single product in JSX
-            const firstProduct = data[0];
-            return (
-                <div>
-                    <h1>First Product</h1>
-                    <p>ID: {firstProduct.id}</p>
-                    <p>Name: {firstProduct.name}</p>
-                </div>
-            );
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
+    } catch (error) {
+        console.error("Error fetching products:", error);
     }
 
-    fetchProducts("your-store-id", "your-user-id");
+}
+
+fetchProducts(storeId);
+
     ```
+
+## Fetch a Single Product
+
+```js copy
+const PRODUCT_QUERY = gql`
+	query GetProduct($storeId: String!, $productId: String!) {
+		product(storeId: $storeId, productId: $productId) {
+			id
+			title
+			description
+            // others
+		}
+	}
+`;
+
+async function fetchProduct(storeId, productId) {
+	const variables = { storeId, productId };
+
+	try {
+		const response = await request(baseUrl, PRODUCT_QUERY, variables);
+		const data = response.product;
+		console.log(data);
+	} catch (error) {
+		console.error("Error fetching product:", error);
+	}
+}
+
+fetchProduct(storeId, "your-product-id");
+```
+
+## Fetch All Categories
+
+```js copy
+const CATEGORIES_QUERY = gql`
+	query GetCategories($storeId: String!) {
+		categories(storeId: $storeId) {
+			id
+			name
+            // others
+		}
+	}
+`;
+
+async function fetchCategories(storeId) {
+	const variables = { storeId };
+
+	try {
+		const response = await request(baseUrl, CATEGORIES_QUERY, variables);
+		const data = response.categories;
+		console.log(data);
+	} catch (error) {
+		console.error("Error fetching categories:", error);
+	}
+}
+
+fetchCategories(storeId);
+```
+
+### Fetch a Single Category
+
+```js copy
+const CATEGORY_QUERY = gql`
+	query GetCategory($storeId: String!, $categoryId: String!) {
+		category(storeId: $storeId, categoryId: $categoryId) {
+			id
+			name
+			description
+            // others
+		}
+	}
+`;
+
+async function fetchCategory(storeId, categoryId) {
+	const variables = { storeId, categoryId };
+
+	try {
+		const response = await request(baseUrl, CATEGORY_QUERY, variables);
+		const data = response.category;
+		console.log(data);
+	} catch (error) {
+		console.error("Error fetching category:", error);
+	}
+}
+
+fetchCategory(storeId, "your-category-id");
+```
+
+### Fetch All Collections
+
+```js copy
+const COLLECTIONS_QUERY = gql`
+	query GetCollections($storeId: String!) {
+		collections(storeId: $storeId) {
+			id
+			name
+            // others
+		}
+	}
+`;
+
+async function fetchCollections(storeId) {
+	const variables = { storeId };
+
+	try {
+		const response = await request(baseUrl, COLLECTIONS_QUERY, variables);
+		const data = response.collections;
+		console.log(data);
+	} catch (error) {
+		console.error("Error fetching collections:", error);
+	}
+}
+
+fetchCollections(storeId);
+```
+
+### Fetch Single Collection
+
+```js copy
+const COLLECTION_QUERY = gql`
+	query GetCollection($storeId: String!, $collectionId: String!) {
+		collection(storeId: $storeId, collectionId: $collectionId) {
+			id
+			name
+			description
+            // others
+		}
+	}
+`;
+
+async function fetchCollection(storeId, collectionId) {
+	const variables = { storeId, collectionId };
+
+	try {
+		const response = await request(baseUrl, COLLECTION_QUERY, variables);
+		const data = response.collection;
+		console.log(data);
+	} catch (error) {
+		console.error("Error fetching collection:", error);
+	}
+}
+
+fetchCollection(storeId, "your-collection-id");
+```
