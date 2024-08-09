@@ -1,8 +1,9 @@
 import "./globals.css";
 import { ToastProvider } from "@/providers/toastProvider";
 import { ModalProvider } from "@/providers/modalProvider";
-import { Inter, Montserrat, Lato } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import QueryProvider from "@/providers/query-provider/tanstack";
+import TopLoader from "@/components/global/top-loader";
 
 // const inter = Inter({
 // 	subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
 			suppressHydrationWarning
 		>
 			<body>
+				<TopLoader />
 				<QueryProvider>
 					<ToastProvider />
 					<ModalProvider />

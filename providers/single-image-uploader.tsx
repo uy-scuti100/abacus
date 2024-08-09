@@ -35,53 +35,62 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
 		return null;
 	}
 	return (
-		<div>
-			<div className="my-4 flex items-center gap-4">
-				{value ? (
-					<div className="relative rounded-md overflow-hidden border border-clr-3 border-dashed ">
-						<div className="z-10 absolute top-2 right-2">
-							<Button
-								type="button"
-								onClick={() => onRemove(value)}
-								variant="destructive"
-								size="sm"
-							>
-								<Trash className="h-4 w-4" />
-							</Button>
-						</div>
-						<Image
-							height={200}
-							width={200}
-							className="object-cover h-[200px] w-[200px] md:h-[140px] md:w-[140px]"
-							alt="Image"
-							src={value}
-						/>
+		<div
+			className={`flex flex-col gap-4 ${
+				value ? "w-fit" : "w-auto max-w-[500px]"
+			}`}
+		>
+			{value ? (
+				<div
+					key={value}
+					className="relative rounded-2xl border border-clr-2 w-auto h-[250px] overflow-hidden"
+				>
+					<div className="z-10 absolute top-2 right-2">
+						<Button
+							type="button"
+							onClick={() => onRemove(value)}
+							variant="destructive"
+							size="sm"
+						>
+							<Trash className="h-4 w-4" />
+						</Button>
 					</div>
-				) : (
-					<div className="flex items-center justify-center py-6 px-8 w-[500px] min-w-[350px] h-[200px] rounded-md border border-clr-3 border-dotted bg-clr-2">
-						<CldUploadWidget onSuccess={onUpload} uploadPreset="yselapnu">
-							{({ open }) => {
-								const onClick = () => {
-									open();
-								};
+					<Image
+						src={value}
+						height={100}
+						width={200}
+						alt={value}
+						className="object-cover"
+						sizes="(max-width: 480px) 100vw,
+                (max-width: 768px) 75vw,
+                (max-width: 1060px) 50vw,
+                33vw"
+					/>
+				</div>
+			) : (
+				<div className="flex items-center justify-center py-6 px-8 w-[500px] min-w-[350px] h-[200px] rounded-lg border-[10px] border-clr-3 border-dotted bg-clr-11">
+					<CldUploadWidget onSuccess={onUpload} uploadPreset="yselapnu">
+						{({ open }) => {
+							const onClick = () => {
+								open();
+							};
 
-								return (
-									<Button
-										type="button"
-										disabled={disabled}
-										variant="secondary"
-										onClick={onClick}
-										className="flex items-center justify-center h-full w-full py-6 px-8 bg-clr-2 hover:bg-clr-2"
-									>
-										<Plus className="h-4 w-4 mr-2" />
-										Upload an image
-									</Button>
-								);
-							}}
-						</CldUploadWidget>
-					</div>
-				)}
-			</div>
+							return (
+								<Button
+									type="button"
+									disabled={disabled}
+									variant="secondary"
+									onClick={onClick}
+									className="flex items-center justify-center h-full rounded-lg w-full py-6 bg-transparent hover:bg-transparent text-white"
+								>
+									<Plus className="h-4 w-4 mr-2" />
+									Upload an image
+								</Button>
+							);
+						}}
+					</CldUploadWidget>
+				</div>
+			)}
 		</div>
 	);
 };

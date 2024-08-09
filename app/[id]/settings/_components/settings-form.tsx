@@ -142,10 +142,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 			setIsOpen(false);
 		}
 	};
-	const onCopy = () => {
-		if (apiKey) {
-			navigator.clipboard.writeText(apiKey);
-			toast.success("API key copied.");
+	const onCopy = (data: string) => {
+		if (data) {
+			navigator.clipboard.writeText(data);
+			toast.success("Copied Sucessfully.");
 		}
 	};
 	return (
@@ -243,7 +243,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 							</Badge>
 						</div>
 					</AlertTitle>
-					<Button variant="outline" size="icon" onClick={onCopy}>
+					<Button
+						variant="outline"
+						size="icon"
+						onClick={() => onCopy(apiKey as string)}
+					>
 						<Copy className="h-4 w-4" />
 					</Button>
 				</div>
@@ -263,7 +267,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 							</Badge>
 						</div>
 					</AlertTitle>
-					<Button variant="outline" size="icon" onClick={onCopy}>
+					<Button
+						variant="outline"
+						size="icon"
+						onClick={() => onCopy(vendorId as string)}
+					>
 						<Copy className="h-4 w-4" />
 					</Button>
 				</div>
@@ -283,7 +291,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 							</Badge>
 						</div>
 					</AlertTitle>
-					<Button variant="outline" size="icon" onClick={onCopy}>
+					<Button
+						variant="outline"
+						size="icon"
+						onClick={() => onCopy(storeId as string)}
+					>
 						<Copy className="h-4 w-4" />
 					</Button>
 				</div>

@@ -1,13 +1,10 @@
-interface KeyValuePair {
-	key: string;
-	value: string;
-}
-interface Variant {
-	variantId: string;
-	name: string;
-	price: number;
-	inventory?: number;
-}
+// export type Json =
+// 	| string
+// 	| number
+// 	| boolean
+// 	| null
+// 	| Json[]
+// 	| { [key: string]: Json };
 
 export interface Customers {
 	address: string | null;

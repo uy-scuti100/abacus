@@ -1518,3 +1518,229 @@ export function CheckboxReactHookFormMultiple() {
 // 	created_at: string;
 // 	slug: string | null;
 // }
+
+
+
+
+
+
+
+
+
+// app/api/graphql.ts
+import { Category, Collection, Product } from "../../../types";
+import { ApolloServer, gql } from "apollo-server-micro";
+const Cors = require("micro-cors");
+import { RequestHandler } from "micro";
+// Define CORS options
+const corsOptions = {
+	origin: "*", // Replace with your client’s URL or '*'
+	allowMethods: ["GET"],
+	allowHeaders: ["Content-Type"],
+	allowCredentials: true,
+};
+
+// Create CORS middleware
+const cors = Cors(corsOptions);
+
+const typeDefs = gql`
+  type Media = {
+    url: String
+  }
+
+  type VariantValue ={
+    label: String
+    value: String
+  }
+
+  type Variant= {
+    title: String
+    values: [VariantValue]
+  }
+
+  type AdditionalInformation = {
+    title: String
+    description: String
+  }
+
+ type Product = {
+    id: String
+    created_at: String
+    vendor_id: String
+    store_id: String
+    title: String
+    status: String
+    media: [String]
+    type: String
+    brand: String
+    price: GLfloat
+    on_sale: Boolean
+    cost_of_good: GLfloat
+    inventory: String
+    sku: String
+    description: String
+    additional_information: [AdditionalInformation]
+    variants: [Variant]
+    collection_id: String
+    category_id: [String]
+    ribbon: String
+    slug: String
+  }
+
+  type Category = {
+    id: String
+    created_at: String
+    store_id: String
+    name: String
+    description: String
+    avatar: String
+    vendor_id: String
+    product_count: Number
+    slug: String
+    tags: [String]
+  }
+
+  type Collection = {
+    id: String
+    created_at: String
+    store_id: String
+    name: String
+    description: String
+    avatar: String
+    vendor_id: String
+    product_count: Number
+    slug: String
+    tags: [String]
+  }
+	type Query = {
+		products(storeId: String!): [Product]
+		categories(storeId: String!): [Category]
+		collections(storeId: String!): [Collection]
+		product(storeId: String!, productId: String!): Product
+		category(storeId: String!, categoryId: String!): Category
+		collection(storeId: String!, collectionId: String!): Collection
+	}
+`;
+
+const resolvers = {
+	Query: {
+		products: async (
+			_: any,
+			{ storeId }: { storeId: string }
+		): Promise<Product[]> => {
+			const response = await fetch(`/api/${storeId}/products`);
+			const products = await response.json();
+			return products.map((product: any) => ({
+				...product,
+				additional_information: product.additional_information
+					? JSON.parse(product.additional_information)
+					: null,
+				variants: product.variants ? JSON.parse(product.variants) : null,
+			}));
+		},
+
+		categories: async (
+			_: any,
+			{ storeId }: { storeId: string }
+		): Promise<Category[]> => {
+			const response = await fetch(`/api/${storeId}/categories`);
+			return response.json();
+		},
+
+		collections: async (
+			_: any,
+			{ storeId }: { storeId: string }
+		): Promise<Collection[]> => {
+			const response = await fetch(`/api/${storeId}/collections`);
+			return response.json();
+		},
+
+		// Fetch a single product by its ID
+		product: async (
+			_: any,
+			{ storeId, productId }: { storeId: string; productId: string }
+		): Promise<Product> => {
+			const response = await fetch(
+				`http://localhost:3000/api/${storeId}/products/${productId}`
+			);
+			const product = await response.json();
+			return {
+				...product,
+				additional_information: product.additional_information
+					? JSON.parse(product.additional_information)
+					: null,
+				variants: product.variants ? JSON.parse(product.variants) : null,
+			};
+		},
+
+		// Fetch a single category by its ID
+		category: async (
+			_: any,
+			{ storeId, categoryId }: { storeId: string; categoryId: string }
+		): Promise<Category> => {
+			const response = await fetch(
+				`http://localhost:3000/api/${storeId}/categories/${categoryId}`
+			);
+			return response.json();
+		},
+
+		// Fetch a single collection by its ID
+		collection: async (
+			_: any,
+			{ storeId, collectionId }: { storeId: string; collectionId: string }
+		): Promise<Collection> => {
+			const response = await fetch(
+				`http://localhost:3000/api/${storeId}/collections/${collectionId}`
+			);
+			return response.json();
+		},
+	},
+};
+
+const apolloServer = new ApolloServer({ typeDefs, resolvers });
+
+// Create the GraphQL handler
+const graphqlHandler: RequestHandler = apolloServer.createHandler({
+	path: "/api/graphql",
+});
+
+// Apply CORS to the GraphQL handler
+const corsEnabledHandler: RequestHandler = cors(graphqlHandler);
+
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
+export default corsEnabledHandler;
+
+// test
+// query {
+//     products(storeId: "57a4c8be-5547-42d1-bb43-ffc4e233108e") {
+//       id
+//       title
+//       price
+//       media
+//       additional_information {
+//         title
+//         description
+//       }
+//       variants {
+//         title
+//         values {
+//           label
+//           value
+//         }
+//       }
+//     }
+//     categories(storeId: "30f87f20-5997-4923-a2d4-d54a98c47372") {
+//       id
+//       name
+//       avatar
+//     }
+//     collections(storeId: "30f87f20-5997-4923-a2d4-d54a98c47372") {
+//       id
+//       name
+//       avatar
+//     }
+//   }

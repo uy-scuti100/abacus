@@ -218,13 +218,14 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="flex flex-col w-auto"
+					// className="flex flex-col w-auto"
+					className="w-full space-y-4 mt-3 sm:px-4"
 				>
 					<FormField
 						control={form.control}
 						name="avatar"
 						render={({ field }) => (
-							<FormItem className="my-5">
+							<FormItem className="my-3">
 								<FormControl>
 									<SingleImageUpload
 										value={field.value}
@@ -241,7 +242,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 							control={form.control}
 							name="name"
 							render={({ field }) => (
-								<FormItem className="mb-5">
+								<FormItem className="mb-3">
 									<FormLabel>Collection Name</FormLabel>
 									<FormControl>
 										<Input
@@ -258,7 +259,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 							control={form.control}
 							name="description"
 							render={({ field }) => (
-								<FormItem className="mb-6">
+								<FormItem className="mb-3">
 									<FormLabel className="flex items-center gap-2">
 										Description <Badge variant={"custom"}>Optional</Badge>
 									</FormLabel>
@@ -273,14 +274,14 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 								</FormItem>
 							)}
 						/>
-						<div className="mb-6">
+						<div className="mb-3">
 							<FormLabel className="flex items-center gap-2 mb-3">
 								Tags <Badge variant={"custom"}>Optional</Badge>
 							</FormLabel>
 							<TagsInput tags={tags} setTags={setTags} />
 						</div>
 					</div>
-					<Button disabled={isLoading} className="sm:mr-auto" type="submit">
+					<Button disabled={isLoading} className="sm:ml-auto" type="submit">
 						{action}
 					</Button>
 				</form>

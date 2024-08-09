@@ -62,6 +62,7 @@ const modules = {
 			"strike",
 			"underline",
 			"italic",
+			"image",
 			"bold",
 		],
 	],
@@ -76,6 +77,7 @@ const formats = [
 	"list",
 	"bullet",
 	"indent",
+	"image",
 ];
 
 const ProductFormDataSchema = z.object({

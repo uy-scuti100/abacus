@@ -213,13 +213,13 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="flex flex-col w-auto"
+					className="flex flex-col w-full"
 				>
 					<FormField
 						control={form.control}
 						name="avatar"
 						render={({ field }) => (
-							<FormItem className="my-5">
+							<FormItem className="my-2">
 								<FormControl>
 									<SingleImageUpload
 										value={field.value}
@@ -231,12 +231,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							</FormItem>
 						)}
 					/>
-					<div className="">
+					<div>
 						<FormField
 							control={form.control}
 							name="name"
 							render={({ field }) => (
-								<FormItem className="mb-5">
+								<FormItem className="mb-3">
 									<FormLabel>Category Name</FormLabel>
 									<FormControl>
 										<Input
@@ -253,7 +253,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							control={form.control}
 							name="description"
 							render={({ field }) => (
-								<FormItem className="mb-6">
+								<FormItem className="mb-3">
 									<FormLabel className="flex items-center gap-2">
 										Description <Badge variant={"custom"}>Optional</Badge>
 									</FormLabel>
@@ -269,7 +269,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							)}
 						/>
 					</div>
-					<div className="mb-6">
+					<div className="mb-3">
 						<FormLabel className="flex items-center gap-2 mb-3">
 							Tags <Badge variant={"custom"}>Optional</Badge>
 						</FormLabel>
