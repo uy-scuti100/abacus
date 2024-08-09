@@ -8,7 +8,7 @@ export default function TopLoader() {
 				color="#0b62ef"
 				initialPosition={0.15}
 				crawlSpeed={200}
-				height={5}
+				height={8}
 				crawl={true}
 				showSpinner={false}
 				easing="ease"

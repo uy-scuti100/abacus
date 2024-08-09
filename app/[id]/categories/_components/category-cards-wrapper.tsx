@@ -53,7 +53,7 @@ export default function CategoryCardsWrapper({
 												"linear-gradient(180deg, rgba(0, 0, 0, 0.00) 10%, rgba(0, 0, 0, .6) 100%)",
 										}}
 									></div>
-									<p className="absolute p-2 text-xs font-semibold tracking-widest text-black uppercase bg-white left-5 font-mont bottom-5 sm:bottom-10 rounded-full text-balance">
+									<p className="absolute p-2 text-xs font-semibold tracking-widest text-black uppercase bg-white left-5 font-mont bottom-5 sm:bottom-10 rounded-full text-balance text-center">
 										{name}
 									</p>
 									<Badge

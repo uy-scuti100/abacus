@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 // local imports
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { columns } from "./columns";
 
@@ -17,6 +17,7 @@ import { Category, Collection } from "@/types";
 import Skeleton from "@/components/global/skeleton";
 import Note from "@/components/global/note";
 import CollectionCardsWrapper from "./collection-cards-wrapper";
+import { cn } from "@/lib/utils";
 
 interface CategoryClientProps {
 	storeId: string;
@@ -43,13 +44,19 @@ const CollectionClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 
 	return (
 		<>
-			<div className="flex items-center justify-between">
+			<div className="flex gap-5 items-center justify-between">
 				<Heading
 					title={`Collections (${collections?.length || 0})`}
 					description="Group products into collections to enhance customer shopping experience and boost sales."
 				/>
 
-				<Button onClick={() => router.push(`/${storeId}/collections/new`)}>
+				<Button
+					className={cn(
+						buttonVariants({ variant: "default" }),
+						"rounded-full py-6 px-4 "
+					)}
+					onClick={() => router.push(`/${storeId}/collections/new`)}
+				>
 					<Plus className="sm:mr-2 h-4 w-4" />
 					<span className="hidden sm:block">New</span>
 				</Button>

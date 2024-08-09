@@ -22,12 +22,17 @@ import {
 	HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
-import { Edit, Trash, Trash2, X } from "lucide-react";
+import { Edit, Sparkles, Trash, Trash2, X } from "lucide-react";
 import Heading from "@/providers/heading";
 
 import {
@@ -52,18 +57,17 @@ import { cn, generateSlug } from "@/lib/utils";
 const modules = {
 	toolbar: [
 		[
-			{ header: "1" },
 			{ header: "2" },
+			"bold",
+			"italic",
+			"underline",
+			"clean",
+			{ color: ["#E63946", "#1D3557", "blue", "#F4A261", "#E5E5E5"] },
 			{ list: "ordered" },
 			{ list: "bullet" },
-			{ indent: "-1" },
 			{ indent: "+1" },
-			"blockquote",
-			"strike",
-			"underline",
-			"italic",
+			"link",
 			"image",
-			"bold",
 		],
 	],
 };
@@ -71,13 +75,15 @@ const modules = {
 const formats = [
 	"bold",
 	"italic",
+	"clean",
 	"underline",
-	"strike",
-	"blockquote",
+	"link",
 	"list",
 	"bullet",
 	"indent",
 	"image",
+	"color",
+	"header",
 ];
 
 const ProductFormDataSchema = z.object({
@@ -132,6 +138,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const title = initialData ? "Edit product" : "Add product";
 	const description = initialData ? "Edit a product." : "Create a new product";
 	const action = initialData ? "Save changes" : "Create product";
+	const loadingText = "creating product...";
 	const params = useParams();
 	const router = useRouter();
 	const defaultValues = initialData
@@ -242,15 +249,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			}
 		} catch (error: any) {
 			console.error("An error occurred:", error.message);
-		} finally {
-			setIsLoading(false);
 		}
 	};
 
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			// setIsRefreshing(true);
 			const supabase = createSupabaseBrowser();
 			const { error } = await supabase
 				.from("products")
@@ -526,7 +530,20 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 									name="description"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Description</FormLabel>
+											<div className="flex justify-between items-center py-2">
+												<FormLabel>Description</FormLabel>
+												<div
+													onClick={() =>
+														window.alert(
+															"👋 Hey, feature coming soon... stay tuned 😎!"
+														)
+													}
+													className="cursor-pointer flex items-center bg-cyan-200 rounded-full px-2 py-1"
+												>
+													<Sparkles size={16} className="mr-2" />{" "}
+													<span className="text-sm"> Generate AI Text</span>
+												</div>
+											</div>
 											<FormControl>
 												<>
 													<ReactQuill
@@ -576,14 +593,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent>
-													{collections?.map((collection) => (
-														<SelectItem
-															key={collection.id}
-															value={collection.id}
-														>
-															{collection.name}
-														</SelectItem>
-													))}
+													{collections
+														?.sort((a, b) => a.name.localeCompare(b.name))
+														.map((collection) => (
+															<SelectItem
+																key={collection.id}
+																value={collection.id}
+																className="capitalize"
+															>
+																{collection.name}
+															</SelectItem>
+														))}
+
 													<Link
 														href={`/${storeId}/collections/new`}
 														className="p-1 text-xs font-semibold rounded-full text-balance ml-5 bg-primary text-white"
@@ -602,26 +623,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 									<FormLabel className="md:hidden">Categories</FormLabel>
 									{selectedCategories.length > 0 && (
 										<ul className="flex items-center my-2 gap-y-4 gap-x-2 sm:hidden flex-wrap">
-											{selectedCategories.map((name, index) => {
-												const categoryId = categories?.find(
-													(category) => category.name === name
-												)?.id;
-												return (
-													<div key={index} className="relative">
-														<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap capitalize">
-															{name}
-														</Badge>
-														<div
-															className="p-1 absolute right-[-2px] top-[-10px] flex justify-center items-center cursor-pointer bg-destructive rounded-full"
-															onClick={() =>
-																categoryId && onRemoveCategory(categoryId)
-															}
-														>
-															<X className="w-3 h-3 text-white" />
+											{selectedCategories
+												.slice() // create a shallow copy to avoid mutating the original array
+												.sort((a, b) => a.localeCompare(b))
+												.map((name, index) => {
+													const categoryId = categories?.find(
+														(category) => category.name === name
+													)?.id;
+													return (
+														<div key={index} className="relative">
+															<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap capitalize">
+																{name}
+															</Badge>
+															<div
+																className="p-1 absolute right-[-2px] top-[-10px] flex justify-center items-center cursor-pointer bg-destructive rounded-full"
+																onClick={() =>
+																	categoryId && onRemoveCategory(categoryId)
+																}
+															>
+																<X className="w-3 h-3 text-white" />
+															</div>
 														</div>
-													</div>
-												);
-											})}
+													);
+												})}
 										</ul>
 									)}
 
@@ -635,8 +659,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 												: "Select categories"}
 										</Button>
 									</DrawerTrigger>
-									<DrawerContent>
-										<div className="px-5 w-full max-w-sm py-5">
+									<DrawerContent className="pb-10">
+										<DrawerClose>
+											<div className="absolute top-8 right-4">
+												<Button
+													variant={"secondary"}
+													className="rounded-full py-6 px-4"
+												>
+													<X className="sm:mr-2 h-4 w-4" />
+													<span className="hidden sm:block">close</span>
+												</Button>
+											</div>
+										</DrawerClose>
+										<div className="px-5 w-full max-w-sm">
 											<FormField
 												control={form.control}
 												name="categoryId"
@@ -685,14 +720,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 																/>
 															))}
 														</div>
-														<Link
-															href={`/${storeId}/categories/new`}
-															className={`${cn(
-																buttonVariants({ variant: "secondary" })
-															)}py-2 px-6 text-xs font-semibold rounded-full text-balance`}
-														>
-															Create a new category
-														</Link>
+														<div className="flex justify-end absolute right-4 bottom-4">
+															<Link
+																href={`/${storeId}/categories/new`}
+																className={`${cn(
+																	buttonVariants({ variant: "outline" })
+																)}py-2 px-6 text-xs font-semibold rounded-full text-balance`}
+															>
+																Create a new category
+															</Link>
+														</div>
 														<FormMessage />
 													</FormItem>
 												)}
@@ -714,6 +751,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 												<Input
 													type="number"
 													disabled={loading}
+													min={1}
 													placeholder="9.99"
 													{...field}
 													onChange={(e) => {
@@ -776,7 +814,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 									<div className="h-12 flex items-center  justify-between px-2 rounded-lg border border-input">
 										<div className="flex items-center gap-4">
 											<span className="font-bold ">Profit: </span>
-											<span>{profit.toFixed(2)}</span>
+											<span>{Math.round(profit)}</span>
 										</div>
 										<div>
 											<HoverCard>
@@ -795,7 +833,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 									<div className="h-12 flex items-center  justify-between px-2 rounded-lg border border-input">
 										<div className="flex items-center gap-4">
 											<span className="font-bold">Margin: </span>
-											<span>{margin.toFixed(2)}%</span>
+											<span>{Math.round(margin)}%</span>{" "}
 										</div>
 										<div>
 											<HoverCard>
@@ -1179,9 +1217,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 														</div>
 														<div className="flex items-center gap-4">
 															"Red"
-															<p>"#FF0000"</p>
+															<p>"#E63946"</p>
 															<div
-																style={{ backgroundColor: "#FF0000" }}
+																style={{ backgroundColor: "#E63946" }}
 																className="h-5 w-12 rounded-lg"
 															></div>
 														</div>
@@ -1579,11 +1617,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 						</div>
 					</div>
 					<Button
-						disabled={loading}
-						className="mr-auto w-full sm:w-auto"
+						disabled={isLoading}
+						className={`mr-auto w-full sm:w-auto disabled:bg-blue-500 duration-700 ${
+							isLoading ? "animate-bounce" : ""
+						}`}
 						type="submit"
 					>
-						{action}
+						{isLoading ? loadingText : action}
 					</Button>
 				</form>
 			</Form>

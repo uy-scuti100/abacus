@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 // local imports
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { columns } from "./columns";
 
@@ -16,6 +16,7 @@ import useFetchData from "@/hooks/useFetchCategories";
 import { Product } from "@/types";
 import Skeleton from "@/components/global/skeleton";
 import Note from "@/components/global/note";
+import { cn } from "@/lib/utils";
 
 interface ProductClientProps {
 	storeId: string;
@@ -48,8 +49,15 @@ const ProductClient: React.FC<ProductClientProps> = ({ storeId }) => {
 					description="Products available in your store."
 				/>
 
-				<Button onClick={() => router.push(`/${storeId}/products/new`)}>
+				<Button
+					className={cn(
+						buttonVariants({ variant: "default" }),
+						"rounded-full py-6 px-4 "
+					)}
+					onClick={() => router.push(`/${storeId}/products/new`)}
+				>
 					<Plus className="sm:mr-2 h-4 w-4" />
+
 					<span className="hidden sm:block">New</span>
 				</Button>
 			</div>
