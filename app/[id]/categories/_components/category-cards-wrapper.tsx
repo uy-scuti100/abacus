@@ -24,7 +24,12 @@ export default function CategoryCardsWrapper({
 								<Link
 									href={{
 										pathname: `/${storeId}/category-products`,
-										query: { categoryId: categoryId },
+										query: {
+											categoryId: categoryId,
+											categoryName: name,
+											categoryAvatar: avatar,
+											categoryProductCount: product_count,
+										},
 									}}
 									key={categoryId}
 									className="relative rounded-2xl border border-clr-2 w-full h-[250px] group overflow-hidden"

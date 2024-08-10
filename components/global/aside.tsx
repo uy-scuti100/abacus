@@ -1,7 +1,9 @@
 "use client";
 import {
+	BookDashed,
 	Boxes,
 	CircleHelp,
+	EyeIcon,
 	MessageSquare,
 	Package,
 	ReceiptText,
@@ -21,11 +23,21 @@ export default function Aside() {
 	const pathname = usePathname();
 	const params = useParams();
 	const id = params?.id;
-	if (pathname === "/store" || pathname === "/") {
+	if (
+		pathname === "/store" ||
+		pathname === "/" ||
+		pathname === "/login" ||
+		pathname?.includes("/store-visualizer")
+	) {
 		return null;
 	}
 
 	const links = [
+		{
+			href: `/${id}`,
+			icon: <BookDashed className="w-5 h-5 " />,
+			label: "Dashboard",
+		},
 		{
 			href: `/${id}/products`,
 			icon: <Tag className="w-5 h-5 " />,
@@ -62,6 +74,11 @@ export default function Aside() {
 			label: "Coupons",
 		},
 		{
+			href: `/${id}/store-visualizer`,
+			icon: <EyeIcon className="w-5 h-5 " />,
+			label: "Visualizer",
+		},
+		{
 			href: `/${id}/chat`,
 			icon: <MessageSquare className="w-5 h-5 " />,
 			label: "Chat",
@@ -71,11 +88,11 @@ export default function Aside() {
 			icon: <CircleHelp className="w-5 h-5 " />,
 			label: "BIR",
 		},
-		{
-			href: `/${id}/automations`,
-			icon: <Workflow className="w-5 h-5 " />,
-			label: "Automations",
-		},
+		// {
+		// 	href: `/${id}/automations`,
+		// 	icon: <Workflow className="w-5 h-5 " />,
+		// 	label: "Automations",
+		// },
 		{
 			href: `/${id}/settings`,
 			icon: <Settings className="w-5 h-5 " />,
@@ -118,7 +135,7 @@ export default function Aside() {
 						</div>
 						<Separator orientation="horizontal" />
 						<div className="grid gap-4 font-medium">
-							{links.slice(4, -3).map(({ href, icon, label }) => (
+							{links.slice(4, -4).map(({ href, icon, label }) => (
 								<Link
 									href={href}
 									key={href}

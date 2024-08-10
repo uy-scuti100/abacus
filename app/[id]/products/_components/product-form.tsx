@@ -138,12 +138,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 	const title = initialData ? "Edit product" : "Add product";
 	const description = initialData ? "Edit a product." : "Create a new product";
 	const action = initialData ? "Save changes" : "Create product";
-	const loadingText = "creating product...";
+	const loadingText = initialData
+		? "Updating product..."
+		: "Creating product...";
 	const params = useParams();
 	const router = useRouter();
 	const defaultValues = initialData
 		? {
 				...initialData,
+				inventory: "",
+				sku: "",
 				media: initialData.media || [],
 				categoryId: initialData.category_id || [],
 				collectionId: initialData.collection_id || "",
@@ -623,29 +627,26 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 									<FormLabel className="md:hidden">Categories</FormLabel>
 									{selectedCategories.length > 0 && (
 										<ul className="flex items-center my-2 gap-y-4 gap-x-2 sm:hidden flex-wrap">
-											{selectedCategories
-												.slice() // create a shallow copy to avoid mutating the original array
-												.sort((a, b) => a.localeCompare(b))
-												.map((name, index) => {
-													const categoryId = categories?.find(
-														(category) => category.name === name
-													)?.id;
-													return (
-														<div key={index} className="relative">
-															<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap capitalize">
-																{name}
-															</Badge>
-															<div
-																className="p-1 absolute right-[-2px] top-[-10px] flex justify-center items-center cursor-pointer bg-destructive rounded-full"
-																onClick={() =>
-																	categoryId && onRemoveCategory(categoryId)
-																}
-															>
-																<X className="w-3 h-3 text-white" />
-															</div>
+											{selectedCategories.map((name, index) => {
+												const categoryId = categories?.find(
+													(category) => category.name === name
+												)?.id;
+												return (
+													<div key={index} className="relative">
+														<Badge className="text-sm hover:bg-primary px-6 whitespace-nowrap capitalize">
+															{name}
+														</Badge>
+														<div
+															className="p-1 absolute right-[-2px] top-[-10px] flex justify-center items-center cursor-pointer bg-destructive rounded-full"
+															onClick={() =>
+																categoryId && onRemoveCategory(categoryId)
+															}
+														>
+															<X className="w-3 h-3 text-white" />
 														</div>
-													);
-												})}
+													</div>
+												);
+											})}
 										</ul>
 									)}
 
@@ -683,42 +684,45 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 															</FormLabel>
 														</div>
 														<div className="flex flex-col gap-6 pb-6">
-															{categories?.map((item) => (
-																<FormField
-																	key={item.id}
-																	control={form.control}
-																	name="categoryId"
-																	render={({ field }) => (
-																		<FormItem
-																			key={item.id}
-																			className="flex flex-row items-start space-x-3 space-y-0"
-																		>
-																			<FormControl>
-																				<Checkbox
-																					checked={field.value?.includes(
-																						item.id
-																					)}
-																					onCheckedChange={(checked) => {
-																						return checked
-																							? field.onChange([
-																									...field.value,
-																									item.id,
-																							  ])
-																							: field.onChange(
-																									field.value?.filter(
-																										(value) => value !== item.id
-																									)
-																							  );
-																					}}
-																				/>
-																			</FormControl>
-																			<FormLabel className="font-normal">
-																				{item.name}
-																			</FormLabel>
-																		</FormItem>
-																	)}
-																/>
-															))}
+															{categories
+																?.sort((a, b) => a.name.localeCompare(b.name))
+																.map((item) => (
+																	<FormField
+																		key={item.id}
+																		control={form.control}
+																		name="categoryId"
+																		render={({ field }) => (
+																			<FormItem
+																				key={item.id}
+																				className="flex flex-row items-start space-x-3 space-y-0"
+																			>
+																				<FormControl>
+																					<Checkbox
+																						checked={field.value?.includes(
+																							item.id
+																						)}
+																						onCheckedChange={(checked) => {
+																							return checked
+																								? field.onChange([
+																										...field.value,
+																										item.id,
+																								  ])
+																								: field.onChange(
+																										field.value?.filter(
+																											(value) =>
+																												value !== item.id
+																										)
+																								  );
+																						}}
+																					/>
+																				</FormControl>
+																				<FormLabel className="font-normal">
+																					{item.name}
+																				</FormLabel>
+																			</FormItem>
+																		)}
+																	/>
+																))}
 														</div>
 														<div className="flex justify-end absolute right-4 bottom-4">
 															<Link
@@ -1121,7 +1125,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 							<div className="flex flex-col gap-4 bg-white p-2 pb-6 rounded-lg mt-6">
 								<div>
-									<FormLabel>Additional Info Section</FormLabel>{" "}
+									<FormLabel>Additional Info</FormLabel>{" "}
 									<span>
 										<Badge className="ml-2" variant={"custom"}>
 											Optional
@@ -1299,42 +1303,44 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 												<FormLabel className="text-base">Category</FormLabel>
 											</div>
 											<div className="flex flex-col gap-6 pb-4">
-												{categories?.map((item) => (
-													<FormField
-														key={item.id}
-														control={form.control}
-														name="categoryId"
-														render={({ field }) => {
-															return (
-																<FormItem
-																	key={item.id}
-																	className="flex flex-row items-start space-x-3 space-y-0"
-																>
-																	<FormControl>
-																		<Checkbox
-																			checked={field.value?.includes(item.id)}
-																			onCheckedChange={(checked) => {
-																				return checked
-																					? field.onChange([
-																							...field.value,
-																							item.id,
-																					  ])
-																					: field.onChange(
-																							field.value?.filter(
-																								(value) => value !== item.id
-																							)
-																					  );
-																			}}
-																		/>
-																	</FormControl>
-																	<FormLabel className="font-normal">
-																		{item.name}
-																	</FormLabel>
-																</FormItem>
-															);
-														}}
-													/>
-												))}
+												{categories
+													?.sort((a, b) => a.name.localeCompare(b.name))
+													.map((item) => (
+														<FormField
+															key={item.id}
+															control={form.control}
+															name="categoryId"
+															render={({ field }) => {
+																return (
+																	<FormItem
+																		key={item.id}
+																		className="flex flex-row items-start space-x-3 space-y-0"
+																	>
+																		<FormControl>
+																			<Checkbox
+																				checked={field.value?.includes(item.id)}
+																				onCheckedChange={(checked) => {
+																					return checked
+																						? field.onChange([
+																								...field.value,
+																								item.id,
+																						  ])
+																						: field.onChange(
+																								field.value?.filter(
+																									(value) => value !== item.id
+																								)
+																						  );
+																				}}
+																			/>
+																		</FormControl>
+																		<FormLabel className="font-normal">
+																			{item.name}
+																		</FormLabel>
+																	</FormItem>
+																);
+															}}
+														/>
+													))}
 											</div>
 											<Link
 												href={`/${storeId}/categories/new`}

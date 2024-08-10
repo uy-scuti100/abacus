@@ -12,8 +12,10 @@ import {
 import { Input } from "@/components/ui/input";
 import {
 	BellIcon,
+	BookDashed,
 	Boxes,
 	CircleHelp,
+	EyeIcon,
 	Loader,
 	Menu,
 	MessageSquare,
@@ -81,11 +83,21 @@ export default function Header() {
 	}, [open]);
 
 	// Early return should be after all hooks
-	if (pathname === "/store" || pathname === "/") {
+	if (
+		pathname === "/store" ||
+		pathname === "/" ||
+		pathname === "/login" ||
+		pathname?.includes("/store-visualizer")
+	) {
 		return null;
 	}
 
 	const links = [
+		{
+			href: `/${id}`,
+			icon: <BookDashed className="w-5 h-5 " />,
+			label: "Dashboard",
+		},
 		{
 			href: `/${id}/products`,
 			icon: <Tag className="w-5 h-5 " />,
@@ -122,6 +134,11 @@ export default function Header() {
 			label: "Coupons",
 		},
 		{
+			href: `/${id}/store-visualizer`,
+			icon: <EyeIcon className="w-5 h-5 " />,
+			label: "Visualizer",
+		},
+		{
 			href: `/${id}/chat`,
 			icon: <MessageSquare className="w-5 h-5 " />,
 			label: "Chat",
@@ -131,11 +148,11 @@ export default function Header() {
 			icon: <CircleHelp className="w-5 h-5 " />,
 			label: "Stock Request",
 		},
-		{
-			href: `/${id}/automations`,
-			icon: <Workflow className="w-5 h-5 " />,
-			label: "Automations",
-		},
+		// {
+		// 	href: `/${id}/automations`,
+		// 	icon: <Workflow className="w-5 h-5 " />,
+		// 	label: "Automations",
+		// },
 		{
 			href: `/${id}/settings`,
 			icon: <Settings className="w-5 h-5 " />,

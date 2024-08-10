@@ -29,7 +29,12 @@ export default function CollectionCardsWrapper({
 								<Link
 									href={{
 										pathname: `/${storeId}/collection-products`,
-										query: { collectionId: collectionId },
+										query: {
+											collectionId: collectionId,
+											collectionName: name,
+											collectionAvatar: avatar,
+											collectionProductCount: product_count,
+										},
 									}}
 									key={collectionId}
 									className="relative rounded-2xl border border-clr-2 w-full h-[250px] group overflow-hidden"

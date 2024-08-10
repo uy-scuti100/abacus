@@ -74,7 +74,7 @@ import {
 
 export function Dashboard() {
 	return (
-		<div className="flex flex-col w-full min-h-screen">
+		<div className="flex flex-col w-full min-h-screen ">
 			<div className="flex flex-col sm:gap-4 sm:py-4 ">
 				<main className="grid items-start flex-1 gap-4   sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
 					<div className="grid items-start gap-4 auto-rows-max md:gap-8 lg:col-span-2">

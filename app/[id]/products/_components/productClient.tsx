@@ -17,6 +17,7 @@ import { Product } from "@/types";
 import Skeleton from "@/components/global/skeleton";
 import Note from "@/components/global/note";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface ProductClientProps {
 	storeId: string;
@@ -49,17 +50,18 @@ const ProductClient: React.FC<ProductClientProps> = ({ storeId }) => {
 					description="Products available in your store."
 				/>
 
-				<Button
+				<Link
+					href={`/${storeId}/products/new`}
 					className={cn(
 						buttonVariants({ variant: "default" }),
 						"rounded-full py-6 px-4 "
 					)}
-					onClick={() => router.push(`/${storeId}/products/new`)}
+					// onClick={() => router.push(`/${storeId}/products/new`)}
 				>
 					<Plus className="sm:mr-2 h-4 w-4" />
 
 					<span className="hidden sm:block">New</span>
-				</Button>
+				</Link>
 			</div>
 			<Separator />
 			<DataTable

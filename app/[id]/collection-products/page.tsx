@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { createSupabaseServer } from "@/supabase/server";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Page({
 	params,
@@ -11,9 +12,22 @@ export default async function Page({
 	params: { id: string };
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
+	const supabase = createSupabaseServer();
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	if (!user) {
+		redirect("/login");
+	}
 	const storeId = params.id;
 	const collectionId = searchParams.collectionId as string | undefined;
-	const supabase = createSupabaseServer();
+	const collectionName = searchParams.collectionName as string | undefined;
+	const collectionAvatar = searchParams.collectionAvatar as string | undefined;
+	const collectionProductCount = searchParams.collectionProductCount as
+		| string
+		| undefined;
 
 	if (storeId && collectionId) {
 		const { data: products, error } = await supabase
@@ -35,8 +49,8 @@ export default async function Page({
 					{products.map((product) => (
 						<div key={product.id}>
 							<h2>{product.title}</h2>
-							<p>{product.description}</p>
-							<p>Price: {product.price}</p>
+							{/* <p>{product.description}</p> */}
+							{/* <p>Price: {product.price}</p> */}
 							{/* Add more product details as needed */}
 						</div>
 					))}

@@ -13,7 +13,7 @@ export default async function page({
 		.eq("id", params.categoryId)
 		.single();
 	return (
-		<div>
+		<div className="p-3">
 			<CategoryForm initialData={category} />
 		</div>
 	);

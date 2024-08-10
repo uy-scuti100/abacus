@@ -1,9 +1,12 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import useFetchData from "@/hooks/useFetchCategories";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { createSupabaseServer } from "@/supabase/server";
-import { Product } from "@/types";
+import { Edit } from "lucide-react";
+import Image from "next/image";
+
 import Link from "next/link";
+import CategoryProductcard from "./components/category-product-card";
+import { redirect } from "next/navigation";
 
 export default async function Page({
 	params,
@@ -12,9 +15,20 @@ export default async function Page({
 	params: { id: string };
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
+	const supabase = createSupabaseServer();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	if (!user) {
+		redirect("/login");
+	}
 	const storeId = params.id;
 	const categoryId = searchParams.categoryId as string | undefined;
-	const supabase = createSupabaseServer();
+	const categoryName = searchParams.categoryName as string | undefined;
+	const categoryAvatar = searchParams.categoryAvatar as string | undefined;
+	const categoryProductCount = searchParams.categoryProductCount as
+		| string
+		| undefined;
 
 	if (storeId && categoryId) {
 		const { data: products, error } = await supabase
@@ -27,21 +41,71 @@ export default async function Page({
 			console.error(`Error fetching products: ${error.message}`);
 			return <div>Error fetching products: {error.message}</div>;
 		}
+		// console.log(products);
 
 		if (products.length > 0) {
 			return (
-				<div>
-					<div>{products.length}</div>
+				<section className="w-full">
+					<div className="relative h-[200px] sm:h-[200px] w-full">
+						<Image
+							src={categoryAvatar as string}
+							alt={categoryName as string}
+							width={100}
+							height={100}
+							className="w-full h-full object-cover blur-md brightness-[80%]"
+						/>
+					</div>
+					<div className="py-20 z-[550] px-3 md:px-10 -translate-y-32 grid grid-cols-1 lg:grid-cols-8 gap-6 h-full w-full">
+						<div className="order-2 lg:order-1 lg:col-span-6 bg-white rounded-2xl p-5">
+							<h2 className="text-xl md:text-[22px] font-bold capitalize text-center border-b pb-8">
+								Products in the {categoryName} category{" "}
+								<span className="text-slate-500">{categoryProductCount}</span>
+							</h2>
 
-					{products.map((product) => (
-						<div key={product.id}>
-							<h2>{product.title}</h2>
-							<p>{product.description}</p>
-							<p>Price: {product.price}</p>
-							{/* Add more product details as needed */}
+							{/* <div className="flex items-center w-full gap-6"> */}
+							<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+								{products.map((product) => (
+									<CategoryProductcard
+										key={product.id}
+										product={product}
+										paramsId={storeId}
+									/>
+								))}
+							</div>
 						</div>
-					))}
-				</div>
+						<div className="md:sticky top-56 order-1 h-fit lg:order-2 lg:col-span-2 bg-white rounded-2xl pb-5 overflow-hidden">
+							<div className="h-[200px] relative w-full mb-10">
+								<Image
+									src={categoryAvatar as string}
+									alt={categoryName as string}
+									fill
+									className="w-full h-auto object-cover"
+								/>
+							</div>
+							<div className="px-3">
+								<div className="flex justify-between items-center">
+									<h1 className="text-xl font-bold capitalize">
+										{/* {categoryName} */}
+									</h1>
+									<div className="flex items-center gap-2">
+										<div>
+											<h4 className="text-sm font-semibold">Edit category</h4>
+										</div>
+										<Link
+											href={`/${params?.id}/categories/${categoryId}`}
+											className={cn(
+												buttonVariants({ variant: "default" }),
+												"rounded-full py-6 px-4 "
+											)}
+										>
+											<Edit className="h-4 w-4" />
+										</Link>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 			);
 		}
 	}
@@ -60,4 +124,12 @@ export default async function Page({
 			</Link>
 		</div>
 	);
+}
+
+{
+	<div className="absolute inset-0 z-20 flex flex-col justify-center items-center">
+		<h1 className="text-4xl text-white uppercase font-bold">
+			{/* {categoryName} */}
+		</h1>
+	</div>;
 }

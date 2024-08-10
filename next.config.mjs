@@ -12,6 +12,10 @@ const nextConfig = {
 				hostname: "i.pinimg.com",
 				protocol: "https",
 			},
+			{
+				hostname: "lh3.googleusercontent.com",
+				protocol: "https",
+			},
 		],
 	},
 };

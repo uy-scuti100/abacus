@@ -14,8 +14,8 @@ export default async function SettingsPage({
 }: {
 	params: { id: string };
 }) {
-	const storeId = params.id;
 	const supabase = createSupabaseServer();
+	const storeId = params.id;
 	const { data: currentUser } = await supabase.auth.getUser();
 	const userId = currentUser.user?.id;
 
@@ -48,8 +48,8 @@ export default async function SettingsPage({
 	}
 
 	return (
-		<div className="flex-col">
-			<div className="flex-1 space-y-4 px-4 pt-6">
+		<div className="flex-col p-3">
+			<div className="flex-1 space-y-4 pt-6">
 				<SettingsForm
 					initialData={store}
 					apiKey={apiKey}
