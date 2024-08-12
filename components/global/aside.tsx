@@ -4,6 +4,7 @@ import {
 	Boxes,
 	CircleHelp,
 	EyeIcon,
+	LayoutDashboard,
 	MessageSquare,
 	Package,
 	ReceiptText,
@@ -35,7 +36,7 @@ export default function Aside() {
 	const links = [
 		{
 			href: `/${id}`,
-			icon: <BookDashed className="w-5 h-5 " />,
+			icon: <LayoutDashboard className="w-5 h-5 " />,
 			label: "Dashboard",
 		},
 		{
@@ -78,11 +79,11 @@ export default function Aside() {
 			icon: <EyeIcon className="w-5 h-5 " />,
 			label: "Visualizer",
 		},
-		{
-			href: `/${id}/chat`,
-			icon: <MessageSquare className="w-5 h-5 " />,
-			label: "Chat",
-		},
+		// {
+		// 	href: `/${id}/chat`,
+		// 	icon: <MessageSquare className="w-5 h-5 " />,
+		// 	label: "Chat",
+		// },
 		{
 			href: `/${id}/stock-request`,
 			icon: <CircleHelp className="w-5 h-5 " />,
@@ -113,9 +114,9 @@ export default function Aside() {
 					/>
 				</Link>
 				<Separator orientation="horizontal" />
-				<nav className="flex flex-col justify-between gap-6 pb-3">
-					<div className="flex flex-col gap-4">
-						<div className="grid gap-4 font-medium">
+				<nav className="flex flex-col justify-between pb-3">
+					<div className="flex flex-col gap-4 md:gap-2">
+						<div className="grid gap-5 font-medium">
 							{links.slice(0, 4).map(({ href, icon, label }) => (
 								<Link
 									href={href}
@@ -134,28 +135,30 @@ export default function Aside() {
 							))}
 						</div>
 						<Separator orientation="horizontal" />
-						<div className="grid gap-4 font-medium">
-							{links.slice(4, -4).map(({ href, icon, label }) => (
-								<Link
-									href={href}
-									key={href}
-									className={`${
-										pathname === href && "bg-clr-2 "
-									} flex items-center gap-4 px-2.5   p-[2px] rounded-md hover:text-clr-7`}
-								>
-									<div className={`${pathname === href && "text-clr-7"}`}>
-										{icon}
-									</div>
-									<div className={`${pathname === href && "text-clr-7"}`}>
-										{label}
-									</div>
-								</Link>
-							))}
+						<div className="flex flex-col gap-4 md:gap-2">
+							<div className="grid gap-5 font-medium pb-2">
+								{links.slice(4, -4).map(({ href, icon, label }) => (
+									<Link
+										href={href}
+										key={href}
+										className={`${
+											pathname === href && "bg-clr-2 "
+										} flex items-center gap-4 px-2.5   p-[2px] rounded-md hover:text-clr-7`}
+									>
+										<div className={`${pathname === href && "text-clr-7"}`}>
+											{icon}
+										</div>
+										<div className={`${pathname === href && "text-clr-7"}`}>
+											{label}
+										</div>
+									</Link>
+								))}
+							</div>
 						</div>
 					</div>
 					<nav>
 						<Separator orientation="horizontal" />
-						<div className="absolute bottom-5 left-2 right-2">
+						<div className="absolute md:bottom-8 bottom-10 left-2 right-2">
 							<div className="grid gap-4 font-medium">
 								{links.slice(8, 12).map(({ href, icon, label }) => (
 									<Link

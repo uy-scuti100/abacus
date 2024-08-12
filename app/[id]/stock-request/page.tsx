@@ -11,5 +11,5 @@ export default async function page() {
 	if (!user) {
 		redirect("/login");
 	}
-	return <div>stock-request</div>;
+	return <div className="p-4">stock-request</div>;
 }

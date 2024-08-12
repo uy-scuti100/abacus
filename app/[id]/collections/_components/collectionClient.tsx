@@ -18,6 +18,7 @@ import Skeleton from "@/components/global/skeleton";
 import Note from "@/components/global/note";
 import CollectionCardsWrapper from "./collection-cards-wrapper";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface CategoryClientProps {
 	storeId: string;
@@ -50,16 +51,17 @@ const CollectionClient: React.FC<CategoryClientProps> = ({ storeId }) => {
 					description="Group products into collections to enhance customer shopping experience and boost sales."
 				/>
 
-				<Button
+				<Link
+					href={`/${storeId}/collections/new`}
 					className={cn(
 						buttonVariants({ variant: "default" }),
 						"rounded-full py-6 px-4 "
 					)}
-					onClick={() => router.push(`/${storeId}/collections/new`)}
 				>
 					<Plus className="sm:mr-2 h-4 w-4" />
+
 					<span className="hidden sm:block">New</span>
-				</Button>
+				</Link>
 			</div>
 			<Separator />
 			<DataTable

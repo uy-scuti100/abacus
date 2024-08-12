@@ -187,7 +187,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 		}
 	};
 	return (
-		<div className="h-full">
+		<div>
 			{isRefreshing && (
 				<div className="fixed inset-0 bg-black/50 z-[500] flex justify-center items-center text-white">
 					<Loader className="animate-spin duration-1000 " size={50} />
@@ -201,7 +201,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 				onConfirm={onDelete}
 				loading={isLoading}
 			/>
-			<div className="flex items-center justify-between ">
+			<div className="flex items-center justify-between">
 				<Heading title={title} description={description} />
 				{initialData && (
 					<Button
@@ -242,7 +242,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 							control={form.control}
 							name="name"
 							render={({ field }) => (
-								<FormItem className="mb-3">
+								<FormItem className="mb-5">
 									<FormLabel>Collection Name</FormLabel>
 									<FormControl>
 										<Input
@@ -259,7 +259,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 							control={form.control}
 							name="description"
 							render={({ field }) => (
-								<FormItem className="mb-3">
+								<FormItem className="mb-5">
 									<FormLabel className="flex items-center gap-2">
 										Description <Badge variant={"custom"}>Optional</Badge>
 									</FormLabel>
@@ -274,16 +274,18 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 								</FormItem>
 							)}
 						/>
-						<div className="mb-3">
+						<div className="mb-5">
 							<FormLabel className="flex items-center gap-2 mb-3">
 								Tags <Badge variant={"custom"}>Optional</Badge>
 							</FormLabel>
 							<TagsInput tags={tags} setTags={setTags} />
 						</div>
 					</div>
-					<Button disabled={isLoading} className="sm:ml-auto" type="submit">
-						{action}
-					</Button>
+					<div className="mb-10">
+						<Button disabled={isLoading} className="sm:ml-auto" type="submit">
+							{action}
+						</Button>
+					</div>
 				</form>
 			</Form>
 		</div>

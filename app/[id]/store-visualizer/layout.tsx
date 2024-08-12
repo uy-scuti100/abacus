@@ -1,3 +1,5 @@
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { createSupabaseServer } from "@/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -28,10 +30,10 @@ export default async function Studiolayout({
 		redirect("/");
 	}
 	return (
-		<div className="max-w-7xl px-4 sm:px-6 lg:px-8">
-			<nav className="flex justify-between items-center py-2 border-b mx-auto ">
+		<div className="max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+			<nav className="flex justify-between items-center py-6 border-b mx-auto ">
 				<Link href={`/${storeId}/store-visualizer`}>
-					<h1 className="uppercase">{store?.name}</h1>
+					<h1 className="uppercase font-bold">{store?.name}</h1>
 				</Link>
 				<menu>
 					<ul className="flex gap-2 text-xs">
@@ -54,7 +56,18 @@ export default async function Studiolayout({
 					</ul>
 				</menu>
 			</nav>
-			{children}
+			<div>{children}</div>
+			<div className="fixed left-4 bottom-5 z-50">
+				<Link
+					href={`/${storeId}`}
+					className={cn(
+						buttonVariants({ variant: "default" }),
+						"capitalize px-6 py-2 rounded-full"
+					)}
+				>
+					Back to store
+				</Link>
+			</div>
 		</div>
 	);
 }

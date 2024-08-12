@@ -11,7 +11,7 @@ export const useSignOut = () => {
 		try {
 			await supabase.auth.signOut();
 			queryClient.clear();
-			router.push("/");
+			router.replace("/");
 		} catch (error) {
 			console.error("Signout error:", error);
 		}

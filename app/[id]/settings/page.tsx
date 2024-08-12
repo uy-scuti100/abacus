@@ -23,18 +23,18 @@ export default async function SettingsPage({
 		redirect("/login");
 	}
 
-	const { data: apiKeyData, error: apiKeyError } = await supabase
-		.from("vendors")
-		.select("api-key")
-		.eq("id", userId)
-		.single<ApiKeyData>();
+	// const { data: apiKeyData, error: apiKeyError } = await supabase
+	// 	.from("vendors")
+	// 	.select("api-key")
+	// 	.eq("id", userId)
+	// 	.single<ApiKeyData>();
 
-	let apiKey: string | null = null;
-	if (apiKeyError) {
-		console.error("Error fetching API key:", apiKeyError);
-	} else {
-		apiKey = apiKeyData["api-key"];
-	}
+	// let apiKey: string | null = null;
+	// if (apiKeyError) {
+	// 	console.error("Error fetching API key:", apiKeyError);
+	// } else {
+	// 	apiKey = apiKeyData["api-key"];
+	// }
 
 	const { data: store, error } = await supabase
 		.from("stores")
@@ -52,7 +52,7 @@ export default async function SettingsPage({
 			<div className="flex-1 space-y-4 pt-6">
 				<SettingsForm
 					initialData={store}
-					apiKey={apiKey}
+					// apiKey={apiKey}
 					storeId={storeId}
 					vendorId={userId}
 				/>

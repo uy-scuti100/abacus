@@ -56,7 +56,6 @@ const ProductClient: React.FC<ProductClientProps> = ({ storeId }) => {
 						buttonVariants({ variant: "default" }),
 						"rounded-full py-6 px-4 "
 					)}
-					// onClick={() => router.push(`/${storeId}/products/new`)}
 				>
 					<Plus className="sm:mr-2 h-4 w-4" />
 
@@ -78,13 +77,13 @@ const ProductClient: React.FC<ProductClientProps> = ({ storeId }) => {
 				searchKey="name"
 			/>
 
-			<Heading
+			{/* <Heading
 				title="DEVELOPER API"
 				description="API calls for All and Single products"
 			/>
 			<Note id={storeId} />
 			<Separator />
-			<ApiList entityName="products" entityId="slug" apikey="myapikey" />
+			<ApiList entityName="products" entityId="slug" apikey="myapikey" /> */}
 		</>
 	);
 };

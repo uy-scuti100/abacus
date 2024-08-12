@@ -182,7 +182,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 		}
 	};
 	return (
-		<>
+		<div>
 			{isRefreshing && (
 				<div className="fixed inset-0 bg-black/50 z-[500] flex justify-center items-center text-white">
 					<Loader className="animate-spin duration-1000 " size={50} />
@@ -236,7 +236,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							control={form.control}
 							name="name"
 							render={({ field }) => (
-								<FormItem className="mb-3">
+								<FormItem className="mb-5">
 									<FormLabel>Category Name</FormLabel>
 									<FormControl>
 										<Input
@@ -253,7 +253,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							control={form.control}
 							name="description"
 							render={({ field }) => (
-								<FormItem className="mb-3">
+								<FormItem className="mb-5">
 									<FormLabel className="flex items-center gap-2">
 										Description <Badge variant={"custom"}>Optional</Badge>
 									</FormLabel>
@@ -269,18 +269,20 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 							)}
 						/>
 					</div>
-					<div className="mb-3">
+					<div className="mb-5">
 						<FormLabel className="flex items-center gap-2 mb-3">
 							Tags <Badge variant={"custom"}>Optional</Badge>
 						</FormLabel>
 						<TagsInput tags={tags} setTags={setTags} />
 					</div>
-					<Button disabled={isLoading} className="sm:mr-auto" type="submit">
-						{action}
-					</Button>
+					<div className="mb-10">
+						<Button disabled={isLoading} className="sm:mr-auto" type="submit">
+							{action}
+						</Button>
+					</div>
 				</form>
 			</Form>
-		</>
+		</div>
 	);
 };
 

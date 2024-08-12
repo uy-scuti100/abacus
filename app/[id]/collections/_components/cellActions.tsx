@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AlertModal } from "@/providers/modals/alertModal";
 import { createSupabaseBrowser } from "@/supabase/client";
+import Link from "next/link";
 
 interface CellActionProps {
 	data: CollectionColumn;
@@ -86,11 +87,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 					<DropdownMenuItem onClick={() => onCopy(data.id)}>
 						<Copy className="mr-2 h-4 w-4" /> Copy Id
 					</DropdownMenuItem> */}
-					<DropdownMenuItem
-						onClick={() => router.push(`/${params?.id}/collections/${data.id}`)}
+					<Link
+						className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+						href={`/${params?.id}/collections/${data.id}`}
 					>
 						<Edit className="mr-2 h-4 w-4" /> Edit
-					</DropdownMenuItem>
+					</Link>
 					<DropdownMenuItem onClick={() => setIsOpen(true)}>
 						<Trash className="mr-2 h-4 w-4" /> Delete
 					</DropdownMenuItem>

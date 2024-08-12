@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 // local imports
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ImagePlus, Plus, Trash } from "lucide-react";
+import { ImagePlus, Plus, Trash, X } from "lucide-react";
 
 interface SingleImageUploadProps {
 	disabled?: boolean;
@@ -43,7 +43,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
 			{value ? (
 				<div
 					key={value}
-					className="relative rounded-2xl border border-clr-2 w-auto h-[250px] overflow-hidden"
+					className="relative rounded-2xl border border-clr-2 w-[200px] h-[250px] overflow-hidden"
 				>
 					<div className="z-10 absolute top-2 right-2">
 						<Button
@@ -51,16 +51,17 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
 							onClick={() => onRemove(value)}
 							variant="destructive"
 							size="sm"
+							className="rounded-full"
 						>
-							<Trash className="h-4 w-4" />
+							<X className="h-4 w-4" />
 						</Button>
 					</div>
 					<Image
 						src={value}
-						height={100}
+						height={250}
 						width={200}
 						alt={value}
-						className="object-cover"
+						className="object-cover h-full w-full"
 						sizes="(max-width: 480px) 100vw,
                 (max-width: 768px) 75vw,
                 (max-width: 1060px) 50vw,

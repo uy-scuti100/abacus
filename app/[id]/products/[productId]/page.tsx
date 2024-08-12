@@ -26,7 +26,7 @@ export default async function page({
 		.eq("store_id ", params.id);
 
 	return (
-		<div>
+		<div className="p-4">
 			<ProductForm
 				storeId={storeId}
 				initialData={product}

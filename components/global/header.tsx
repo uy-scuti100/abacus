@@ -16,6 +16,7 @@ import {
 	Boxes,
 	CircleHelp,
 	EyeIcon,
+	LayoutDashboard,
 	Loader,
 	Menu,
 	MessageSquare,
@@ -95,7 +96,7 @@ export default function Header() {
 	const links = [
 		{
 			href: `/${id}`,
-			icon: <BookDashed className="w-5 h-5 " />,
+			icon: <LayoutDashboard className="w-5 h-5 " />,
 			label: "Dashboard",
 		},
 		{
@@ -138,11 +139,11 @@ export default function Header() {
 			icon: <EyeIcon className="w-5 h-5 " />,
 			label: "Visualizer",
 		},
-		{
-			href: `/${id}/chat`,
-			icon: <MessageSquare className="w-5 h-5 " />,
-			label: "Chat",
-		},
+		// {
+		// 	href: `/${id}/chat`,
+		// 	icon: <MessageSquare className="w-5 h-5 " />,
+		// 	label: "Chat",
+		// },
 		{
 			href: `/${id}/stock-request`,
 			icon: <CircleHelp className="w-5 h-5 " />,
@@ -225,7 +226,7 @@ export default function Header() {
 					<Separator orientation="horizontal" />
 					<nav className="flex flex-col justify-between gap-12 py-3">
 						<div className="flex flex-col gap-4">
-							<div className="grid gap-4 font-medium">
+							<div className="grid gap-2 font-medium">
 								{links.slice(0, 4).map(({ href, icon, label }) => (
 									<Link
 										href={href}
@@ -243,7 +244,7 @@ export default function Header() {
 								))}
 							</div>
 							<Separator orientation="horizontal" />
-							<div className="grid gap-4 font-medium">
+							<div className="grid gap-2 font-medium">
 								{links.slice(4, 8).map(({ href, icon, label }) => (
 									<Link
 										href={href}
@@ -264,9 +265,9 @@ export default function Header() {
 					</nav>
 
 					<nav>
-						<div className="absolute bottom-3 left-2 right-2">
+						<div className="absolute bottom-5 left-2 right-2">
 							<Separator orientation="horizontal" />
-							<div className="grid gap-3 font-medium">
+							<div className="grid gap-2 font-medium pt-2">
 								{links.slice(8, 12).map(({ href, icon, label }) => (
 									<Link
 										href={href}

@@ -45,8 +45,12 @@ export const typeDefs = gql`
 		name: String!
 		avatar: String!
 		description: String!
-		createdAt: String!
-		products: [Product!]!
+		products: [Product!]
+		product_count: Int!
+		slug: String!
+		store_id: String!
+		tags: [String!]!
+		vendor_id: String!
 	}
 
 	type Collection {
@@ -54,8 +58,12 @@ export const typeDefs = gql`
 		name: String!
 		avatar: String!
 		description: String!
-		createdAt: String!
-		products: [Product!]!
+		products: [Product!]
+		product_count: Int!
+		vendor_id: String!
+		slug: String!
+		store_id: String!
+		tags: [String!]!
 	}
 
 	type Query {

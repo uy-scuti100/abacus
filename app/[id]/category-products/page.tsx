@@ -55,15 +55,15 @@ export default async function Page({
 							className="w-full h-full object-cover blur-md brightness-[80%]"
 						/>
 					</div>
-					<div className="py-20 z-[550] px-3 md:px-10 -translate-y-32 grid grid-cols-1 lg:grid-cols-8 gap-6 h-full w-full">
+					<div className="py-10 z-[550] px-3 md:px-10 -translate-y-32 grid grid-cols-1 lg:grid-cols-8 gap-6 h-full w-full">
 						<div className="order-2 lg:order-1 lg:col-span-6 bg-white rounded-2xl p-5">
 							<h2 className="text-xl md:text-[22px] font-bold capitalize text-center border-b pb-8">
-								Products in the {categoryName} category{" "}
-								<span className="text-slate-500">{categoryProductCount}</span>
+								<span className="text-slate-500">{categoryProductCount}</span>{" "}
+								Products in {categoryName} category
 							</h2>
 
 							{/* <div className="flex items-center w-full gap-6"> */}
-							<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+							<div className="grid grid-cols-1 mt-5 gap-x-3 gap-y-16 lg:grid-cols-3 md:grid-cols-2">
 								{products.map((product) => (
 									<CategoryProductcard
 										key={product.id}
@@ -73,7 +73,7 @@ export default async function Page({
 								))}
 							</div>
 						</div>
-						<div className="md:sticky top-56 order-1 h-fit lg:order-2 lg:col-span-2 bg-white rounded-2xl pb-5 overflow-hidden">
+						<div className="md:sticky top-56 order-1 h-fit lg:order-2 lg:col-span-2 bg-white rounded-2xl pb-2 overflow-hidden">
 							<div className="h-[200px] relative w-full mb-10">
 								<Image
 									src={categoryAvatar as string}

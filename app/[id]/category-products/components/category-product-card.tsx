@@ -1,7 +1,5 @@
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Product } from "@/types";
-import { Edit } from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
 export default function CategoryProductcard({
@@ -14,7 +12,7 @@ export default function CategoryProductcard({
 	return (
 		<Link
 			href={`/${paramsId}/products/${product.id}`}
-			className="flex items-center gap-4"
+			className="flex items-center gap-5"
 		>
 			<div className="relative w-full h-auto min-w-[180px] shadow-xl overflow-hidden rounded-2xl group">
 				<Image
@@ -32,7 +30,7 @@ export default function CategoryProductcard({
 					className="group-hover:absolute inset-0 z-50 bg-blend-difference"
 					style={{
 						background:
-							"linear-gradient(180deg, rgba(0, 0, 0, 0.00) 3%, rgba(0, 0, 0, .6) 100%)",
+							"linear-gradient(180deg, rgba(0, 0, 0, 0.00) 20%, rgba(0, 0, 0, .6) 120%)",
 					}}
 				></div>
 				<div className="absolute bg-white w-full flex items-center justify-center h-12 px-3 bottom-0 left- right-0">

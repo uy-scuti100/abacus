@@ -1,3 +1,4 @@
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import React, { useState } from "react";
 
 interface TagsInputProps {
@@ -29,23 +30,27 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, setTags }) => {
 	};
 
 	return (
-		<div className="tags-input-container">
-			{tags?.map((tag, index) => (
-				<div className="tag" key={index}>
-					{tag}
-					<button type="button" onClick={() => handleRemoveTag(index)}>
-						×
-					</button>
-				</div>
-			))}
-			<input
-				type="text"
-				value={inputValue}
-				onChange={handleInputChange}
-				onKeyDown={handleInputKeyDown}
-				placeholder="Enter a tag and separate with comma ( , ) or enter key ( ↵ )."
-			/>
-		</div>
+		<ScrollArea>
+			<div className="tags-input-container">
+				{tags?.map((tag, index) => (
+					<div className="tag" key={index}>
+						{tag}
+						<button type="button" onClick={() => handleRemoveTag(index)}>
+							×
+						</button>
+					</div>
+				))}
+				<input
+					type="text"
+					value={inputValue}
+					onChange={handleInputChange}
+					onKeyDown={handleInputKeyDown}
+					placeholder="Separate with comma ( , ) or enter key ( ↵ )."
+					className=""
+				/>
+			</div>
+			<ScrollBar orientation="vertical" />
+		</ScrollArea>
 	);
 };
 

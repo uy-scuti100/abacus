@@ -9,6 +9,48 @@ export type Json =
 export type Database = {
 	public: {
 		Tables: {
+			back_in_stock_requests: {
+				Row: {
+					created_at: string;
+					email: string | null;
+					id: string;
+					notified: boolean;
+					product_id: string | null;
+					store_id: string | null;
+				};
+				Insert: {
+					created_at?: string;
+					email?: string | null;
+					id?: string;
+					notified?: boolean;
+					product_id?: string | null;
+					store_id?: string | null;
+				};
+				Update: {
+					created_at?: string;
+					email?: string | null;
+					id?: string;
+					notified?: boolean;
+					product_id?: string | null;
+					store_id?: string | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "back_in_stock_requests_product_id_fkey";
+						columns: ["product_id"];
+						isOneToOne: false;
+						referencedRelation: "products";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "back_in_stock_requests_store_id_fkey";
+						columns: ["store_id"];
+						isOneToOne: false;
+						referencedRelation: "stores";
+						referencedColumns: ["id"];
+					}
+				];
+			};
 			category: {
 				Row: {
 					avatar: string | null;

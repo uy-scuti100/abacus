@@ -45,14 +45,14 @@ type SettingsFormValues = z.infer<typeof formSchema>;
 
 interface SettingsFormProps {
 	initialData: Store;
-	apiKey: string | null;
+	// apiKey: string | null;
 	storeId: string | null;
 	vendorId: string | null;
 }
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({
 	initialData,
-	apiKey,
+	// apiKey,
 	storeId,
 	vendorId,
 }) => {
@@ -233,7 +233,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 			</Form>
 			<Separator />
 
-			<Alert className=" p-4">
+			{/* <Alert className=" p-4">
 				<div className="flex justify-between items-center mb-8">
 					<AlertTitle className="flex items-center gap-3">
 						<Key className="w-4 h-4" />
@@ -256,7 +256,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 						{apiKey?.substring(0, 50)}
 					</code>
 				</AlertDescription>
-			</Alert>
+			</Alert> */}
 			<Alert className=" p-4">
 				<div className="flex justify-between items-center mb-8">
 					<AlertTitle className="flex items-center gap-3">

@@ -472,12 +472,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="w-full space-y-8 mt-3 mb-10 sm:px-4"
+					className="w-full space-y-2 mt-3 mb-10 sm:px-4 rounded-lg"
 				>
-					<div className="gap-6 md:grid md:grid-cols-6">
-						<div className="col-span-4 ">
+					<div className="gap-6 md:grid md:grid-cols-6 py-3">
+						<div className="col-span-4">
 							{/* basic information */}
-							<div className="flex flex-col gap-4 bg-white p-2 pb-6 rounded-lg">
+							<div className="flex flex-col gap-4 bg-white rounded-lg p-2 pb-6 ">
 								<FormField
 									control={form.control}
 									name="media"
@@ -497,11 +497,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 															)
 														}
 													/>
-													{/* <div>
-														{field.value.map((image) => (
-															<div key={image.url}>{image.url}</div>
-														))}
-													</div> */}
 												</>
 											</FormControl>
 											<FormMessage />
@@ -1650,3 +1645,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 		</div>
 	);
 };
+
+{
+	/* <div>
+														{field.value.map((image) => (
+															<div key={image.url}>{image.url}</div>
+														))}
+													</div> */
+}

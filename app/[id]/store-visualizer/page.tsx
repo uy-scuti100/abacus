@@ -27,11 +27,10 @@ export default async function page({ params }: { params: { id: string } }) {
 	}
 
 	return (
-		<section className="p-4 relative ">
-		
+		<section className="relative">
 			<div className="mt-10 w-full mx-auto">
 				<div className="flex flex-col gap-2 justify-center w-full items-center">
-					<h1 className="text-5xl text-center md:text-7xl font-bold leading-[175%]">
+					<h1 className="text-5xl text-center md:text-7xl font-bold leading-[155%]">
 						Welcome to <br /> {store?.name}'s Store
 					</h1>
 					<div className="mt-5 md:mt-0">
@@ -51,17 +50,6 @@ export default async function page({ params }: { params: { id: string } }) {
 				<div className="mt-5">
 					<ProductsFile storeId={storeId} />
 				</div>
-			</div>
-			<div className="fixed left-4 bottom-5">
-				<Link
-					href={`/${storeId}`}
-					className={cn(
-						buttonVariants({ variant: "default" }),
-						"capitalize px-6 py-2 rounded-full"
-					)}
-				>
-					go to store
-				</Link>
 			</div>
 		</section>
 	);

@@ -95,43 +95,48 @@ export default function Page({ storeId }: { storeId: string }) {
 	}, [loading, hasMore]);
 
 	return (
-		<section className="p-4 relative">
-			<div className="mt-10">
+		<section className="relative">
+			<div className="pt-10">
 				<div className="grid grid-cols-2 mt-5 gap-x-3 gap-y-16 lg:grid-cols-3 md:grid-cols-2">
 					{products.map((item, index) => {
 						return (
-							<div className="flex flex-col gap-5 " key={index}>
+							<div className="flex flex-col gap-5" key={index}>
 								<Link
 									href={`/${storeId}/store-visualizer/${item.id}`}
 									className="flex flex-col w-full h-[280px] sm:h-[287px]  md:h-[300px]  lg:h-[500px] gap-2 overflow-hidden rounded-2xl"
 								>
-									<div className="relative w-full h-full ">
+									<div className="relative w-full h-auto min-w-[180px] shadow-xl overflow-hidden rounded-2xl group">
 										<Image
 											src={item.media[0]}
 											alt={item.title}
-											fill
-											className="w-full h-full object-cover"
+											width={1500}
+											height={1500}
+											className="object-cover w-full h-full transition-transform transform-gpu group-hover:scale-110 duration-700 ease-in-out "
+											sizes="(max-width: 480px) 100vw,
+                                        (max-width: 768px) 75vw,
+                                        (max-width: 1060px) 50vw,
+                                        33vw"
 										/>
 										<div
-											className="absolute inset-0 z-20"
+											className="group-hover:absolute inset-0 z-50 bg-blend-difference"
 											style={{
 												background:
-													"linear-gradient(180deg, rgba(0, 0, 0, 0.00) 5%, rgba(0, 0, 0, .1) 100%)",
+													"linear-gradient(180deg, rgba(0, 0, 0, 0.00) 3%, rgba(0, 0, 0, .6) 100%)",
 											}}
-										/>
+										></div>
 
 										<div className="absolute z-50 px-2 py-1 text-[10px] font-medium text-white uppercase bg-ash left-3 font-mont bottom-3 backdrop-blur-2xl">
 											{item.brand}
 										</div>
 									</div>
 								</Link>
-								<div>
-									{/* <h4 className="text-3xl font-black">{index + 1}</h4> */}
+								{/* <div>
+								
 									<h4 className="text-sm font-medium mb-1 capitalize">
-										{item.title.substring(0, 22)}...
+										{item.title.substring(0, 16)}...
 									</h4>
 									<h5 className="text-xs font-bold">${item.price}</h5>
-								</div>
+								</div> */}
 							</div>
 						);
 					})}
@@ -143,6 +148,7 @@ export default function Page({ storeId }: { storeId: string }) {
 			{/* ... other components ... */}
 			{/* <h4 className="text-3xl font-black">{index + 1}</h4> */}
 			{/* Add any additional product details here */}
+			{/* <h4 className="text-3xl font-black">{index + 1}</h4> */}
 		</section>
 	);
 }
