@@ -1,14 +1,15 @@
-import { buttonVariants } from "@/components/ui/button";
+"use client";
 import { cn } from "@/lib/utils";
 import { createSupabaseServer } from "@/supabase/server";
 import Link from "next/link";
 
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import DotPattern from "@/components/magicui/dot-pattern";
+import useUser from "@/hooks/useUser";
 
-export default async function HeroSection() {
-	const supabase = createSupabaseServer();
-	const { data: currentUser } = await supabase.auth.getUser();
+export default function HeroSection() {
+	const user = useUser();
+
 	return (
 		<div className="pt-10 relative">
 			<div className="flex flex-col justify-center items-center gap-6 ">
@@ -30,7 +31,7 @@ export default async function HeroSection() {
 
 				<div className="flex justify-center items-center gap-6">
 					<Link
-						href={currentUser.user?.id ? "/store" : "/login"}
+						href={user?.data?.id ? "/store" : "/login"}
 						// className={cn(buttonVariants({ variant: "default" }))}
 					>
 						<ShimmerButton
@@ -38,7 +39,7 @@ export default async function HeroSection() {
 							background="hsl(var(--primary))"
 						>
 							<span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg ">
-								{currentUser.user?.id ? "Go to Store" : "Start a Free Trial"}
+								{user?.data?.id ? "Go to Store" : "Start a Free Trial"}
 							</span>
 						</ShimmerButton>
 					</Link>
