@@ -4,11 +4,10 @@ export default function HowItWorks() {
 	const images: string[] | [] = ["/1.svg", "/2.svg", "/3.svg"];
 	return (
 		<div className="my-10 mx-auto">
-			<h3 className="text-center font-bold text-xl md:text-2xl md:leading-[32px] leading-[24px] mb-10 md:mb-0 ">
-				Journey to Joyful Shopping: <br /> How Our Platform Elevates Your
-				Experience
+			<h3 className="text-center font-bold text-xl md:text-2xl md:leading-[32px] leading-[24px] mb-3 md:mb-0 ">
+				How Abacus Elevates Your Selling Experience
 			</h3>
-			<p className="text-center font-medium text-lg">
+			<p className="text-gray-600 max-w-[350px] md:max-w-[600px] text-center mx-auto">
 				Start Selling in Just a Few Clicks
 			</p>
 			<div className="flex flex-col md:flex-row justify-center items-start gap-8 mt-10">
@@ -49,8 +48,7 @@ const HowCard = ({
 				/>
 			</div>
 			<h3 className="text-lg font-bold mb-2">{title}</h3>
-			<p className="text-sm text-center text-gray-500">{description}</p>
-			{/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-white to-[#F1F4F7]h-[30px] " /> */}
+			<p className="text-center text-gray-500">{description}</p>
 			<div className="absolute bottom-0 left-0 right-0 h-[30px] bg-gradient-to-b from-white to-[#F1F4F7] " />
 		</div>
 	);

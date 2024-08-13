@@ -33,7 +33,7 @@ export default function Header() {
 						);
 					})}
 				</div>
-				{!user.data?.id ? (
+				{!user.data?.id && (
 					<div className="flex items-center gap-5">
 						<Link
 							className={cn(buttonVariants({ variant: "default" }), "px-3 h-8")}
@@ -49,13 +49,6 @@ export default function Header() {
 							Sign Up
 						</Link>
 					</div>
-				) : (
-					<Link
-						className={cn(buttonVariants({ variant: "default" }), "px-3 h-8")}
-						href={"/store"}
-					>
-						Go to Store
-					</Link>
 				)}
 
 				<Button

@@ -74,6 +74,14 @@ const config = {
 				sm: "calc(var(--radius) - 4px)",
 			},
 			keyframes: {
+				marquee: {
+					from: { transform: "translateX(0)" },
+					to: { transform: "translateX(calc(-100% - var(--gap)))" },
+				},
+				"marquee-vertical": {
+					from: { transform: "translateY(0)" },
+					to: { transform: "translateY(calc(-100% - var(--gap)))" },
+				},
 				"accordion-down": {
 					from: { height: "0" },
 					to: { height: "var(--radix-accordion-content-height)" },
@@ -107,6 +115,8 @@ const config = {
 				"accordion-up": "accordion-up 0.2s ease-out",
 				"spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
 				slide: "slide var(--speed) ease-in-out infinite alternate",
+				marquee: "marquee var(--duration) linear infinite",
+				"marquee-vertical": "marquee-vertical var(--duration) linear infinite",
 			},
 		},
 	},

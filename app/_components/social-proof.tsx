@@ -13,7 +13,7 @@ export default function Carousel() {
 		"/tech-crunch.png",
 	];
 	return (
-		<div className="pt-10 flex flex-wrap items-center justify-center paddy">
+		<div className="pt-20 flex flex-wrap items-center justify-center paddy">
 			<h3 className="text-center md:text-left font-semibold  md:text-xl md:leading-[32px] leading-[24px] mb-10 md:mb-0 ">
 				Trusted by 198<sup>+</sup> Businesses
 			</h3>
