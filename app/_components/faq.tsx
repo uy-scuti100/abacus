@@ -44,7 +44,7 @@ export function AccordionDemo() {
 			</AccordionItem>
 			<AccordionItem value="item-5">
 				<AccordionTrigger>
-					Can I track the performances of products and stores?
+					Can I track performances of products and stores?
 				</AccordionTrigger>
 				<AccordionContent>
 					Yes, our platform provides comprehensive analytics that allows you to

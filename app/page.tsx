@@ -12,7 +12,7 @@ export default function page() {
 	return (
 		<section>
 			<Header />
-			<div className="container px-4 md:px-[2rem]">
+			<div className="container px-4 md:px-[2rem] overflow-x-hidden">
 				<HeroSection />
 				<HeroImage />
 				<SocialProof />
