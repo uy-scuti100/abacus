@@ -1,5 +1,5 @@
 import { createSupabaseBrowser } from "@/supabase/client";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export default function useUser() {
 	const supabase = createSupabaseBrowser();

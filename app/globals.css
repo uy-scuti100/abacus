@@ -187,3 +187,74 @@
 		transition: filter 0.3s ease-in;
 	}
 }
+
+.marquee::after,
+.marquee::before {
+	content: "";
+	position: absolute;
+	height: 100%;
+	width: 200px;
+}
+.marquee::before {
+	left: 0;
+	top: 0;
+	background: linear-gradient(to right, #f1f4f7, transparent);
+	z-index: 6;
+}
+.marquee::after {
+	right: 0;
+	top: 0;
+	background: linear-gradient(to right, transparent, #f1f4f7);
+}
+
+.animate__rotateIn {
+	animation: animate__rotateIn 0.6s ease-in-out forwards;
+}
+
+.animate__rotateOut {
+	animation: animate__rotateOut 0.6s ease-in-out forwards;
+}
+
+.logo_carousel {
+	animation: carousel 15s linear infinite;
+}
+.logo_carousel2 {
+	animation: carousel2 10s linear infinite;
+}
+
+@keyframes animate__rotateIn {
+	from {
+		transform: rotate(0deg); /* Start from no rotation */
+	}
+	to {
+		transform: rotate(90deg); /* Rotate 360 degrees */
+	}
+}
+
+@keyframes animate__rotateOut {
+	from {
+		transform: rotate(0deg); /* Start from no rotation */
+	}
+	to {
+		transform: rotate(-90deg); /* Rotate -360 degrees (counter-clockwise) */
+	}
+}
+
+@keyframes carousel {
+	from {
+		left: translateX(0);
+	}
+
+	to {
+		transform: translateX(-100%);
+	}
+}
+@keyframes carousel2 {
+	from {
+		left: translateX(0);
+	}
+
+	to {
+		transform: translateX(-100%);
+	}
+}
