@@ -22,8 +22,6 @@ export default function HowItWorks() {
 					/>
 				))}
 			</div>
-
-			<div className="absolute bottom-0 left-0 right-0 h-[50px] bg-gradient-to-b from-slate-200 to-[#F1F4F7] " />
 		</div>
 	);
 }
@@ -40,7 +38,7 @@ const HowCard = ({
 	description: string;
 }) => {
 	return (
-		<div className="flex flex-col justify-center items-center gap-10 basis-1/3 p-10 bg-white rounded-xl relative h-[200px]">
+		<div className="flex flex-col justify-center items-center gap-10 basis-1/3 p-10 bg-white rounded-xl relative h-[250px]">
 			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
 				<Image
 					src={images[index]}
