@@ -4,27 +4,83 @@ import { ModalProvider } from "@/providers/modalProvider";
 import { Montserrat } from "next/font/google";
 import QueryProvider from "@/providers/query-provider/tanstack";
 import TopLoader from "@/components/global/top-loader";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { siteConfig } from "@/lib/utils";
+import { Metadata } from "next";
 
-// const inter = Inter({
-// 	subsets: ["latin"],
-// 	display: "swap",
-// 	variable: "--font-inter",
-// });
-// ${inter.variable}
 const montserrat = Montserrat({
 	subsets: ["latin"],
 	display: "swap",
 	variable: "--font-montserrat",
 });
 
-const defaultUrl = process.env.NEXT_PUBLIC_DOMAIN
-	? `https://${process.env.NEXT_PUBLIC_DOMAIN}`
-	: "http://localhost:3000";
+export const metadata: Metadata = {
+	title: {
+		default: siteConfig.name,
+		template: `%s - ${siteConfig.name}`,
+	},
+	metadataBase: new URL(siteConfig.url),
+	description: siteConfig.description,
+	keywords: [
+		"Abacus",
+		"e-commerce platform",
+		"online store management",
+		"product management",
+		"vendor tools",
+		"CRM integration",
+		"back-in-stock notifications",
+		"collections management",
+		"business growth",
+		"small business solutions",
+		"inventory management",
+		"sales optimization",
+		"customer engagement",
+		"intuitive dashboard",
+		"live product publishing",
+		"centralized operations",
+		"sales management",
+		"streamline store operations",
+		"e-commerce solutions",
+		"online sales enhancement",
+	],
 
-export const metadata = {
-	metadataBase: new URL(defaultUrl),
-	title: "Abacus",
-	description: "Simple E-commerce Dashboard with Next.js",
+	authors: [
+		{
+			name: "Abacus",
+			url: "https://abacus-psi.vercel.app",
+		},
+	],
+	creator: "Uy_Scuti",
+	openGraph: {
+		type: "website",
+		locale: "en_US",
+		url: siteConfig.url,
+		title: siteConfig.name,
+		description: siteConfig.description,
+		siteName: siteConfig.name,
+		images: [
+			{
+				url: siteConfig.ogImage,
+				width: 1200,
+				height: 630,
+				alt: siteConfig.name,
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: siteConfig.name,
+		description: siteConfig.description,
+		images: [siteConfig.ogImage],
+		creator: "@hussain_joe",
+	},
+	icons: {
+		icon: "/favicon.ico",
+		shortcut: "/favicon-16x16.png",
+		apple: "/apple-touch-icon.png",
+	},
+	manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 export default function RootLayout({
@@ -44,6 +100,8 @@ export default function RootLayout({
 					<ToastProvider />
 					<ModalProvider />
 					{children}
+					<Analytics />
+					<SpeedInsights />
 				</QueryProvider>
 			</body>
 		</html>

@@ -9,6 +9,19 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
+export const siteConfig = {
+	name: "Abacus",
+	url: "https://abacus-psi.vercel.app",
+	ogImage:
+		"https://res.cloudinary.com/dsfhfgn4y/image/upload/fl_preserve_transparency/v1723570532/abacus/afchctt6u2x6fvfqvyhe.jpg?_s=public-apps",
+	description:
+		"Abacus is your all-in-one e-commerce platform designed to empower vendors with easy-to-use tools for managing products, categories, and collections. Whether you're a small business owner or an established brand, Abacus offers seamless integration with CRM features, back-in-stock notifications, and more to enhance your online sales and customer engagement. Explore our intuitive dashboard to publish your products live and streamline your store management efficiently. Discover the power of centralized operations with Abacus today.",
+	links: {
+		twitter: "https://twitter.com/hussain_joe",
+		github: "https://github.com/uy-scuti100",
+	},
+};
+
 // Function to generate an SEO-friendly slug
 export const generateSlug = (title: string) => {
 	// Remove special characters, replace spaces with hyphens, and convert to lowercase
