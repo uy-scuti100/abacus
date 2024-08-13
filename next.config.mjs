@@ -1,6 +1,16 @@
+/** @type {import('next').NextConfig} */
+import nextPWA from "next-pwa";
 import nextra from "nextra";
 
-/** @type {import('next').NextConfig} */
+const withPWAConfig = nextPWA({
+	dest: "public",
+});
+
+const withNextra = nextra({
+	theme: "nextra-theme-docs",
+	themeConfig: "./theme.config.tsx",
+});
+
 const nextConfig = {
 	images: {
 		remotePatterns: [
@@ -20,9 +30,5 @@ const nextConfig = {
 	},
 };
 
-const withNextra = nextra({
-	theme: "nextra-theme-docs",
-	themeConfig: "./theme.config.tsx",
-});
-
-export default withNextra(nextConfig);
+// Combine both wrappers
+export default withPWAConfig(withNextra(nextConfig));

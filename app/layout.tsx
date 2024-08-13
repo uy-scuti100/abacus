@@ -14,7 +14,13 @@ const montserrat = Montserrat({
 	display: "swap",
 	variable: "--font-montserrat",
 });
+const manifest = "/manifest.json";
 
+// const icons = [
+// 	{ rel: "icon", url: "/favicon-32x32.png" },
+// 	{ rel: "icon", url: "/favicon-16x16.png" },
+// 	{ rel: "apple-touch-icon", url: "/apple-touch-icon.png" },
+// ];
 export const metadata: Metadata = {
 	title: {
 		default: siteConfig.name,
@@ -75,12 +81,12 @@ export const metadata: Metadata = {
 		images: [siteConfig.ogImage],
 		creator: "@hussain_joe",
 	},
-	icons: {
-		icon: "/favicon.ico",
-		shortcut: "/favicon-16x16.png",
-		apple: "/apple-touch-icon.png",
-	},
-	manifest: `${siteConfig.url}/site.webmanifest`,
+	icons: [
+		{ rel: "icon", url: "/favicon.ico" },
+		{ rel: "shortcut icon", url: "/favicon-16x16.png" },
+		{ rel: "apple-touch-icon", url: "/apple-touch-icon.png" },
+	],
+	manifest,
 };
 
 export default function RootLayout({
