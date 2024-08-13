@@ -305,7 +305,7 @@ export default function Header() {
 					className="w-full bg-background pl-8 md:w-[200px] lg:w-[336px]"
 				/>
 			</div>
-			<DropdownMenu>
+			{/* <DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button
 						variant="outline"
@@ -316,14 +316,15 @@ export default function Header() {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
-					<DropdownMenuLabel>My Account</DropdownMenuLabel>
+					<DropdownMenuLabel>
+						<Link href={`/${params?.id}/settings`}>My Account</Link>
+					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<DropdownMenuItem>Settings</DropdownMenuItem>
-					<DropdownMenuItem>Support</DropdownMenuItem>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem>Logout</DropdownMenuItem>
+					<DropdownMenuItem>
+						<SignOutButton />
+					</DropdownMenuItem>
 				</DropdownMenuContent>
-			</DropdownMenu>
+			</DropdownMenu> */}
 
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
@@ -341,10 +342,9 @@ export default function Header() {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
-					<DropdownMenuLabel>My Account</DropdownMenuLabel>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem>Settings</DropdownMenuItem>
-					<DropdownMenuItem>Support</DropdownMenuItem>
+					<DropdownMenuLabel>
+						<Link href={`/${params?.id}/settings`}>My Account</Link>
+					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
 						<SignOutButton />
@@ -353,4 +353,13 @@ export default function Header() {
 			</DropdownMenu>
 		</header>
 	);
+}
+
+{
+	/* <Link
+						className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+						href={`/${params?.id}/categories/${data.id}`}
+					>
+						<Edit className="mr-2 h-4 w-4" /> Edit
+					</Link> */
 }
