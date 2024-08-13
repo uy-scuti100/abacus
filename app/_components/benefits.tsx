@@ -1,7 +1,5 @@
 import Customercare from "./assets/customer-care";
 import DataIcon from "./assets/data";
-import ProductManagement from "./assets/product-management";
-import FormIconComponent from "./assets/form";
 import StoreIcon from "./assets/store";
 import Invoice from "./assets/invoice";
 import ReturnIcon from "./assets/return";
@@ -12,8 +10,8 @@ export default function Benefits() {
 		<div className="my-10 mx-auto">
 			<div className="bg-slate-200 pt-10 pb-20 rounded-t-xl relative px-5">
 				<h3 className="text-center font-bold text-xl md:text-2xl md:leading-[32px] leading-[24px] mb-10 md:mb-0 ">
-					Transform Your Store Management <br /> and Boost Efficiency with
-					Abacus
+					Transform Your Store Management <br className="md:block hidden" /> and
+					Boost Efficiency with Abacus
 				</h3>
 
 				<div className="grid grid-cols-1 sm:grod-cols-2 lg:grid-cols-3 gap-8 justify-content-start between mt-10">

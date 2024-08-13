@@ -1,4 +1,13 @@
+"use client";
+import { useEffect, useState } from "react";
+
 export default function Customercare() {
+	const [domLoaded, setDomLoaded] = useState(false);
+
+	useEffect(() => {
+		setDomLoaded(true);
+	}, []);
+
 	return (
 		<svg
 			className="w-[60px] h-[60px]"
@@ -19,7 +28,9 @@ export default function Customercare() {
 			<g id="SVGRepo_iconCarrier">
 				{" "}
 				<style>
-					{`.st0{fill:#FFAC5A;} .st1{fill:#3A485E;} .st2{fill:#FF9FB4;} .st3{fill:#FFD551;} .st4{fill:#EDBF9A;} .st5{fill:#FFD9B6;} .st6{fill:#FF778E;}`}{" "}
+					{
+						".st0{fill:#FFAC5A} .st1{fill:#3A485E} .st2{fill:#FF9FB4} .st3{fill:#FFD551} .st4{fill:#EDBF9A} .st5{fill:#FFD9B6} .st6{fill:#FF778E}"
+					}
 				</style>{" "}
 				<g>
 					{" "}

@@ -1,8 +1,12 @@
+import HowItWorks from "./_components/how-it-works";
 import Benefits from "./_components/benefits";
 import Header from "./_components/header";
 import HeroImage from "./_components/hero-image";
 import HeroSection from "./_components/hero-section";
 import SocialProof from "./_components/social-proof";
+import Testimonials from "./_components/testimonials";
+import Faq from "./_components/faq";
+import Footer from "./_components/footer";
 
 export default function page() {
 	return (
@@ -13,22 +17,11 @@ export default function page() {
 				<HeroImage />
 				<SocialProof />
 				<Benefits />
+				<HowItWorks />
+				<Testimonials />
+				<Faq />
+				<Footer />
 			</div>
 		</section>
 	);
 }
-
-// <div className="flex justify-center items-center h-screen text-6xl flex-col capitalize gap-10">
-// 			<h1>landing page</h1>
-// 			<Link
-// 				className={cn(buttonVariants({ variant: "default" }))}
-// 				href={"/login"}
-// 			>
-// 				login
-// 			</Link>
-// 			<Link
-// 				className={cn(buttonVariants({ variant: "default" }))}
-// 				href={"/store"}
-// 			>
-// 				store
-// 			</Link>
