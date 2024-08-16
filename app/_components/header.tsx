@@ -88,7 +88,7 @@ export default function Header() {
 							<Link
 								href={link}
 								key={name}
-								className="text-5xl"
+								className="text-2xl"
 								onClick={toggleNav}
 							>
 								{name}

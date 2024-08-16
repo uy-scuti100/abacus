@@ -1,11 +1,4 @@
-import Customercare from "./assets/customer-care";
-import DataIcon from "./assets/data";
-import StoreIcon from "./assets/store";
-import Invoice from "./assets/invoice";
-import ReturnIcon from "./assets/return";
-import ApIcon from "./assets/api";
-import { Headset, Store, Tag, Undo2 } from "lucide-react";
-import { FaChartColumn } from "react-icons/fa6";
+import { Headset, Store, Tag, Undo2, BarChart3Icon } from "lucide-react";
 import { AiOutlineApi } from "react-icons/ai";
 
 export default function Benefits() {
@@ -76,7 +69,7 @@ const benefits = [
 		title: "Powerful Data Insights",
 		description:
 			"Make smart decisions with a detailed dashboard that provides clear visualizations of your sales and inventory data, enabling quick and effective decision-making.",
-		icon: <FaChartColumn size={30} />,
+		icon: <BarChart3Icon size={30} />,
 	},
 	{
 		title: "Flexible Store Creation",
