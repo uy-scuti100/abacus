@@ -13,8 +13,9 @@ export default async function page() {
 		redirect("/login");
 	}
 	return (
-		<div>
-			<Dashboard />
+		<div className="p-4">
+			{/* <Dashboard /> */}
+			This will be the orders page
 		</div>
 	);
 }

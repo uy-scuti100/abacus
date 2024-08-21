@@ -27,7 +27,7 @@ const DashboardPage: React.FC<DashBoardPageProps> = async ({ params }) => {
 
 	return (
 		<div className="p-4">
-			<div>Active Store is {store?.name}</div>
+			<div>Active Store is {store?.name} and this will be dashboard page</div>
 		</div>
 	);
 };

@@ -11,5 +11,5 @@ export default async function page() {
 	if (!user) {
 		redirect("/login");
 	}
-	return <div>Coupons</div>;
+	return <div className="p-4"> This will be the Coupons page</div>;
 }

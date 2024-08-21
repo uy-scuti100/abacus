@@ -11,5 +11,5 @@ export default async function page() {
 	if (!user) {
 		redirect("/login");
 	}
-	return <div>invoices</div>;
+	return <div className="p-4"> This will be the invoices page</div>;
 }
