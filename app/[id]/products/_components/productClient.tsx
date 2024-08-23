@@ -2,22 +2,18 @@
 // global imports
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // local imports
-
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { columns } from "./columns";
-
 import Heading from "@/providers/heading";
 import { DataTable } from "@/components/ui/data-table";
-import { ApiList } from "@/providers/apiList";
 import useFetchData from "@/hooks/useFetchCategories";
 import { Product } from "@/types";
 import Skeleton from "@/components/global/skeleton";
-import Note from "@/components/global/note";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 interface ProductClientProps {
 	storeId: string;
@@ -74,16 +70,8 @@ const ProductClient: React.FC<ProductClientProps> = ({ storeId }) => {
 							: "",
 					})) || []
 				}
-				searchKey="name"
+				searchKey="title"
 			/>
-
-			{/* <Heading
-				title="DEVELOPER API"
-				description="API calls for All and Single products"
-			/>
-			<Note id={storeId} />
-			<Separator />
-			<ApiList entityName="products" entityId="slug" apikey="myapikey" /> */}
 		</>
 	);
 };

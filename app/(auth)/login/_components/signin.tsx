@@ -58,19 +58,21 @@ export default function SignIn() {
 						/>
 					</Link>
 
-					<p className="text-sm">Welcome back! Please sign in to continue</p>
+					<p className="text-sm pb-5">
+						Welcome back! Please sign in to continue
+					</p>
 				</div>
 
-				<div className="flex items-center gap-5">
+				{/* <div className="flex items-center gap-5">
 					<div className="flex-1 h-[0.5px] w-full bg-zinc-400 dark:bg-zinc-800"></div>
 					<div className="text-sm">or</div>
 					<div className="flex-1 h-[0.5px] w-full bg-zinc-400 dark:bg-zinc-800"></div>
-				</div>
+				</div> */}
 				<Card className="border-none shadow-none">
 					<CardHeader className="space-y-2">
 						<CardContent className="grid gap-4 min-w-[400px]">
-							<div className="w-full animate-in">
-								<div className="grid gap-2 mb-5">
+							{/* <div className="w-full animate-in"> */}
+							{/* <div className="grid gap-2 mb-5">
 									<Label htmlFor="email" className="opacity-50 text-md">
 										Email
 									</Label>
@@ -130,18 +132,18 @@ export default function SignIn() {
 									<p className="my-4 p-4 bg-foreground/10 text-destructive text-center">
 										{searchParams.get("message")}
 									</p>
-								)}
-								<div className="text-center text-sm gap-2  justify-center flex items-center">
+								)} */}
+							{/* <div className="text-center text-sm gap-2  justify-center flex items-center">
 									<p className="text-sm text-center first-letter:uppercase">
 										dont have an account?
 									</p>
 									<Link className="text-clr-6" href="/register">
 										register
 									</Link>
-								</div>
-							</div>
+								</div> */}
+							{/* </div> */}
 
-							<div className="relative mt-5">
+							{/* <div className="relative mt-5">
 								<div className="absolute inset-0 flex items-center">
 									<span className="w-full border-t" />
 								</div>
@@ -150,7 +152,7 @@ export default function SignIn() {
 										Or continue with
 									</span>
 								</div>
-							</div>
+							</div> */}
 							<div className="grid grid-cols-1">
 								<Button
 									variant="outline"

@@ -5,17 +5,16 @@ import { useRouter } from "next/navigation";
 
 // local imports
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { columns } from "./columns";
 
 import Heading from "@/providers/heading";
 import { DataTable } from "@/components/ui/data-table";
-import { ApiList } from "@/providers/apiList";
+
 import useFetchData from "@/hooks/useFetchCategories";
-import { Category, Collection } from "@/types";
+import { Collection } from "@/types";
 import Skeleton from "@/components/global/skeleton";
-import Note from "@/components/global/note";
 import CollectionCardsWrapper from "./collection-cards-wrapper";
 import { cn } from "@/lib/utils";
 import Link from "next/link";

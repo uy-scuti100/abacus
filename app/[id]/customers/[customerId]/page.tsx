@@ -14,7 +14,7 @@ export default async function page({
 		.eq("id", params.customerId)
 		.single();
 	return (
-		<div>
+		<div className="p-4">
 			<CustomerForm initialData={customer} storeId={storeId} />
 		</div>
 	);

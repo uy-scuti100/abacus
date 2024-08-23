@@ -36,18 +36,18 @@ export default function Header() {
 				{!user.data?.id && (
 					<div className="flex items-center gap-5">
 						<Link
-							className={cn(buttonVariants({ variant: "default" }), "px-3 h-8")}
+							className={cn(buttonVariants({ variant: "outline" }), "px-3 h-8")}
 							href={"/login"}
 						>
-							Login
+							Get Started
 						</Link>
 
-						<Link
+						{/* <Link
 							className={cn(buttonVariants({ variant: "outline" }), "px-3 h-8")}
 							href={"/register"}
 						>
 							Sign Up
-						</Link>
+						</Link> */}
 					</div>
 				)}
 
