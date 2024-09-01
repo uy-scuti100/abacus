@@ -10,7 +10,7 @@ export default function Benefits() {
 					Boost Efficiency with Abacus
 				</h3>
 
-				<div className="grid grid-cols-1 sm:grod-cols-2 lg:grid-cols-3 gap-8 justify-content-start between mt-10">
+				<div className="grid grid-cols-1 sm:grod-cols-2 lg:grid-cols-3 gap-8 justify-start mt-10">
 					{benefits.map((benefit, index) => (
 						<BenefitCard
 							key={index}
