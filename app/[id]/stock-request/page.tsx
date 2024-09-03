@@ -13,10 +13,13 @@ export default async function page() {
 	}
 	return (
 		<div className="p-4">
-			Back in stock-request page. this will feature a bulk transactional email
-			messaging logic, that vendors use to remind potential customers of the
-			restock and availability of previously out of stock items that has been
-			restocked{" "}
+			<h1 className="text-2xl font-bold mb-4">Stock Request</h1>
+			<p className="mb-4">
+				This page will feature a bulk transactional email messaging logic that
+				vendors use to remind potential customers of the restock and
+				availability of previously out-of-stock items that have been restocked.
+			</p>
+			<p className="text-gray-600">Feature coming soon...</p>
 		</div>
 	);
 }

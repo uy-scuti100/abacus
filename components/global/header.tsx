@@ -41,6 +41,7 @@ import { X } from "lucide-react";
 import useFetchStores from "@/hooks/useFetchStores";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Logo from "@/app/_components/assets/logo";
 
 export default function Header() {
 	const pathname = usePathname();
@@ -97,7 +98,7 @@ export default function Header() {
 		{
 			href: `/${id}`,
 			icon: <LayoutDashboard className="w-5 h-5 " />,
-			label: "Dashboard",
+			label: "Overview",
 		},
 		{
 			href: `/${id}/products`,
@@ -190,15 +191,12 @@ export default function Header() {
 					<div className="flex justify-between w-full items-center pt-3">
 						<Link
 							href="/"
-							className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground w-fit"
+							className="flex items-center gap-4 `px-2.5 text-muted-foreground hover:text-foreground w-fit"
 						>
-							<Image
-								src="/logo-short.svg"
-								alt="logo"
-								width={100}
-								height={100}
-								className="w-[100px]"
-							/>
+							<span className="flex items-center gap-2">
+								<Logo className="w-[30px] h-[30px]" />
+								<span className="font-medium">ABACUS</span>
+							</span>
 						</Link>
 						<div
 							className="flex justify-end pt-2"
@@ -226,49 +224,8 @@ export default function Header() {
 					<Separator orientation="horizontal" />
 					<nav className="flex flex-col justify-between gap-12 py-3">
 						<div className="flex flex-col gap-4">
-							<div className="grid gap-2 font-medium">
-								{links.slice(0, 4).map(({ href, icon, label }) => (
-									<Link
-										href={href}
-										key={href}
-										onClick={() => setOpen((prev) => !prev)}
-										className={`${
-											pathname === href && "bg-clr-2"
-										} flex items-center gap-4 px-2.5 text-muted-foreground  p-[2px] rounded-md hover:text-clr-7`}
-									>
-										<div className={`${pathname === href && "text-clr-7"}`}>
-											{icon}
-										</div>
-										{label}
-									</Link>
-								))}
-							</div>
-							<Separator orientation="horizontal" />
-							<div className="grid gap-2 font-medium">
-								{links.slice(4, 8).map(({ href, icon, label }) => (
-									<Link
-										href={href}
-										key={href}
-										onClick={() => setOpen((prev) => !prev)}
-										className={`${
-											pathname === href && "bg-clr-2"
-										} flex items-center gap-4 px-2.5 text-muted-foreground  p-[2px] rounded-md hover:text-clr-7`}
-									>
-										<div className={`${pathname === href && "text-clr-7"}`}>
-											{icon}
-										</div>
-										{label}
-									</Link>
-								))}
-							</div>
-						</div>
-					</nav>
-
-					<nav>
-						<div className="absolute bottom-5 left-2 right-2">
-							<Separator orientation="horizontal" />
-							<div className="grid gap-2 font-medium pt-2">
-								{links.slice(8, 12).map(({ href, icon, label }) => (
+							<div className="grid gap-6 font-medium">
+								{links.map(({ href, icon, label }) => (
 									<Link
 										href={href}
 										key={href}

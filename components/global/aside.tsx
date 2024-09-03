@@ -19,6 +19,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import Logo from "@/app/_components/assets/logo";
 
 export default function Aside() {
 	const pathname = usePathname();
@@ -37,7 +38,7 @@ export default function Aside() {
 		{
 			href: `/${id}`,
 			icon: <LayoutDashboard className="w-5 h-5 " />,
-			label: "Dashboard",
+			label: "Overview",
 		},
 		{
 			href: `/${id}/products`,
@@ -105,19 +106,16 @@ export default function Aside() {
 		<aside className="sticky h-screen inset-y-0 left-0 z-10 flex-col hidden border-r bg-background md:flex px-2 w-full">
 			<nav className="flex flex-col gap-4 sm:py-5 mr-[2px]">
 				<Link href="/" className="px-2 pb-3">
-					<Image
-						src="/logo-short.svg"
-						alt="logo"
-						width={100}
-						height={100}
-						className="w-[100px]"
-					/>
+					<span className="flex items-center gap-2">
+						<Logo className="w-[30px] h-[30px]" />
+						<span className="font-medium">ABACUS</span>
+					</span>
 				</Link>
-				<Separator orientation="horizontal" />
+
 				<nav className="flex flex-col justify-between pb-3">
 					<div className="flex flex-col gap-4 md:gap-2">
-						<div className="grid gap-5 font-medium">
-							{links.slice(0, 4).map(({ href, icon, label }) => (
+						<div className="grid gap-7 font-medium">
+							{links.map(({ href, icon, label }) => (
 								<Link
 									href={href}
 									key={href}
@@ -134,51 +132,7 @@ export default function Aside() {
 								</Link>
 							))}
 						</div>
-						<Separator orientation="horizontal" />
-						<div className="flex flex-col gap-4 md:gap-2">
-							<div className="grid gap-5 font-medium pb-2">
-								{links.slice(4, -4).map(({ href, icon, label }) => (
-									<Link
-										href={href}
-										key={href}
-										className={`${
-											pathname === href && "bg-clr-2 "
-										} flex items-center gap-4 px-2.5   p-[2px] rounded-md hover:text-clr-7`}
-									>
-										<div className={`${pathname === href && "text-clr-7"}`}>
-											{icon}
-										</div>
-										<div className={`${pathname === href && "text-clr-7"}`}>
-											{label}
-										</div>
-									</Link>
-								))}
-							</div>
-						</div>
 					</div>
-					<nav>
-						<Separator orientation="horizontal" />
-						<div className="absolute md:bottom-8 bottom-10 left-2 right-2">
-							<div className="grid gap-4 font-medium">
-								{links.slice(8, 12).map(({ href, icon, label }) => (
-									<Link
-										href={href}
-										key={href}
-										className={`${
-											pathname === href && "bg-clr-2"
-										} flex items-center gap-4 px-2.5 p-[2px] rounded-md hover:text-clr-7`}
-									>
-										<div className={`${pathname === href && "text-clr-7"}`}>
-											{icon}
-										</div>
-										<div className={`${pathname === href && "text-clr-7"}`}>
-											{label}
-										</div>
-									</Link>
-								))}
-							</div>
-						</div>
-					</nav>
 				</nav>
 			</nav>
 		</aside>

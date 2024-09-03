@@ -20,7 +20,7 @@ export default async function layout({
 	return (
 		<div className="">
 			<div className="flex">
-				<div className=" flex-1">
+				<div className="flex-1">
 					<Aside />
 				</div>
 

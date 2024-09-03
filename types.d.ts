@@ -78,3 +78,44 @@ export interface Store {
 	about?: string | null;
 	created_at: string;
 }
+
+// export interface Coupon {
+// 	id: string;
+// 	name: string;
+// 	code: string;
+// 	type: "percentage" | "fixed" | "freeShipping" | "salePrice" | "buyXGetY";
+// 	discountPercentage?: number;
+// 	discountAmount?: number;
+// 	buyX?: number;
+// 	getYFree?: number;
+// 	validFrom: string; // Assuming this will be in ISO date format
+// 	validTo: string; // Assuming this will be in ISO date format
+// 	limitTotalUses?: boolean;
+// 	maxUses?: number;
+// 	limitOnePerCustomer?: boolean;
+// 	applyTo: "all" | "specific";
+// 	productIds?: string[]; // Assuming product IDs are stored as a comma-separated string
+// 	minPurchaseAmount?: number;
+// 	created_at: string;
+// }
+
+export interface Coupon {
+	applyto?: string | null;
+	sale_price: number | null;
+	has_end_date: boolean | null;
+	buyx?: number | null;
+	code?: string | null;
+	discountamount?: number | null;
+	discountpercentage?: number | null;
+	getyfree?: number | null;
+	id?: string | null;
+	limitonepercustomer?: boolean | null;
+	limittotaluses?: boolean | null;
+	maxuses?: number | null;
+	name?: string | null;
+	product_ids?: string[] | null;
+	type?: string | null;
+	validfrom?: string | null;
+	validto?: string | null;
+	created_at?: string;
+}

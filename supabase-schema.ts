@@ -159,6 +159,66 @@ export type Database = {
 					}
 				];
 			};
+			coupons: {
+				Row: {
+					applyto: string | null;
+					buyx: number | null;
+					code: string | null;
+					discountamount: number | null;
+					discountpercentage: number | null;
+					getyfree: number | null;
+					has_end_date: boolean | null;
+					id: string;
+					limitonepercustomer: boolean | null;
+					limittotaluses: boolean | null;
+					maxuses: number | null;
+					name: string | null;
+					product_ids: string[] | null;
+					sale_price: number | null;
+					type: string | null;
+					validfrom: string | null;
+					validto: string | null;
+				};
+				Insert: {
+					applyto?: string | null;
+					buyx?: number | null;
+					code?: string | null;
+					discountamount?: number | null;
+					discountpercentage?: number | null;
+					getyfree?: number | null;
+					has_end_date?: boolean | null;
+					id?: string;
+					limitonepercustomer?: boolean | null;
+					limittotaluses?: boolean | null;
+					maxuses?: number | null;
+					name?: string | null;
+					product_ids?: string[] | null;
+					sale_price?: number | null;
+					type?: string | null;
+					validfrom?: string | null;
+					validto?: string | null;
+				};
+				Update: {
+					applyto?: string | null;
+					buyx?: number | null;
+					code?: string | null;
+					discountamount?: number | null;
+					discountpercentage?: number | null;
+					getyfree?: number | null;
+					has_end_date?: boolean | null;
+					id?: string;
+					limitonepercustomer?: boolean | null;
+					limittotaluses?: boolean | null;
+					maxuses?: number | null;
+					name?: string | null;
+					product_ids?: string[] | null;
+					sale_price?: number | null;
+					type?: string | null;
+					validfrom?: string | null;
+					validto?: string | null;
+				};
+				Relationships: [];
+			};
 			customers: {
 				Row: {
 					address: string | null;

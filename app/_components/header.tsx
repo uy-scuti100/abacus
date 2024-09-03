@@ -19,8 +19,8 @@ export default function Header() {
 	return (
 		<header className="relative w-full container px-4 md:px-[2rem] top-0 py-5 flex justify-between items-center border-b backdrop-blur-3xl z-[9999999]">
 			<div className="flex items-center gap-2">
-				<Logo />
-				<h1 className="text-xl ">Abacus</h1>
+				<Logo className=" w-[30px] h-[30px] " />
+				<h1 className="font-medium uppercase">Abacus</h1>
 			</div>
 
 			<div className="flex items-center gap-5">

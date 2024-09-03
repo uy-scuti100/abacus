@@ -1653,3 +1653,4 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 														))}
 													</div> */
 }
+// but with the inputs  thats suits well with the coupon creation and when specific is chosen , i ant the drip dowen that shwos the prioducts to be show an image of that product and its name as the selct option

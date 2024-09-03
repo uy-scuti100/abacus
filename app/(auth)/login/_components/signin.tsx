@@ -14,6 +14,7 @@ import { FiLoader } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { Label } from "@/components/ui/label";
 import { useSearchParams } from "next/navigation";
+import Logo from "@/app/_components/assets/logo";
 
 export default function SignIn() {
 	const [passwordReveal, setPasswordReveal] = useState(false);
@@ -48,7 +49,7 @@ export default function SignIn() {
 		<div className="fixed inset-0 flex items-center justify-center">
 			<div className="grid justify-center w-full sm:w-[26rem] sm:p-5">
 				<div className="text-center space-y-8">
-					<Link href={"/store"}>
+					{/* <Link href={"/store"}>
 						<Image
 							src={"/logo-short.svg"}
 							alt="abacus logo"
@@ -56,10 +57,18 @@ export default function SignIn() {
 							height={150}
 							className="mx-auto"
 						/>
-					</Link>
+					</Link> */}
 
-					<p className="text-sm pb-5">
+					<div className="flex justify-center items-center gap-2">
+						<Logo className="w-[100px] h-[100px]" />
+					</div>
+
+					{/* <p className="text-sm pb-5">
 						Welcome back! Please sign in to continue
+					</p> */}
+					<p className="pb-5 font-medium">
+						Welcome! <br />
+						Please sign in to continue
 					</p>
 				</div>
 

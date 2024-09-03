@@ -9,7 +9,8 @@ interface FetchDataOptions {
 		| "products"
 		| "stores"
 		| "vendors"
-		| "customers";
+		| "customers"
+		| "coupons";
 	queryKey: string[];
 }
 

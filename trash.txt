@@ -1781,3 +1781,141 @@ export default corsEnabledHandler;
 // }
 
 // global imports
+
+
+
+
+import { createSupabaseServer } from "@/supabase/server";
+import { redirect } from "next/navigation";
+import { SampleComponent } from "../_components/sample-chart";
+
+interface DashBoardPageProps {
+	params: { id: string };
+}
+
+const DashboardPage: React.FC<DashBoardPageProps> = async ({ params }) => {
+	const supabase = createSupabaseServer();
+
+	const { data: currentUser } = await supabase.auth.getUser();
+	const userId = currentUser.user?.id;
+	if (!userId) {
+		redirect("/login");
+	}
+
+	const { data: store, error } = await supabase
+		.from("stores")
+		.select("*")
+		.eq("id", params.id)
+		.eq("vendor_id", userId)
+		.single();
+
+	if (!store) {
+		redirect("/store");
+	}
+
+	return (
+		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<h1 className="text-4xl font-extrabold text-gray-900 mb-6">
+				{store.name} Dashboard
+			</h1>
+			<p className="text-xl text-gray-700 mb-8">
+				Welcome back! Here's an overview of your store's performance:
+			</p>
+
+			<div className="bg-white shadow-lg rounded-lg p-6 mb-8">
+				<h2 className="text-2xl font-bold text-gray-800 mb-4">Key Insights</h2>
+				<ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<li className="flex items-center">
+						<svg
+							className="h-6 w-6 text-green-500 mr-2"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M5 13l4 4L19 7"
+							/>
+						</svg>
+						<span>Top-selling product: Premium Headphones</span>
+					</li>
+					<li className="flex items-center">
+						<svg
+							className="h-6 w-6 text-green-500 mr-2"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M5 13l4 4L19 7"
+							/>
+						</svg>
+						<span>Customer satisfaction: 95%</span>
+					</li>
+					<li className="flex items-center">
+						<svg
+							className="h-6 w-6 text-green-500 mr-2"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M5 13l4 4L19 7"
+							/>
+						</svg>
+						<span>Average order value: $82.50</span>
+					</li>
+					<li className="flex items-center">
+						<svg
+							className="h-6 w-6 text-green-500 mr-2"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M5 13l4 4L19 7"
+							/>
+						</svg>
+						<span>Inventory turnover: 4.8 times/month</span>
+					</li>
+				</ul>
+			</div>
+
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+				<div className="bg-white shadow-lg rounded-lg p-6">
+					<h2 className="text-2xl font-bold text-gray-800 mb-4">
+						Sales Overview
+					</h2>
+					<SampleComponent />
+				</div>
+				<div className="bg-white shadow-lg rounded-lg p-6">
+					<h2 className="text-2xl font-bold text-gray-800 mb-4">
+						Customer Insights
+					</h2>
+					<SampleComponent />
+				</div>
+			</div>
+
+			<div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8">
+				<p className="text-blue-700">
+					<span className="font-semibold">Pro Tip:</span> Use these insights to
+					optimize your inventory, improve customer experience, and boost your
+					sales performance.
+				</p>
+			</div>
+		</div>
+	);
+};
+
+export default DashboardPage;
