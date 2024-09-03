@@ -25,7 +25,7 @@ const links = [
 export default function Footer() {
 	return (
 		<footer className="mt-20 mx-auto">
-			<div className="flex flex-col md:flex-row justify-between items-center gap-5 py-10">
+			<div className="flex flex-col md:flex-row justify-center items-center gap-5 py-10">
 				<div className="flex  items-center gap-5">
 					{links.map((link) => {
 						return (

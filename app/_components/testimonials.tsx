@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
+import Image from "next/image";
 const reviews = [
 	{
 		name: "Arjun",
@@ -66,11 +67,11 @@ const ReviewCard = ({
 				)}
 			>
 				<div className="flex flex-row items-center gap-2">
-					<img
+					<Image
 						className="rounded-full"
 						width="32"
 						height="32"
-						alt=""
+						alt="image"
 						src={img}
 					/>
 					<div className="flex flex-col">

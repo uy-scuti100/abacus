@@ -15,8 +15,8 @@ export default async function page({ params }: { params: { id: string } }) {
 		redirect("/login");
 	}
 	return (
-		<div className="flex-col">
-			<div className="flex-1 space-y-4 p-4 pt-6">
+		<div className="flex-col p-2">
+			<div className="flex-1 space-y-4  p-4 rounded-lg bg-white max-w-7xl ">
 				<CouponClient storeId={params.id} />
 			</div>
 		</div>

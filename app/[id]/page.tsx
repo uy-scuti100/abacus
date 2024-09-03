@@ -32,7 +32,7 @@ const DashboardPage: React.FC<DashBoardPageProps> = async ({ params }) => {
 
 	return (
 		<div className="max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-			<h1 className="text-3xl font-extrabold text-gray-900 mb-6">
+			<h1 className="text-2xl font-extrabold capitalize text-gray-900 mb-6">
 				{store.name} Dashboard
 			</h1>
 

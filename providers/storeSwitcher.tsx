@@ -81,7 +81,7 @@ export default function StoreSwitcher({
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
 				<Button
-					variant="outline"
+					variant="default"
 					size="sm"
 					role="combobox"
 					aria-expanded={isOpen}
@@ -95,7 +95,9 @@ export default function StoreSwitcher({
 						height={22}
 						className="mr-2"
 					/> */}
+
 					<span>{label}</span>
+
 					{/* <Image
 						src={Chevron}
 						alt="chevron-icon"
@@ -110,7 +112,7 @@ export default function StoreSwitcher({
 					<CommandList>
 						<CommandInput placeholder="Search store..." />
 						<CommandEmpty>No store found</CommandEmpty>
-						<CommandGroup heading="Stores">
+						<CommandGroup heading="Your Stores">
 							{formattedItems.map((item) => (
 								<CommandItem
 									key={item.value}

@@ -2703,3 +2703,43 @@ export default DashboardPage;
 // 		</div>
 // 	);
 // };
+
+
+<div className="p-4">
+			<h2 className="text-2xl font-bold mb-4">Coupons Management</h2>
+
+			<div className="mb-6">
+				<button
+					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					onClick={() => setShowForm(!showForm)}
+				>
+					{showForm ? "Hide Coupon Form" : "Create New Coupon"}
+				</button>
+			</div>
+
+			{showForm && <CouponForm />}
+
+			<CouponList />
+
+			<div className="mt-8">
+				<h3 className="text-xl font-semibold mb-2">Available Coupon Types:</h3>
+				<ul className="list-disc list-inside">
+					<li>Percentage Discount</li>
+					<li>Fixed Cash Discount</li>
+					<li>Free Shipping</li>
+					<li>Sale Price</li>
+					<li>Buy X Get Y Free</li>
+				</ul>
+			</div>
+
+			<div className="mt-4">
+				<h3 className="text-xl font-semibold mb-2">Coupon Options:</h3>
+				<ul className="list-disc list-inside">
+					<li>Set valid date range</li>
+					<li>Limit total number of uses</li>
+					<li>Limit to one use per customer</li>
+					<li>Apply to specific products or all products</li>
+					<li>Set minimum purchase amount</li>
+				</ul>
+			</div>
+		</div>

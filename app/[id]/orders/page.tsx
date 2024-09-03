@@ -13,24 +13,26 @@ export default async function page() {
 		redirect("/login");
 	}
 	return (
-		<div className="p-4">
-			<div className="max-w-4xl mx-auto py-8">
-				<h1 className="text-3xl font-bold mb-4">Orders Management</h1>
-				<p className="text-gray-600 mb-6">
-					Welcome to the Orders Management page. Here you can view, track, and
-					manage all customer orders efficiently.
-				</p>
-				<h2 className="text-2xl font-semibold mb-3">Key Features:</h2>
-				<ul className="list-disc pl-6 mb-6">
-					<li>View all orders in real-time</li>
-					<li>Track order status and update as needed</li>
-					<li>Manage customer information and order details</li>
-					<li>Generate reports and analytics</li>
-				</ul>
-				<p className="text-gray-600">
-					Use the tools and features available on this page to streamline your
-					order management process and enhance customer satisfaction.
-				</p>
+		<div className="flex-col p-2">
+			<div className="flex-1 space-y-4  p-4 rounded-lg bg-white max-w-7xl ">
+				<div>
+					<h1 className="text-3xl font-bold mb-4">Orders Management</h1>
+					<p className="text-gray-600 mb-6">
+						Welcome to the Orders Management page. Here you can view, track, and
+						manage all customer orders efficiently.
+					</p>
+					<h2 className="text-2xl font-semibold mb-3">Key Features:</h2>
+					<ul className="list-disc pl-6 mb-6">
+						<li>View all orders in real-time</li>
+						<li>Track order status and update as needed</li>
+						<li>Manage customer information and order details</li>
+						<li>Generate reports and analytics</li>
+					</ul>
+					<p className="text-gray-600">
+						Use the tools and features available on this page to streamline your
+						order management process and enhance customer satisfaction.
+					</p>
+				</div>
 			</div>
 		</div>
 	);

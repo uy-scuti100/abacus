@@ -119,7 +119,7 @@ export default function Header() {
 		{
 			href: `/${id}/customers`,
 			icon: <UsersRound className="w-5 h-5 " />,
-			label: "Customers",
+			label: "Contacts",
 		},
 		{
 			href: `/${id}/orders`,
@@ -164,7 +164,7 @@ export default function Header() {
 	];
 
 	return (
-		<header className="sticky top-0 z-30 flex items-center gap-4 p-4 border-b h-[70px] bg-background sm:h-auto">
+		<header className="sticky top-0 z-30 flex items-center gap-4 p-4 border-b h-[70px] bg-background sm:h-auto rounded-bl-lg">
 			{isRefreshing && (
 				<div className="fixed inset-0 bg-black/50 z-[5000000] flex justify-center items-center text-white">
 					<Loader className="animate-spin duration-1000 " size={50} />
@@ -187,7 +187,7 @@ export default function Header() {
 			>
 				<div
 					ref={navRef}
-					className="px-5  absolute top-0 rounded-sm ring-offset-background transition-opacity focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none bg-secondary inset-y-0 left-0 h-full w-3/4 border-r "
+					className="px-5  absolute top-0 rounded-sm ring-offset-background transition-opacity focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none bg-secondary inset-y-0 left-0 h-full w-3/4 border-r"
 				>
 					<div className="flex relative justify-between w-full items-center pt-3">
 						<Link

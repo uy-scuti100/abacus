@@ -8,7 +8,7 @@ export default function HeroImage() {
 				width={1920}
 				height={1080}
 				alt="hero"
-				className="object-cover rounded-lg w-full h-full "
+				className="object-cover rounded-lg w-full h-full"
 			/>
 		</div>
 	);

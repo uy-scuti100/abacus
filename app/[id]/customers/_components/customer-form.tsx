@@ -123,16 +123,16 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 					.select();
 
 				if (error) {
-					toast.error("Failed to updated Customer");
+					toast.error("Failed to update Contact");
 					router.refresh();
 					return;
 				}
 
 				if (customer) {
-					toast.success("Customer Updated");
+					toast.success("Contact Info Updated");
 					router.push(`/${params?.id}/customers`);
 				} else {
-					toast.error("Failed to update Customer");
+					toast.error("Failed to update Contact");
 					router.refresh();
 				}
 			} else {
@@ -156,17 +156,17 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 					.select();
 
 				if (error) {
-					toast.error("Failed to create Customer");
+					toast.error("Failed to create Contact");
 					router.refresh();
 					return;
 				}
 
 				if (customer && !error) {
-					toast.success("Customer Created");
+					toast.success("Contact Created");
 					window.location.assign(`/${params?.id}/customers`);
 					router.refresh();
 				} else {
-					toast.error("Failed to create Customer");
+					toast.error("Failed to create Contact");
 					router.refresh();
 				}
 			}
@@ -188,12 +188,12 @@ export const CustomerForm: React.FC<CustomerFormProps> = ({
 				.eq("id", params?.customerId!)
 				.select();
 			if (!error) {
-				toast.success("Customer deleted!");
+				toast.success("Contact deleted!");
 
 				window.location.reload();
 			} else {
-				toast.error("Failed to delete Customer");
-				console.error("Error updating Customer:", error);
+				toast.error("Failed to delete Contact");
+				console.error("Error updating Contact:", error);
 			}
 		} catch (error: any) {
 			console.error("An error occurred:", error.message);

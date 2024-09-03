@@ -14,8 +14,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 	}
 
 	return (
-		<div className="flex-col p-3">
-			<div className="flex-1 space-y-4 pt-6">
+		<div className="flex-col p-2">
+			<div className="flex-1 space-y-4  p-4 rounded-lg bg-white max-w-7xl ">
 				<CategoryClient storeId={params.id} />
 			</div>
 		</div>

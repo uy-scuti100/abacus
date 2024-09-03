@@ -17,9 +17,11 @@ export default async function page({ params }: { params: { id: string } }) {
 		redirect("/login");
 	}
 	return (
-		<div className="flex-col p-4 max-w-[7xl] bg-white mx-auto">
-			<div className="flex-1 space-y-4 pt-6">
-				<ProductClient storeId={params.id} />
+		<div className="flex-col p-2">
+			<div className="flex-1 space-y-4  p-4 rounded-lg bg-white max-w-7xl ">
+				<div className="flex-1 space-y-4 pt-6">
+					<ProductClient storeId={params.id} />
+				</div>
 			</div>
 		</div>
 	);

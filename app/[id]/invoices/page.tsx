@@ -31,68 +31,41 @@ export default function CouponsPage() {
 	if (!mounted) return null;
 
 	return (
-		<div className="p-4">
-			<h2 className="text-2xl font-bold mb-4">Coupons Management</h2>
+		<div className="flex-col p-2">
+			<div className="flex-1 space-y-4  p-4 rounded-lg bg-white max-w-7xl ">
+				<div className="container bg-white w-full rounded-xl p-4 ">
+					<h1 className="text-3xl font-bold mb-6">Invoice Management</h1>
+					<p className="text-lg mb-4">
+						Welcome to your invoice dashboard. Here you can manage all your
+						invoices efficiently.
+					</p>
 
-			<div className="mb-6">
-				<button
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-					onClick={() => setShowForm(!showForm)}
-				>
-					{showForm ? "Hide Coupon Form" : "Create New Coupon"}
-				</button>
-			</div>
+					<h2 className="text-2xl font-semibold mb-4">Features</h2>
+					<ul className="list-disc list-inside mb-6">
+						<li className="mb-2">Create and edit invoices</li>
+						<li className="mb-2">Track payment status</li>
+						<li className="mb-2">Generate reports</li>
+						<li className="mb-2">Manage clients</li>
+					</ul>
 
-			{showForm && <CouponForm />}
+					<p className="text-lg mb-6">
+						Use the tools below to start managing your invoices and streamline
+						your billing process.
+					</p>
 
-			<CouponList />
-
-			<div className="mt-8">
-				<h3 className="text-xl font-semibold mb-2">Available Coupon Types:</h3>
-				<ul className="list-disc list-inside">
-					<li>Percentage Discount</li>
-					<li>Fixed Cash Discount</li>
-					<li>Free Shipping</li>
-					<li>Sale Price</li>
-					<li>Buy X Get Y Free</li>
-				</ul>
-			</div>
-
-			<div className="mt-4">
-				<h3 className="text-xl font-semibold mb-2">Coupon Options:</h3>
-				<ul className="list-disc list-inside">
-					<li>Set valid date range</li>
-					<li>Limit total number of uses</li>
-					<li>Limit to one use per customer</li>
-					<li>Apply to specific products or all products</li>
-					<li>Set minimum purchase amount</li>
-				</ul>
+					<div className="bg-gray-100 p-6 rounded-lg">
+						<h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
+						<div className="flex space-x-4">
+							<button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+								Create New Invoice
+							</button>
+							<button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+								View All Invoices
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 }
-
-// local imports
-// import { createSupabaseServer } from "@/supabase/server";
-
-// import { redirect } from "next/navigation";
-// import CategoryClient from "./_components/categoryClient";
-
-// export default async function Page({ params }: { params: { id: string } }) {
-// 	const supabase = createSupabaseServer();
-// 	const {
-// 		data: { user },
-// 	} = await supabase.auth.getUser();
-
-// 	if (!user) {
-// 		redirect("/login");
-// 	}
-
-// 	return (
-// 		<div className="flex-col p-3">
-// 			<div className="flex-1 space-y-4 pt-6">
-// 				<CategoryClient storeId={params.id} />
-// 			</div>
-// 		</div>
-// 	);
-// }

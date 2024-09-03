@@ -58,7 +58,7 @@ export default function Aside() {
 		{
 			href: `/${id}/customers`,
 			icon: <UsersRound className="w-5 h-5 " />,
-			label: "Customers",
+			label: "Contacts",
 		},
 		{
 			href: `/${id}/orders`,

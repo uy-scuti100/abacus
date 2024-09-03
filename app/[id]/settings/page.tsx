@@ -48,14 +48,16 @@ export default async function SettingsPage({
 	}
 
 	return (
-		<div className="flex-col p-3">
-			<div className="flex-1 space-y-4 pt-6">
-				<SettingsForm
-					initialData={store}
-					// apiKey={apiKey}
-					storeId={storeId}
-					vendorId={userId}
-				/>
+		<div className="flex-col p-2">
+			<div className="flex-1 space-y-4  p-4 rounded-lg bg-white max-w-7xl ">
+				<div className="flex-1 space-y-4 pt-6">
+					<SettingsForm
+						initialData={store}
+						// apiKey={apiKey}
+						storeId={storeId}
+						vendorId={userId}
+					/>
+				</div>
 			</div>
 		</div>
 	);
