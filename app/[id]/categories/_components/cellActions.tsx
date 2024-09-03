@@ -56,10 +56,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 			setIsOpen(false);
 		}
 	};
-	const onCopy = (id: string) => {
-		navigator.clipboard.writeText(id);
-		toast.success("Category id copied to the clipboard");
-	};
+	// const onCopy = (id: string) => {
+	// 	navigator.clipboard.writeText(id);
+	// 	toast.success("Category id copied to the clipboard");
+	// };
 	return (
 		<>
 			{isRefreshing && (
