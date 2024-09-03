@@ -319,5 +319,3 @@ const SampleComponent: React.FC<SampleComponentProps> = ({
 	// Implement the actual chart rendering logic here
 	return <div>{title}</div>;
 };
-
-export { LineChart, BarChart, PieChart };
