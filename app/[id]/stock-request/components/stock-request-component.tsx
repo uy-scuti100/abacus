@@ -3,15 +3,15 @@
 import { useState } from "react";
 
 export default function StockRequestComponent() {
-	const [products, setProducts] = useState([]);
-	const [selectedProducts, setSelectedProducts] = useState([]);
+	const [products, setProducts] = useState<any[]>([]);
+	const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
 	const [emailSubject, setEmailSubject] = useState("");
 	const [emailBody, setEmailBody] = useState("");
 
-	const handleProductSelect = (productId) => {
-		setSelectedProducts((prev) =>
+	const handleProductSelect = (productId: number) => {
+		setSelectedProducts((prev: number[]) =>
 			prev.includes(productId)
-				? prev.filter((id) => id !== productId)
+				? prev.filter((id: number) => id !== productId)
 				: [...prev, productId]
 		);
 	};
