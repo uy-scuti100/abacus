@@ -267,7 +267,7 @@ const fetchInventoryData = async (storeId: string) => [
 		status: "Low Stock",
 		reorderPoint: 15,
 	},
-	// ... more inventory items
+	// ... more products
 ];
 
 export default DashboardPage;
