@@ -25,6 +25,7 @@ import {
 	Search,
 	Settings,
 	ShoppingCart,
+	Store,
 	Tag,
 	TicketPercent,
 	UsersRound,
@@ -182,13 +183,13 @@ export default function Header() {
 			<nav
 				className={`${
 					open ? "translate-x-0" : "-translate-x-full"
-				} md:hidden fixed inset-0 overflow-hidden custom-easing pt-5 pb-10 z-[5000] bg-clr-2`}
+				} md:hidden fixed inset-0 overflow-hidden custom-easing pt-5 pb-10 z-[5000] backdrop-blur-md`}
 			>
 				<div
 					ref={navRef}
-					className="px-2  absolute top-0 rounded-sm ring-offset-background transition-opacity focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none bg-secondary inset-y-0 left-0 h-full w-3/4 border-r "
+					className="px-5  absolute top-0 rounded-sm ring-offset-background transition-opacity focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none bg-secondary inset-y-0 left-0 h-full w-3/4 border-r "
 				>
-					<div className="flex justify-between w-full items-center pt-3">
+					<div className="flex relative justify-between w-full items-center pt-3">
 						<Link
 							href="/"
 							className="flex items-center gap-4 `px-2.5 text-muted-foreground hover:text-foreground w-fit"
@@ -212,19 +213,10 @@ export default function Header() {
 							</Button>
 						</div>
 					</div>
-					<div className="py-5 h-[70px]">
-						{stores && (
-							<StoreSwitcher
-								items={stores}
-								className="w-full"
-								setIsRefreshing={setIsRefreshing}
-							/>
-						)}
-					</div>
-					<Separator orientation="horizontal" />
-					<nav className="flex flex-col justify-between gap-12 py-3">
+
+					<nav className="flex flex-col justify-between gap-12 py-3 mt-10">
 						<div className="flex flex-col gap-4">
-							<div className="grid gap-6 font-medium">
+							<div className="grid gap-7 font-medium">
 								{links.map(({ href, icon, label }) => (
 									<Link
 										href={href}
@@ -243,17 +235,21 @@ export default function Header() {
 							</div>
 						</div>
 					</nav>
+
+					{/* <div className="absolute bottom-0 py-3">
+						{stores ? (
+							<StoreSwitcher
+								items={stores}
+								className="w-full"
+								setIsRefreshing={setIsRefreshing}
+							/>
+						) : (
+							<div className="bg-clr-1 h-10 w-10 animate-pulse rounded-lg"></div>
+						)}
+					</div> */}
 				</div>
 			</nav>
-			<div className="md:flex items-center gap-5 hidden">
-				{stores && (
-					<StoreSwitcher
-						items={stores}
-						className="w-full"
-						setIsRefreshing={setIsRefreshing}
-					/>
-				)}
-			</div>
+
 			<div className="relative flex-1 ml-auto md:grow-0">
 				<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
 				<Input
@@ -262,7 +258,7 @@ export default function Header() {
 					className="w-full bg-background pl-8 md:w-[200px] lg:w-[336px]"
 				/>
 			</div>
-			{/* <DropdownMenu>
+			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button
 						variant="outline"
@@ -272,7 +268,22 @@ export default function Header() {
 						<BellIcon className="h-5 w-5" />
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent align="end">
+			</DropdownMenu>
+
+			{stores ? (
+				<StoreSwitcher
+					items={stores}
+					className="w-fit"
+					setIsRefreshing={setIsRefreshing}
+				/>
+			) : (
+				<div className="bg-clr-1 h-10 w-10 animate-pulse rounded-lg"></div>
+			)}
+		</header>
+	);
+}
+{
+	/* <DropdownMenuContent align="end">
 					<DropdownMenuLabel>
 						<Link href={`/${params?.id}/settings`}>My Account</Link>
 					</DropdownMenuLabel>
@@ -280,10 +291,18 @@ export default function Header() {
 					<DropdownMenuItem>
 						<SignOutButton />
 					</DropdownMenuItem>
-				</DropdownMenuContent>
-			</DropdownMenu> */}
-
-			<DropdownMenu>
+				</DropdownMenuContent> */
+}
+{
+	/* <Link
+						className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+						href={`/${params?.id}/categories/${data.id}`}
+					>
+						<Edit className="mr-2 h-4 w-4" /> Edit
+					</Link> */
+}
+{
+	/* <DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button
 						variant="outline"
@@ -296,6 +315,7 @@ export default function Header() {
 								{userEmail?.substring(0, 2).toUpperCase()}
 							</AvatarFallback>
 						</Avatar>
+						<Store className="h-5 w-5" />
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
@@ -304,19 +324,28 @@ export default function Header() {
 					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
+                    {stores && (
+							<StoreSwitcher
+								items={stores}
+								className="w-full"
+								setIsRefreshing={setIsRefreshing}
+							/>
+						)}
 						<SignOutButton />
 					</DropdownMenuItem>
 				</DropdownMenuContent>
-			</DropdownMenu>
-		</header>
-	);
+                
+			</DropdownMenu> */
 }
 
 {
-	/* <Link
-						className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-						href={`/${params?.id}/categories/${data.id}`}
-					>
-						<Edit className="mr-2 h-4 w-4" /> Edit
-					</Link> */
+	/* <div className="md:flex items-center gap-5 hidden">
+	{stores && (
+		<StoreSwitcher
+			items={stores}
+			className="w-full"
+			setIsRefreshing={setIsRefreshing}
+		/>
+	)}
+</div>; */
 }

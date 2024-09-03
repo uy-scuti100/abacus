@@ -40,35 +40,43 @@ import useFetchData from "@/hooks/useFetchCategories";
 import Image from "next/image";
 
 const formSchema = z.object({
-	name: z.string().min(1, "Name is required"),
-	code: z.string().min(1, "Code is required"),
-	type: z.enum([
-		"percentage",
-		"fixed",
-		"freeShipping",
-		"salePrice",
-		"buyXGetY",
-	]),
-	discountPercentage: z.number().min(0).max(100).positive().optional(),
-	discountAmount: z.number().min(0).positive().optional(),
-	buyX: z.number().min(1).optional(),
-	getYFree: z.number().min(1).optional(),
-	validFrom: z.string().refine((val) => !isNaN(Date.parse(val)), {
-		message: "Invalid date format",
-	}),
-	validTo: z.string().refine((val) => !isNaN(Date.parse(val)), {
-		message: "Invalid date format",
-	}),
-	limitTotalUses: z.boolean().optional(),
-	maxUses: z.number().min(1).optional(),
-	limitOnePerCustomer: z.boolean().optional(),
-	applyto: z.enum(["all", "specific"]),
-	productIds: z.array(z.string()).optional(),
-	created_at: z.string().refine((val) => !isNaN(Date.parse(val)), {
-		message: "Invalid date format",
-	}),
-	hasEndDate: z.boolean().optional(),
-	salePrice: z.number().optional(),
+	name: z.string().min(1, "Name is required").nullable(),
+	code: z.string().min(1, "Code is required").nullable(),
+	type: z
+		.enum(["percentage", "fixed", "freeShipping", "salePrice", "buyXGetY"])
+		.nullable(),
+	discountPercentage: z
+		.number()
+		.min(0)
+		.max(100)
+		.positive()
+		.nullable()
+		.optional(),
+	discountAmount: z.number().min(0).positive().nullable().optional(),
+	buyX: z.number().min(1).nullable().optional(),
+	getYFree: z.number().min(1).nullable().optional(),
+	validFrom: z
+		.string()
+		.refine((val) => !isNaN(Date.parse(val)), {
+			message: "Invalid date format",
+		})
+		.nullable()
+		.optional(),
+	validTo: z
+		.string()
+		.refine((val) => !isNaN(Date.parse(val)), {
+			message: "Invalid date format",
+		})
+		.nullable()
+		.optional(),
+	limitTotalUses: z.boolean().nullable().optional(),
+	maxUses: z.number().min(1).nullable().optional(),
+	limitOnePerCustomer: z.boolean().nullable().optional(),
+	applyTo: z.enum(["all", "specific"]).nullable(),
+	productIds: z.array(z.string()).nullable().optional(),
+	hasEndDate: z.boolean().nullable().optional(),
+	salePrice: z.number().positive().nullable().optional(),
+	store_id: z.string().nullable().optional(),
 });
 
 type CouponFormValues = z.infer<typeof formSchema>;
@@ -86,6 +94,11 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 	const router = useRouter();
 	const user = useUser();
 	const userId = user.data?.id;
+	const [isEndDateEnabled, setIsEndDateEnabled] = useState(false);
+
+	const handleEndDateToggle = () => {
+		setIsEndDateEnabled(!isEndDateEnabled);
+	};
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -109,177 +122,220 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 		resolver: zodResolver(formSchema),
 		defaultValues: initialData
 			? {
-					name: initialData.name ?? undefined,
-					code: initialData.code ?? undefined,
+					name: initialData.name ?? null,
+					code: initialData.code ?? null,
 					type: initialData.type as
 						| "percentage"
 						| "fixed"
 						| "freeShipping"
 						| "salePrice"
 						| "buyXGetY"
-						| undefined,
-					discountPercentage: initialData.discountpercentage ?? undefined,
-					discountAmount: initialData.discountamount ?? undefined,
-					buyX: initialData.buyx ?? undefined,
-					getYFree: initialData.getyfree ?? undefined,
-					validFrom: initialData.validfrom ?? undefined,
-					validTo: initialData.validto ?? undefined,
-					limitTotalUses: initialData.limittotaluses ?? undefined,
-					maxUses: initialData.maxuses ?? undefined,
-					limitOnePerCustomer: initialData.limitonepercustomer ?? undefined,
-					applyto: initialData.applyto as "all" | "specific" | undefined,
-					productIds: initialData.product_ids ?? undefined,
-					created_at: initialData.created_at ?? undefined,
-					hasEndDate: initialData.has_end_date ?? undefined,
-					salePrice: initialData.sale_price ?? undefined,
-					// endDate: initialData.ended_at ?? undefined,
+						| null,
+					discountPercentage: initialData.discount_percentage ?? null,
+					discountAmount: initialData.discount_amount ?? null,
+					buyX: initialData.buy_x ?? null,
+					getYFree: initialData.get_y_free ?? null,
+					validFrom: initialData.valid_from ?? null,
+					validTo: initialData.valid_to ?? null,
+					limitTotalUses: initialData.limit_total_uses ?? null,
+					maxUses: initialData.max_uses ?? null,
+					limitOnePerCustomer: initialData.limit_one_per_customer ?? null,
+					applyTo: initialData.apply_to as "all" | "specific" | null,
+					productIds: initialData.product_ids ?? null,
+					hasEndDate: initialData.has_end_date ?? null,
+					salePrice: initialData.sale_price ?? null,
+					store_id: initialData.store_id ?? null,
 			  }
 			: undefined,
 	});
 
 	// const onSubmit = async (values: CouponFormValues) => {
-	// 	try {
-	// 		setIsLoading(true);
-	// 		if (initialData) {
-	// 			const supabase = createSupabaseBrowser();
-	// 			const updatedCouponData = {
-	// 				name: values.name,
-	// 				code: values.code,
-	// 				type: values.type,
-	// 				discountpercentage: values.discountPercentage,
-	// 				discountamount: values.discountAmount,
-	// 				buyx: values.buyX,
-	// 				getyfree: values.getYFree,
-	// 				validfrom: values.validFrom,
-	// 				validto: values.validTo,
-	// 				limittotaluses: values.limitTotalUses,
-	// 				maxuses: values.maxUses,
-	// 				limitonepercustomer: values.limitOnePerCustomer,
-	// 				applyto: values.applyto,
-	// 				product_ids: values.productIds,
-	// 				has_end_date: values.hasEndDate,
-	// 				sale_price: values.salePrice,
-	// 			};
+	// 	// try {
+	// 	// 	setIsLoading(true);
 
-	// 			const { data: Coupon, error } = await supabase
-	// 				.from("coupons")
-	// 				.update(updatedCouponData)
-	// 				.eq("id", initialData.id ?? "")
-	// 				.select();
+	// 	// 	// Conflict Resolution
+	// 	// 	let updatedValues = { ...values };
 
-	// 			if (error) {
-	// 				toast.error("Failed to update Coupon");
-	// 				router.refresh();
-	// 				return;
-	// 			}
+	// 	// 	// Handle Discount Types Conflict
+	// 	// 	if (updatedValues.type === "percentage") {
+	// 	// 		updatedValues.discountAmount = undefined;
+	// 	// 		updatedValues.salePrice = undefined;
+	// 	// 	} else if (updatedValues.type === "fixed") {
+	// 	// 		updatedValues.discountPercentage = undefined;
+	// 	// 		updatedValues.salePrice = undefined;
+	// 	// 	} else if (updatedValues.type === "salePrice") {
+	// 	// 		updatedValues.discountPercentage = undefined;
+	// 	// 		updatedValues.discountAmount = undefined;
+	// 	// 	}
 
-	// 			if (Coupon) {
-	// 				toast.success("Coupon Updated");
-	// 				router.push(`/${params?.id}/Coupons`);
-	// 			} else {
-	// 				toast.error("Failed to update Coupon");
-	// 				router.refresh();
-	// 			}
-	// 		} else {
-	// 			const supabase = createSupabaseBrowser();
-	// 			const { data: Coupon, error } = await supabase
-	// 				.from("coupons")
-	// 				.insert([
-	// 					{
-	// 						...values,
-	// 						vendor_id: userId,
-	// 						store_id: storeId,
-	// 					},
-	// 				])
-	// 				.select();
+	// 	// 	// Handle Buy X Get Y Conflict
+	// 	// 	if (updatedValues.type !== "buyXGetY") {
+	// 	// 		updatedValues.buyX = undefined;
+	// 	// 		updatedValues.getYFree = undefined;
+	// 	// 	}
 
-	// 			if (error) {
-	// 				toast.error("Failed to create Coupon");
-	// 				router.refresh();
-	// 				return;
-	// 			}
+	// 	// 	// Handle Limit Total Uses Conflict
+	// 	// 	if (!updatedValues.limitTotalUses) {
+	// 	// 		updatedValues.maxUses = undefined;
+	// 	// 	}
 
-	// 			if (Coupon && !error) {
-	// 				toast.success("Coupon Created");
-	// 				window.location.assign(`/${params?.id}/Coupons`);
-	// 				router.refresh();
-	// 			} else {
-	// 				toast.error("Failed to create Coupon");
-	// 				router.refresh();
-	// 			}
-	// 		}
-	// 	} catch (error: any) {
-	// 		console.error("An error occurred:", error.message);
-	// 	} finally {
-	// 		setIsLoading(false);
-	// 	}
+	// 	// 	// Handle Has End Date Conflict
+	// 	// 	if (!updatedValues.hasEndDate) {
+	// 	// 		updatedValues.validTo = "";
+	// 	// 	}
+
+	// 	// 	// Handle Apply to Specific Products Conflict
+	// 	// 	if (updatedValues.applyTo === "all") {
+	// 	// 		updatedValues.productIds = undefined;
+	// 	// 	}
+
+	// 	// 	const supabase = createSupabaseBrowser();
+
+	// 	// 	if (initialData) {
+	// 	// 		// Update existing coupon
+	// 	// 		const { data: coupon, error } = await supabase
+	// 	// 			.from("coupons")
+	// 	// 			.update(updatedValues)
+	// 	// 			.eq("id", initialData.id as string)
+	// 	// 			.select();
+
+	// 	// 		if (error) throw new Error("Failed to update Coupon");
+
+	// 	// 		toast.success("Coupon Updated");
+	// 	// 		router.push(`/${params?.id}/Coupons`);
+	// 	// 	} else {
+	// 	// 		// Create new coupon
+	// 	// 		const { data: coupon, error } = await supabase
+	// 	// 			.from("coupons")
+	// 	// 			.insert([{ ...updatedValues, vendor_id: userId, store_id: storeId }])
+	// 	// 			.select();
+
+	// 	// 		if (error) throw new Error("Failed to create Coupon");
+
+	// 	// 		toast.success("Coupon Created");
+	// 	// 		window.location.assign(`/${params?.id}/Coupons`);
+	// 	// 	}
+	// 	// } catch (error: any) {
+	// 	// 	console.error("An error occurred:", error.message);
+	// 	// 	toast.error(error.message);
+	// 	// } finally {
+	// 	// 	setIsLoading(false);
+	// 	// }
+
+	// 	console.log(values);
 	// };
-
 	const onSubmit = async (values: CouponFormValues) => {
 		try {
 			setIsLoading(true);
 
-			// Conflict Resolution
-			let updatedValues = { ...values };
-
-			// Handle Discount Types Conflict
-			if (updatedValues.type === "percentage") {
-				updatedValues.discountAmount = undefined;
-				updatedValues.salePrice = undefined;
-			} else if (updatedValues.type === "fixed") {
-				updatedValues.discountPercentage = undefined;
-				updatedValues.salePrice = undefined;
-			} else if (updatedValues.type === "salePrice") {
-				updatedValues.discountPercentage = undefined;
-				updatedValues.discountAmount = undefined;
+			// Resolve conflicts based on coupon type
+			const updatedValues = { ...values };
+			switch (updatedValues.type) {
+				case "percentage":
+					updatedValues.discountAmount = null;
+					updatedValues.salePrice = null;
+					break;
+				case "fixed":
+					updatedValues.discountPercentage = null;
+					updatedValues.salePrice = null;
+					break;
+				case "salePrice":
+					updatedValues.discountPercentage = null;
+					updatedValues.discountAmount = null;
+					break;
+				case "buyXGetY":
+					if (!updatedValues.buyX || !updatedValues.getYFree) {
+						toast.error(
+							"Buy X and Get Y Free values are required for this coupon type."
+						);
+						return;
+					}
+					break;
+				case "freeShipping":
+					// No additional fields to nullify
+					updatedValues.discountPercentage = null;
+					updatedValues.discountAmount = null;
+					updatedValues.salePrice = null;
+					updatedValues.buyX = null;
+					updatedValues.getYFree = null;
+					break;
+				default:
+					break;
 			}
 
-			// Handle Buy X Get Y Conflict
-			if (updatedValues.type !== "buyXGetY") {
-				updatedValues.buyX = undefined;
-				updatedValues.getYFree = undefined;
-			}
-
-			// Handle Limit Total Uses Conflict
 			if (!updatedValues.limitTotalUses) {
-				updatedValues.maxUses = undefined;
+				updatedValues.maxUses = null;
 			}
 
-			// Handle Has End Date Conflict
 			if (!updatedValues.hasEndDate) {
-				updatedValues.validTo = "";
+				updatedValues.validTo = null;
 			}
 
-			// Handle Apply to Specific Products Conflict
-			if (updatedValues.applyto === "all") {
-				updatedValues.productIds = undefined;
+			if (updatedValues.applyTo === "all") {
+				updatedValues.productIds = [];
 			}
+			const payload = {
+				name: updatedValues.name,
+				code: updatedValues.code,
+				type: updatedValues.type,
+				discount_percentage: updatedValues.discountPercentage,
+				discount_amount: updatedValues.discountAmount,
+				buy_x: updatedValues.buyX,
+				get_y_free: updatedValues.getYFree,
+				valid_from: updatedValues.validFrom
+					? new Date(updatedValues.validFrom).toISOString()
+					: null,
+				valid_to: updatedValues.validTo
+					? new Date(updatedValues.validTo).toISOString()
+					: null,
+				limit_total_uses: updatedValues.limitTotalUses,
+				max_uses: updatedValues.maxUses,
+				limit_one_per_customer: updatedValues.limitOnePerCustomer,
+				apply_to: updatedValues.applyTo,
+				product_ids: updatedValues.productIds,
+				has_end_date: updatedValues.hasEndDate,
+				sale_price: updatedValues.salePrice,
+				store_id: storeId,
+			};
+
+			// Debugging: Log the payload to ensure correct mapping
+			console.log("Payload being sent to Supabase:", payload);
+
 			const supabase = createSupabaseBrowser();
 
-			// Proceed with updating or creating the coupon
+			let response;
 			if (initialData) {
 				// Update existing coupon
-				const { data: Coupon, error } = await supabase
+				response = await supabase
 					.from("coupons")
-					.update(updatedValues)
+					.update(payload)
 					.eq("id", initialData.id as string)
 					.select();
-
-				if (error) throw new Error("Failed to update Coupon");
-
-				toast.success("Coupon Updated");
-				router.push(`/${params?.id}/Coupons`);
 			} else {
 				// Create new coupon
-				const { data: coupon, error } = await supabase
-					.from("coupons")
-					.insert([{ ...updatedValues, vendor_id: userId, store_id: storeId }])
-					.select();
+				response = await supabase.from("coupons").insert([payload]).select();
+			}
 
-				if (error) throw new Error("Failed to create Coupon");
+			const { data: coupon, error } = response;
 
-				toast.success("Coupon Created");
-				window.location.assign(`/${params?.id}/Coupons`);
+			if (error) {
+				console.error("Supabase Error:", error);
+				toast.error(
+					initialData ? "Failed to update Coupon!" : "Failed to create Coupon!"
+				);
+				router.refresh();
+				return;
+			}
+
+			if (coupon) {
+				toast.success(initialData ? "Coupon Updated!" : "Coupon Created!");
+				window.location.assign(`/${params?.id}/coupons`);
+				router.refresh();
+			} else {
+				toast.error(
+					initialData ? "Failed to update Coupon!" : "Failed to create Coupon!"
+				);
+				router.refresh();
 			}
 		} catch (error: any) {
 			console.error("An error occurred:", error.message);
@@ -288,7 +344,6 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 			setIsLoading(false);
 		}
 	};
-
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
@@ -299,19 +354,18 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 				.delete()
 				.eq("id", params?.couponId!)
 				.select();
+
 			if (!error) {
 				toast.success("Coupon deleted!");
-
-				window.location.reload();
+				window.location.assign(`/${params?.id}/Coupons`);
 			} else {
-				toast.error("Failed to delete coupon");
-				console.error("Error updating coupon:", error);
+				toast.error("Failed to delete Coupon");
 			}
 		} catch (error: any) {
 			console.error("An error occurred:", error.message);
+			toast.error(error.message);
 		} finally {
 			setIsLoading(false);
-			setIsOpen(false);
 			setIsRefreshing(false);
 		}
 	};
@@ -338,7 +392,6 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 			label: "Buy X Get Y Free 💳",
 		},
 	];
-
 	return (
 		<div className="bg-white p-4 rounded-lg max-w-4xl">
 			{isRefreshing && (
@@ -386,6 +439,7 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 											placeholder="e.g wintersale10"
 											className="placeholder:text-gray-400 placeholder:text-sm"
 											{...field}
+											value={field.value ?? ""}
 										/>
 									</FormControl>
 								</FormItem>
@@ -403,6 +457,7 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 											className="placeholder:text-gray-400 placeholder:text-sm"
 											placeholder="xxxxx"
 											{...field}
+											value={field.value ?? ""}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -410,6 +465,7 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 							)}
 						/>
 					</div>
+
 					<FormField
 						control={form.control}
 						name="type"
@@ -422,17 +478,12 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 									<Select
 										disabled={isLoading}
 										onValueChange={field.onChange}
-										value={field.value}
-										defaultValue={field.value}
+										value={field.value ?? undefined}
+										defaultValue={field.value ?? undefined}
 									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue
-													defaultValue={field.value}
-													placeholder="Select coupon type"
-												/>
-											</SelectTrigger>
-										</FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Select coupon type" />
+										</SelectTrigger>
 										<SelectContent>
 											{couponTypes.map((type) => (
 												<SelectItem key={type.value} value={type.value}>
@@ -460,6 +511,11 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 											disabled={isLoading}
 											placeholder="Enter percentage"
 											{...field}
+											{...field}
+											value={field.value || ""}
+											onChange={(e) =>
+												field.onChange(parseFloat(e.target.value))
+											}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -481,6 +537,10 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 											disabled={isLoading}
 											placeholder="Enter amount"
 											{...field}
+											value={field.value || ""}
+											onChange={(e) =>
+												field.onChange(parseFloat(e.target.value))
+											}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -503,7 +563,12 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 												disabled={isLoading}
 												placeholder="Enter amount"
 												{...field}
-												defaultValue={2}
+												value={field.value ?? ""}
+												onChange={(e) =>
+													field.onChange(
+														e.target.value ? parseFloat(e.target.value) : null
+													)
+												}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -525,7 +590,12 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 												disabled={isLoading}
 												placeholder="Enter amount"
 												{...field}
-												defaultValue={1}
+												value={field.value ?? ""}
+												onChange={(e) =>
+													field.onChange(
+														e.target.value ? parseFloat(e.target.value) : null
+													)
+												}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -541,13 +611,17 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 							name="salePrice"
 							render={({ field }) => (
 								<FormItem className="mb-5">
-									<FormLabel>Selling for ?</FormLabel>
+									<FormLabel>Selling for?</FormLabel>
 									<FormControl>
 										<Input
 											type="number"
 											disabled={isLoading}
 											placeholder="₦"
 											{...field}
+											value={field.value || ""}
+											onChange={(e) =>
+												field.onChange(parseFloat(e.target.value))
+											}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -558,7 +632,7 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 
 					<FormField
 						control={form.control}
-						name="applyto"
+						name="applyTo"
 						render={({ field }) => (
 							<FormItem className="mb-5">
 								<FormLabel>Apply To</FormLabel>
@@ -566,17 +640,12 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 									<Select
 										disabled={isLoading}
 										onValueChange={field.onChange}
-										value={field.value}
-										defaultValue={field.value}
+										value={field.value || undefined}
+										defaultValue={field.value || undefined}
 									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue
-													defaultValue={field.value}
-													placeholder="Select coupon type"
-												/>
-											</SelectTrigger>
-										</FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Select coupon type" />
+										</SelectTrigger>
 										<SelectContent>
 											<SelectItem value="all">All Products</SelectItem>
 											<SelectItem value="specific">
@@ -590,78 +659,82 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 						)}
 					/>
 
-					{form.watch("applyto") === "specific" && (
-						<div className=" flex flex-col gap-3 max-h-[300px] md:max-h-[400px] overflow-y-auto border border-gray-300 rounded-md p-3">
-							{products
-								?.sort((a, b) => a.title.localeCompare(b.title))
-								.map((item) => (
-									<FormField
-										key={item.id}
-										control={form.control}
-										name="productIds"
-										render={({ field }) => (
-											<FormItem className="flex flex-row items-start space-x-3 space-y-0">
-												<label
-													htmlFor={`product-checkbox-${item.id}`}
-													className="flex items-center cursor-pointer space-x-3"
-													onClick={() => {
-														const isChecked = field.value?.includes(item.id);
-														field.onChange(
-															isChecked
-																? field.value?.filter(
-																		(value) => value !== item.id
-																  )
-																: [...(field.value || []), item.id]
-														);
-													}}
-												>
-													<div className="border-foreground/30 border p-1 rounded-full w-[50px] h-[50px] mr-1">
-														<Image
-															width={50}
-															height={50}
-															src={item.media[0]}
-															alt={item.title.substring(0, 10)}
-															className="rounded-full object-cover w-full h-full "
-														/>
-													</div>
-													<p className="capitalize">
-														{item.title.substring(0, 20)}
-													</p>
-													<Checkbox
-														id={`product-checkbox-${item.id}`}
-														checked={field.value?.includes(item.id) || false}
-														className="hidden"
-														onCheckedChange={() => {}} // This will be handled by the label onClick
-													/>
-												</label>
-											</FormItem>
-										)}
-									/>
-								))}
+					{form.watch("applyTo") === "specific" && (
+						<div className="flex flex-col gap-3 max-h-[300px] md:max-h-[400px] overflow-y-auto border border-gray-300 rounded-md p-3 mb-5">
+							<FormField
+								control={form.control}
+								name="productIds"
+								render={({ field }) => (
+									<>
+										{products
+											?.sort((a, b) => a.title.localeCompare(b.title))
+											.map((item) => {
+												const isChecked = field.value?.includes(item.id);
+
+												const handleProductSelect = () => {
+													const newProductIds = isChecked
+														? field.value?.filter(
+																(value) => value !== item.id
+														  ) ?? []
+														: [...(field.value ?? []), item.id];
+													field.onChange(newProductIds);
+												};
+
+												return (
+													<FormItem
+														key={item.id}
+														className="flex flex-row items-start space-x-3 space-y-0"
+													>
+														<label
+															htmlFor={`product-checkbox-${item.id}`}
+															className={`flex items-center cursor-pointer space-x-3 ${
+																isChecked
+																	? "bg-blue-100 border-blue-500"
+																	: "border-gray-300"
+															} p-2 rounded-lg w-full`}
+															onClick={handleProductSelect}
+														>
+															<div className="border-foreground/30 border p-1 rounded-full w-[50px] h-[50px] mr-1">
+																<Image
+																	width={50}
+																	height={50}
+																	src={item.media[0]}
+																	alt={item.title.substring(0, 10)}
+																	className="rounded-full object-cover w-full h-full"
+																/>
+															</div>
+															<p className="capitalize">
+																{item.title.substring(0, 20)}
+															</p>
+														</label>
+													</FormItem>
+												);
+											})}
+									</>
+								)}
+							/>
 						</div>
 					)}
+
 					<FormField
 						control={form.control}
 						name="hasEndDate"
 						render={({ field }) => (
-							<div className=" mb-2 rounded-lg border border-gray-300 p-2">
+							<div className="mb-2 rounded-lg border border-gray-300 p-2">
 								<FormItem className="flex items-center gap-3 mb-2">
-									<FormControl className="">
+									<FormControl>
 										<Checkbox
 											disabled={isLoading}
-											checked={field.value}
+											checked={field.value === true}
 											onCheckedChange={(checked) => {
 												field.onChange(checked);
-												// You can add additional logic here to handle conditional validation
-												if (!checked) {
-													form.setValue("validTo", ""); // Reset validTo field if hasEndDate is unchecked
-												}
+												handleEndDateToggle();
 											}}
 										/>
 									</FormControl>
 									<FormLabel>Has End Date</FormLabel>
 								</FormItem>
-								<FormDescription className="mb-3">
+								<FormDescription className="mb-3 text-xs">
 									Check this box if the coupon has an expiration date.
 								</FormDescription>
 								<FormMessage />
@@ -677,7 +750,12 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 								<FormItem className="mb-5">
 									<FormLabel>Valid From</FormLabel>
 									<FormControl>
-										<Input type="date" disabled={isLoading} {...field} />
+										<Input
+											type="date"
+											disabled={isLoading}
+											{...field}
+											value={field.value || ""}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -691,14 +769,18 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 								<FormItem className="mb-5">
 									<FormLabel>Expiration Date</FormLabel>
 									<FormControl>
-										<Input type="date" disabled={isLoading} {...field} />
+										<Input
+											type="date"
+											value={field.value || ""}
+											onChange={field.onChange}
+											disabled={!isEndDateEnabled}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 					</div>
-
 					<FormField
 						control={form.control}
 						name="limitTotalUses"
@@ -707,11 +789,13 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 								<FormControl>
 									<Checkbox
 										disabled={isLoading}
-										checked={field.value}
+										checked={field.value || false}
 										onCheckedChange={field.onChange}
 									/>
 								</FormControl>
-								<FormLabel>Limit total number of uses</FormLabel>
+								<FormLabel className="pb-2">
+									Limit total number of uses
+								</FormLabel>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -730,6 +814,7 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 											disabled={isLoading}
 											placeholder="Enter maximum uses"
 											{...field}
+											value={field.value ?? ""}
 											onChange={(e) => {
 												form.setValue("limitOnePerCustomer", false);
 												field.onChange(e);
@@ -750,20 +835,22 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 								<FormControl>
 									<Checkbox
 										disabled={isLoading}
-										checked={field.value}
+										checked={field.value || false}
 										onCheckedChange={(checked) => {
 											form.setValue("limitTotalUses", false);
 											field.onChange(checked);
 										}}
 									/>
 								</FormControl>
-								<FormLabel>Limit to one use per customer</FormLabel>
+								<FormLabel className="pb-2">
+									Limit to one use per customer
+								</FormLabel>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
 
-					<Button disabled={isLoading} className="sm:mr-auto" type="submit">
+					<Button disabled={isLoading} type="submit" className="w-fit">
 						{action}
 					</Button>
 				</form>

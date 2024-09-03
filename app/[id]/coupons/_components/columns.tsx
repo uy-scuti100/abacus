@@ -16,22 +16,32 @@ import { CellAction } from "./cellActions";
 // 	created_at: string;
 // };
 export interface CouponsColumn {
-	buyx: number | null;
-	code: string | null;
-	discountamount: number | null;
-	discountpercentage: number | null;
-	getyfree: number | null;
-	id: string;
-	limitonepercustomer: boolean | null;
-	limittotaluses: boolean | null;
-	maxuses: number | null;
-	minpurchaseamount: number | null;
-	name: string | null;
-	product_ids: string[] | null;
-	type: string | null;
-	validfrom: string | null;
-	validto: string | null;
-	created_at: string;
+	apply_to?: "all" | "specific" | null;
+	sale_price: number | null;
+	has_end_date: boolean | null;
+	buy_x?: number | null;
+	code?: string | null;
+	discount_amount?: number | null;
+	discount_percentage?: number | null;
+	get_y_free?: number | null;
+	id?: string;
+	limit_one_per_customer?: boolean | null;
+	limit_total_uses?: boolean | null;
+	max_uses?: number | null;
+	name?: string | null;
+	product_ids?: string[] | null;
+	type?:
+		| "percentage"
+		| "fixed"
+		| "free_shipping"
+		| "sale_price"
+		| "buy_x_get_y"
+		| null;
+	valid_from?: string | null;
+	valid_to?: string | null;
+
+	store_id?: string | null;
+	created_at?: string;
 }
 
 export const columns: ColumnDef<CouponsColumn>[] = [
@@ -51,17 +61,17 @@ export const columns: ColumnDef<CouponsColumn>[] = [
 		accessorKey: "discountPercentage",
 		header: "Disc(%)",
 		cell: ({ row }) =>
-			row.original.type === "percentage" && row.original.discountpercentage
-				? `${row.original.discountpercentage}%`
+			row.original.type === "percentage" && row.original.discount_percentage
+				? `${row.original.discount_percentage}%`
 				: "-",
 	},
 	{
 		accessorKey: "discountAmount",
 		header: "Disc($)",
 		cell: ({ row }) =>
-			(row.original.type === "fixed" || row.original.type === "salePrice") &&
-			row.original.discountamount
-				? `${row.original.discountamount}`
+			(row.original.type === "fixed" || row.original.type === "sale_price") &&
+			row.original.discount_amount
+				? `${row.original.discount_amount}`
 				: "-",
 	},
 	{

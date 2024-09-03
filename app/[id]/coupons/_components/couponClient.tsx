@@ -49,6 +49,7 @@ export default function CouponClient({ storeId }: CustomerClientProps) {
 		queryKey: ["coupons"],
 	});
 
+	// console.log(coupons);
 	if (isFetching || isLoading) {
 		return <Skeleton />;
 	}
@@ -77,10 +78,12 @@ export default function CouponClient({ storeId }: CustomerClientProps) {
 				data={
 					coupons?.map((coupon) => ({
 						...coupon,
-						createdAt: dateFormatter.format(new Date(coupon.created_at)),
+						createdAt: dateFormatter.format(
+							new Date(coupon.created_at as string)
+						),
 					})) || []
 				}
-				searchKey="first_name"
+				searchKey="name"
 			/>
 		</div>
 	);

@@ -26,6 +26,8 @@ import {
 import StoreIcon from "../public/store.svg";
 import Chevron from "../public/chevron.svg";
 import { Store } from "@/types";
+import SignOutButton from "@/components/global/sign-out-button";
+import { PiSignOut } from "react-icons/pi";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 	typeof PopoverTrigger
@@ -73,6 +75,8 @@ export default function StoreSwitcher({
 		}
 	};
 
+	const label = currentStore?.label.substring(0, 1).toUpperCase();
+
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
@@ -82,23 +86,23 @@ export default function StoreSwitcher({
 					role="combobox"
 					aria-expanded={isOpen}
 					aria-label="Select a store"
-					className={cn("w-full justify-between", className)}
+					className={cn("w-full", className)}
 				>
-					<Image
+					{/* <Image
 						src={StoreIcon}
 						alt="store-icon"
 						width={22}
 						height={22}
 						className="mr-2"
-					/>
-					<span>{currentStore?.label}</span>
-					<Image
+					/> */}
+					<span>{label}</span>
+					{/* <Image
 						src={Chevron}
 						alt="chevron-icon"
 						width={16}
 						height={16}
 						className="ml-auto shrink-0 opacity-50"
-					/>
+					/> */}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-[200px] p-0">
@@ -145,7 +149,14 @@ export default function StoreSwitcher({
 								}}
 							>
 								<PlusCircle className="mr-2 h-5 w-5" />
-								Add new store..
+								Create a new store..
+							</CommandItem>
+							<CommandItem
+								className="mt-2"
+								style={{ background: "#ff4c4c", color: "white" }}
+							>
+								<PiSignOut className="mr-2 h-5 w-5" />
+								<SignOutButton />
 							</CommandItem>
 						</CommandGroup>
 					</CommandList>

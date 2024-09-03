@@ -161,63 +161,77 @@ export type Database = {
 			};
 			coupons: {
 				Row: {
-					applyto: string | null;
-					buyx: number | null;
+					apply_to: string | null;
+					buy_x: number | null;
 					code: string | null;
-					discountamount: number | null;
-					discountpercentage: number | null;
-					getyfree: number | null;
+					created_at: string | null;
+					discount_amount: number | null;
+					discount_percentage: number | null;
+					get_y_free: number | null;
 					has_end_date: boolean | null;
 					id: string;
-					limitonepercustomer: boolean | null;
-					limittotaluses: boolean | null;
-					maxuses: number | null;
+					limit_one_per_customer: boolean | null;
+					limit_total_uses: boolean | null;
+					max_uses: number | null;
 					name: string | null;
 					product_ids: string[] | null;
 					sale_price: number | null;
+					store_id: string | null;
 					type: string | null;
-					validfrom: string | null;
-					validto: string | null;
+					valid_from: string | null;
+					valid_to: string | null;
 				};
 				Insert: {
-					applyto?: string | null;
-					buyx?: number | null;
+					apply_to?: string | null;
+					buy_x?: number | null;
 					code?: string | null;
-					discountamount?: number | null;
-					discountpercentage?: number | null;
-					getyfree?: number | null;
+					created_at?: string | null;
+					discount_amount?: number | null;
+					discount_percentage?: number | null;
+					get_y_free?: number | null;
 					has_end_date?: boolean | null;
 					id?: string;
-					limitonepercustomer?: boolean | null;
-					limittotaluses?: boolean | null;
-					maxuses?: number | null;
+					limit_one_per_customer?: boolean | null;
+					limit_total_uses?: boolean | null;
+					max_uses?: number | null;
 					name?: string | null;
 					product_ids?: string[] | null;
 					sale_price?: number | null;
+					store_id?: string | null;
 					type?: string | null;
-					validfrom?: string | null;
-					validto?: string | null;
+					valid_from?: string | null;
+					valid_to?: string | null;
 				};
 				Update: {
-					applyto?: string | null;
-					buyx?: number | null;
+					apply_to?: string | null;
+					buy_x?: number | null;
 					code?: string | null;
-					discountamount?: number | null;
-					discountpercentage?: number | null;
-					getyfree?: number | null;
+					created_at?: string | null;
+					discount_amount?: number | null;
+					discount_percentage?: number | null;
+					get_y_free?: number | null;
 					has_end_date?: boolean | null;
 					id?: string;
-					limitonepercustomer?: boolean | null;
-					limittotaluses?: boolean | null;
-					maxuses?: number | null;
+					limit_one_per_customer?: boolean | null;
+					limit_total_uses?: boolean | null;
+					max_uses?: number | null;
 					name?: string | null;
 					product_ids?: string[] | null;
 					sale_price?: number | null;
+					store_id?: string | null;
 					type?: string | null;
-					validfrom?: string | null;
-					validto?: string | null;
+					valid_from?: string | null;
+					valid_to?: string | null;
 				};
-				Relationships: [];
+				Relationships: [
+					{
+						foreignKeyName: "coupons_store_id_fkey";
+						columns: ["store_id"];
+						isOneToOne: false;
+						referencedRelation: "stores";
+						referencedColumns: ["id"];
+					}
+				];
 			};
 			customers: {
 				Row: {

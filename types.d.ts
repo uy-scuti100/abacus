@@ -100,22 +100,30 @@ export interface Store {
 // }
 
 export interface Coupon {
-	applyto?: string | null;
+	apply_to?: "all" | "specific" | null;
 	sale_price: number | null;
 	has_end_date: boolean | null;
-	buyx?: number | null;
+	buy_x?: number | null;
 	code?: string | null;
-	discountamount?: number | null;
-	discountpercentage?: number | null;
-	getyfree?: number | null;
+	discount_amount?: number | null;
+	discount_percentage?: number | null;
+	get_y_free?: number | null;
 	id?: string | null;
-	limitonepercustomer?: boolean | null;
-	limittotaluses?: boolean | null;
-	maxuses?: number | null;
+	limit_one_per_customer?: boolean | null;
+	limit_total_uses?: boolean | null;
+	max_uses?: number | null;
 	name?: string | null;
 	product_ids?: string[] | null;
-	type?: string | null;
-	validfrom?: string | null;
-	validto?: string | null;
+	type?:
+		| "percentage"
+		| "fixed"
+		| "free_shipping"
+		| "sale_price"
+		| "buy_x_get_y"
+		| null;
+	valid_from?: string | null;
+	valid_to?: string | null;
+
+	store_id?: string | null;
 	created_at?: string;
 }

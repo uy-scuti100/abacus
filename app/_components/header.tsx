@@ -67,7 +67,7 @@ export default function Header() {
 					openNav ? "translate-x-0" : "translate-x-[-120%]"
 				} duration-300 transition-all md:hidden`}
 			>
-				<div className=" flex justify-between text-4xl border-b p-5 cursor-pointer">
+				<div className=" flex justify-between text-4xl border-b p-5 cursor-pointer items-center">
 					<div className="flex items-center gap-2">
 						<Logo />
 						<h1 className="text-xl ">Abacus</h1>
