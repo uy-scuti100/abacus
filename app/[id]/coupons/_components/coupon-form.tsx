@@ -815,10 +815,9 @@ export const CouponForm: React.FC<CouponFormProps> = ({
 											placeholder="Enter maximum uses"
 											{...field}
 											value={field.value ?? ""}
-											onChange={(e) => {
-												form.setValue("limitOnePerCustomer", false);
-												field.onChange(e);
-											}}
+											onChange={(e) =>
+												field.onChange(parseFloat(e.target.value))
+											}
 										/>
 									</FormControl>
 									<FormMessage />
